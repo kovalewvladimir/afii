@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Площадка Н16</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+     <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Учет расходных материалов</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Площадка <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="n16.html">Н16</a></li>
+                <li><a href="">ИЗ</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Настройки <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="">Картриджи</a></li>
+                <li><a href="">Принтер</a></li>
+                <li class="divider"></li>
+                <li><a href="">и т.п.</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Помощь</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="header">Площадка</li>
+            <li class="active"><a href="n16.html">Н16</a></li>
+            <li><a href="#">ИЗ</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li class="header">Настройки</li>
+            <li><a href="">Картриджи</a></li>
+            <li><a href="">Принтер</a></li>
+            <li><a href="">и т.п.</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Н16 <small>площадка</small></h1>
+
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#printers" data-toggle="tab">Принтер</a></li>
+            <li><a href="#cartridges" data-toggle="tab">Картридж</a></li>
+            <li><a href="#paper" data-toggle="tab">Бумага</a></li>
+            <li><a href="#zips" data-toggle="tab">ЗИПы</a></li>
+            <li><a href="#storage15" data-toggle="tab">Склад 15</a></li>
+            <li><a href="#" data-toggle="tab">и т.п.</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane tab-sub-pane active" id="printers">
+              <h2 class="sub-header">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="btn-group btn-group-justified">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default" title="Добавить">Добавить принтер</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="input-group">
+                      <input type="search" class="form-control" placeholder="Поиск...">
+                      <span class="input-group-addon">по модели</span>
+                      <div class="input-group-btn">                    
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                          <li><a href="#">по модели</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </h2>
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th><div class="dropup">Модель <span class="caret"></span></div></th>
+                      <th>Тонер картридж</th>
+                      <th>Драм картридж</th>
+                      <th>№ Кабинета</th>
+                      <th>Пользователь</th>
+                      <th>IP</th>
+                      <th>Тип печати</th>
+                      <th>Тип устройства</th>
+                      <th>Формат бумаги</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                    </tr>
+                    <tr>
+                      <td><a href="printer.html?printerid=123">Xerox WC 238</a></td>
+                      <td><a href="cartridge.html?cartridgeid=123">006R01046</a></td>
+                      <td><a href="cartridge.html?cartridgeid=124">113R00608</a></td>
+                      <td>Н16 - 5этаж</td>
+                      <td>Зал</td>
+                      <td><a href="//10.1.13.127">10.1.13.127</a></td>
+                      <td>Лазер</td>
+                      <td>принтер, копир, сканер</td>
+                      <td>А4, А3</td>
+                    </tr>
+                    <tr>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                    </tr>
+                    <tr>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                    </tr> 
+                    <tr>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                      <td>..</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="tab-pane" id="cartridges">
+              <h2 class="sub-header">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="btn-group btn-group-justified">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default" title="Добавить">Добавить картридж</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="input-group">
+                      <input type="search" class="form-control" placeholder="Поиск...">
+                      <span class="input-group-addon">по картридж</span>
+                      <div class="input-group-btn">                    
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                          <li><a href="#">по картридж</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </h2>
+              <table class="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Картридж</th>
+                    <th>Тип</th>
+                    <th>Кол-во</th>
+                    <th>Номер полки</th>
+                    <th>Модель принтера</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                  </tr>
+                  <tr>
+                    <td><a href="">106R01294</a></td>
+                    <td>Тонер картридж</td>
+                    <td>9</td>
+                    <td>A-2</td>
+                    <td><a href="">Xerox Phaser 5550</a></td>
+                  </tr>
+                  <tr>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                  </tr>
+                  <tr>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                  </tr>
+                  <tr>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                  </tr>
+                  <tr>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="tab-pane" id="paper">
+              <h2 class="sub-header">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="btn-group btn-group-justified">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default" title="Добавить">Добавить бумагу</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="input-group">
+                      <input type="search" class="form-control" placeholder="Поиск...">
+                      <span class="input-group-addon">по формату</span>
+                      <div class="input-group-btn">                    
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                          <li><a href="#">по формату</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </h2>
+              <table class="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Формат</th>
+                    <th>Размеры</th>
+                    <th>Номер</th>
+                    <th>Кол-во рулонов</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>A0</td>
+                    <td>841мм X 175м</td>
+                    <td><a href="">003R93240</a></td>
+                    <td>40</td>
+                  </tr>
+                  <tr>
+                    <td>A1</td>
+                    <td>594мм X 175м</td>
+                    <td><a href="">003R93238</a></td>
+                    <td>15</td>
+                  </tr>
+                  <tr>
+                    <td>A2</td>
+                    <td>420мм X 175м</td>
+                    <td><a href="">003R93237</a></td>
+                    <td>64</td>
+                  </tr>
+                  <tr>
+                    <td>A3</td>
+                    <td>297мм X 175м</td>
+                    <td><a href="">003R93236</a></td>
+                    <td>58</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="tab-pane" id="zips">
+              <h2 class="sub-header">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="btn-group btn-group-justified">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default" title="Добавить">Добавить ЗИП</span></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="input-group">
+                      <input type="search" class="form-control" placeholder="Поиск...">
+                      <span class="input-group-addon">по формату</span>
+                      <div class="input-group-btn">                    
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                          <li><a href="#">по формату</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </h2>
+              <table class="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Код</th>
+                    <th>Тип</th>
+                    <th>Кол-во</th>                 
+                    <th>Модель принтера</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                  </tr>
+                  <tr>
+                    <td><a href="zip.html">126K29404</a></td>
+                    <td>Фьюзер</td>
+                    <td>2</td>
+                    <td><a href="">Xerox WC 5325</a></td>
+                  </tr>
+                  <tr>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                  </tr>
+                  <tr>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                  </tr>
+                  <tr>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                    <td>..</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="tab-pane" id="storage15">
+              <h2 class="sub-header">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="btn-group btn-group-justified">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default" title="Добавить"><span class="glyphicon glyphicon-plus"></span> категорию</button>
+                      </div>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default" title="Добавить"><span class="glyphicon glyphicon-plus"></span> наименование</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group">
+                      <input type="search" class="form-control" placeholder="Поиск...">
+                      <span class="input-group-addon">по наименованию</span>
+                      <div class="input-group-btn">                    
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                          <li><a href="#">по №</a></li>
+                          <li><a href="#">по наименованию</a></li>
+                          <li><a href="#">по количеству</a></li>
+                          <li><a href="#">по номеру полки</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </h2>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="list-group">
+                    <a href="#" class="list-group-item active"><span class="badge">225</span>Все</a>
+                    <a href="#" class="list-group-item"><span class="badge">53</span>Комплектующие для пк</a>
+                    <a href="#" class="list-group-item"><span class="badge">17</span>Инструменты</a>
+                    <a href="#" class="list-group-item"><span class="badge">32</span>Расходники</a>
+                    <a href="#" class="list-group-item"><span class="badge">12</span>и т.п.</a>
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <td>№</td>
+                        <td>Наименование</td>
+                        <td>Кол-во</td>
+                        <td>Номер полки</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>..</td>
+                        <td>..</td>
+                        <td>..</td>
+                        <td>..</td>
+                      </tr>
+                      <tr>
+                        <td>21</td>
+                        <td><a href="storage.html?storadeid=1&id=123">Мышь новая PS/2</a></td>
+                        <td>17</td>
+                        <td>B-2</td>
+                      </tr>
+                      <tr>
+                        <td>..</td>
+                        <td>..</td>
+                        <td>..</td>
+                        <td>..</td>
+                      </tr>
+                      <tr>
+                        <td>..</td>
+                        <td>..</td>
+                        <td>..</td>
+                        <td>..</td>
+                      </tr>
+                    </tbody>
+                  </table> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
