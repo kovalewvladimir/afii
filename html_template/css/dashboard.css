@@ -84,8 +84,11 @@ body {
  * Мои css 
  */
 
-.tab-sub-pane
-{
+.nav-sub-tabs{
   margin-top: 20px;
+}
+
+.sub-item{
+  margin-left: 20px;
 }
 
