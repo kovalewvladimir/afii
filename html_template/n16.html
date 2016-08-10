@@ -20,6 +20,108 @@
     <![endif]-->
   </head>
   <body>
+    <!-- Модальные окна -->
+    <!-- Модальное окно "Добавить принтер" -->
+    <div class="modal fade" id="ModalAddPrinter" tabindex="-1" role="dialog" aria-labelledby="ModalAddPrinterLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="ModalAddPrinterLabel">Добавить принтер</h4>
+          </div>
+          <div class="modal-body">
+            <form role="form">
+              <div class="form-group">
+                <label for="">Модель</label>
+                <select class="form-control">
+                    <option>..</option>
+                    <option>Xerox WC 238</option>
+                    <option>..</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="">№ Кабинета</label>
+                <input type="text" class="form-control" id="" placeholder="Например: Ц40-406">
+              </div>
+              <div class="form-group">
+                <label for="">Пользователь</label>
+                <input type="text" class="form-control" id="" placeholder="Например: Иванов И.И.">
+              </div>
+              <div class="form-group">
+                <label for="">IP</label>
+                <input type="text" class="form-control" id="" placeholder="Например: 10.4.10.2">
+              </div>
+              <div class="form-group">
+                <label for="">Тип печати</label>
+                <select class="form-control">
+                    <option>Лазерный</option>
+                    <option>Струйный</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="">Цвет тонера</label>
+                <select class="form-control">
+                    <option>ЧБ</option>
+                    <option>ЦВ</option>
+                </select>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="form-group col-sm-6">
+                    <label for="">Тип устройства</label>
+                    <select multiple class="form-control">
+                        <option>Принтер</option>
+                        <option>Копир</option>
+                        <option>Сканер</option>
+                    </select></div>            
+                  <div class="form-group col-sm-6">
+                    <label for="">Формат бумаги</label>
+                    <select multiple class="form-control">
+                        <option>A0</option>
+                        <option>A1</option>
+                        <option>A2</option>
+                        <option>A3</option>
+                        <option>A4</option>
+                    </select>
+                  </div>    
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="">Инвентарный</label>
+                <input type="text" class="form-control" id="" placeholder="Например: -">
+              </div>
+              <div class="form-group">
+                <label for="">Серийный номер</label>
+                <input type="text" class="form-control" id="" placeholder="Например: JJY61915">
+              </div>
+              <div class="form-group">
+                <label for="">Дата установки</label>
+                <input type="date" class="form-control" id="">
+              </div>
+              <div class="form-group">
+                <label for="">Информация по расходникам</label>
+                <input type="url" class="form-control" id="" placeholder="Например: https://www.xerox.com/">
+              </div>
+              <div class="form-group">
+                <label for="">Примечание</label>
+                <textarea class="form-control" rows="2"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="">Картинка</label>
+                <input type="file" id="" accept="image/jpeg,image/png,image/gif">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-primary">Сохранить изменения</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -71,9 +173,20 @@
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <!-- Уведомления Alert -->
+          <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4>Закончились картриджи!</h4>
+            <p>Катридж <a href="cartridge.html" class="alert-link">006R01046</a> осталось 0 штук</p>
+          </div>
+          <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4>Пора отправить картриджи на рециклинг!</h4>
+            <p>4 картриджа дожидаются заправки</p>
+          </div>
+          
+                    
           <h1 class="page-header">Н16 <small>площадка</small></h1>
-
-
           <!-- Nav tabs -->
           <ul class="nav nav-pills">  <!--или class="nav nav-tabs" для табов-->
             <li class="active"><a href="#printers" data-toggle="tab">Принтер</a></li>
@@ -94,7 +207,7 @@
                   <div class="col-md-3">
                     <div class="btn-group btn-group-justified">
                       <div class="btn-group">
-                        <button type="button" class="btn btn-default" title="Добавить">Добавить принтер</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalAddPrinter" title="Добавить">Добавить принтер</button>
                       </div>
                     </div>
                   </div>
