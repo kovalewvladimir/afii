@@ -18,8 +18,47 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- jQuery plugin QR код -->
+    <script src="js/jquery.qrcode.min.js"></script>
+    <!-- jQuery plugin print -->
+    <script src="js/jquery.print.js"></script>
+    <!-- js обработка печати -->
+    <script src="js/print.js"></script>
   </head>
   <body>
+    <!-- Модальные окна -->
+    <!-- Модальное окно "Добавить принтер" -->
+    <div class="modal fade" id="ModalQRcodePrinter" tabindex="-1" role="dialog" aria-labelledby="ModalQRcodePrinterLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="ModalQRcodePrinterLabel">QR code</h4>
+          </div>
+          <div class="modal-body">
+            <div id="qrcodeCanvas" hidden="hidden"></div>
+            <div id="page" class="center-block">
+              <div id="print">
+                <h1 class="text-center">Xerox WC 238</h1>
+                <img id="qrcodeImg" class="center-block"> 
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            <button type="button" id="btnQRcode" class="btn btn-primary">Печать...</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -72,11 +111,11 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
-          <h1 class="page-header">Xerox WC 238
-            <small>Принтер</small>
+          <h1 class="page-header">Xerox WC 238 <small>Принтер</small>
             <div class="btn-group">
               <button type="button" class="btn btn-default btn-sm" title="Редактиорвать"><span class="glyphicon glyphicon-pencil"></span></button>
               <button type="button" class="btn btn-default btn-sm" title="Удалить"><span class="glyphicon glyphicon-trash"></span></button>
+              <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#ModalQRcodePrinter" title="QR"><span class="glyphicon glyphicon-qrcode"></span></button>
             </div>
           </h1>
           
@@ -218,10 +257,5 @@
         </div>
       </div>
     </div>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
   </body>
 </html>

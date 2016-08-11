@@ -84,11 +84,38 @@ body {
  * Мои css 
  */
 
-.nav-sub-tabs{
+.nav-sub-tabs {
   margin-top: 20px;
 }
 
-.sub-item{
+.sub-item {
   margin-left: 20px;
 }
 
+/*
+ * Печать 
+ */
+
+#page {
+  width: 93.5mm;
+  height: 67mm;
+  border: 1px solid #0F0;
+}
+#print {
+  border: 1px solid #000;
+  
+  margin: 1mm;
+  padding: 1mm;
+}
+
+@media print { /* Стиль для печати */
+  body {
+    padding: 0;
+    margin: 0;
+  }
+  #page{
+    border: none;
+  }
+  #print{
+    /border: none;
+}
