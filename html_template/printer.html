@@ -45,54 +45,99 @@
             <form role="form">
               <div class="row">
                 <div class="col-sm-6 form-group">
-                  <label for="widthPage">Ширина (мм):</label>
-                  <input type="number" id="widthPage" class="form-control" value="93.5" step="0.5" min="0" max="1000">
+                  <label for="widthPage">Ширина страницы:</label>
+                  <div class="input-group">
+                    <input type="number" id="widthPage" class="form-control" value="93.5" step="0.5" min="10" max="150">
+                    <span class="input-group-addon">мм</span>
+                  </div>
                 </div>
                 <div class="col-sm-6 form-group">
-                  <label for="heightPage">Высота (мм):</label>
-                  <input type="number" id="heightPage" class="form-control" value="67" step="0.5" min="0" max="1000">
+                  <label for="heightPage">Высота страницы:</label>
+                  <div class="input-group">
+                    <input type="number" id="heightPage" class="form-control" value="67" step="0.5" min="10" max="1000">
+                    <span class="input-group-addon">мм</span>
+                  </div>
                 </div>
-                
-                <div class="col-sm-12 form-group">
+                <div class="col-sm-6 form-group">
                   <label for="">Размер QR code:</label>
-                  <input type="number" id="sizeQRcode" class="form-control" value="128" min="64" max="256">
-                </div>
-                
-                <div class="col-sm-4 form-group">
-                  <label for="">Кол-во:</label>
-                  <div class="radio-inline">
-                    <label><input type="radio" name="countQRcode" id="countQrcode1" value="1" checked>1</label>
-                  </div>
-                  <div class="radio-inline">
-                    <label><input type="radio" name="countQRcode" id="countQrcode4" value="4">4</label>
+                  <div class="input-group">
+                    <input type="number" id="sizeQRcode" class="form-control" value="128" min="64" max="256">
+                    <span class="input-group-addon">px</span>
                   </div>
                 </div>
-                <div class="col-sm-4 form-group">
+                <div class="col-sm-6 form-group">
+                  <label for="">Кол-во QR code:</label>
+                  <div class="input-group">
+                    <select id="countQRcode" class="form-control">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                    </select>
+                    <span class="input-group-addon">шт</span>
+                  </div>
+                </div>
+                <div class="col-sm-6 form-group">
                   <label for="">Заголовок:</label>
-                  <input type="checkbox" checked>
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      <input type="checkbox" id="isTitleQRcode" checked>
+                    </span>
+                    <input type="number" id="titleSizeQRcode" class="form-control" value="36" min="12" max="64">
+                    <span class="input-group-addon">px</span>
+                  </div>
                 </div>
-                <div class="col-sm-4 form-group">
-                  <label for="">Рамка:</label>
-                  <input type="checkbox" id="isBorderQRcode" checked>
+                <div class="col-sm-6 form-group">
+                  <label for="">Рамка (тип линии):</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      <input type="checkbox" id="isBorderQRcode" checked>
+                    </span>
+                    <select id="borderTypeQRcode" class="form-control">
+                      <option value="solid">Сплошная</option>
+                      <option value="dashed">Пунктирная 1</option>
+                      <option value="dotted">Пунктирная 2</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6 form-group">
+                  <label for="">Oтступ снаружи:</label>
+                  <div class="input-group">
+                    <input type="number" id="paddingPageQRcode" class="form-control" value="1" step="0.5" min="0" max="20">
+                    <span class="input-group-addon">мм</span>
+                  </div>
+                </div>
+                <div class="col-sm-6 form-group">
+                  <label for="">Отступ внутри:</label>
+                  <div class="input-group">
+                    <input type="number" id="paddingPrintQRcode" class="form-control" value="1" step="0.5" min="0" max="20">
+                    <span class="input-group-addon">мм</span>
+                  </div>
                 </div>
               </div>
             </form>
-            
-            <div id="page" class="center-block">
-              <div id="print">
-                <h1 class="text-center">Xerox WC 238</h1>
-                <img id="qrcodeImg" class="center-block"> 
+            <div id="pageQRcode" class="center-block">
+              <div id="printQRcodeCount1" class="printQRcode">
+                <h1 class="titleQRcode text-center">Xerox WC 238</h1>
+                <img class="imgQRcode center-block"> 
+              </div>
+              <div id="printQRcodeCount2" class="row">
+                <div class="printQRcode col-xs-6">
+                  <h1 class="titleQRcode text-center">Xerox WC 238</h1>
+                  <img class="imgQRcode center-block"> 
+                </div>
+                <div class="printQRcode col-xs-6">
+                  <h1 class="titleQRcode text-center">Xerox WC 238</h1>
+                  <img class="imgQRcode center-block"> 
+                </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-            <button type="button" id="btnQRcode" class="btn btn-primary">Печать...</button>
+            <button type="button" id="btnQRcodePrint" class="btn btn-primary">Печать...</button>
           </div>
         </div>
       </div>
-    </div>
-    
+    </div> 
     
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">

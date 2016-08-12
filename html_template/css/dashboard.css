@@ -96,16 +96,26 @@ body {
  * Печать 
  */
 
-#page {
+#pageQRcode {
   width: 93.5mm;
   height: 67mm;
   border: 1px solid #0F0;
-}
-#print {
-  border: 1px solid #000;
-  
-  margin: 1mm;
   padding: 1mm;
+}
+#pageQRcode #printQRcodeCount2 {
+  display: none;
+}
+#pageQRcode .row{
+  margin: 0;
+  padding: 0;
+}
+.printQRcode {
+  border: 1px solid #000;
+  padding: 1mm;
+}
+.printQRcode h1 {
+  margin: 0;
+  padding: 0;
 }
 
 @media print { /* Стиль для печати */
@@ -113,9 +123,7 @@ body {
     padding: 0;
     margin: 0;
   }
-  #page{
+  #pageQRcode{
     border: none;
   }
-  #print{
-    /border: none;
 }
