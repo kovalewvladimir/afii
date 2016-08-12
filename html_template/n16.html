@@ -18,6 +18,13 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <!--  -->
+    <script src="js/search.js"></script>
   </head>
   <body>
     <!-- Модальные окна -->
@@ -213,7 +220,7 @@
                   </div>
                   <div class="col-md-9">
                     <div class="input-group">
-                      <input type="search" class="form-control" placeholder="Поиск...">
+                      <input type="search" id="searchPrinter" class="form-control" placeholder="Поиск...">
                       <span class="input-group-addon">по модели</span>
                       <div class="input-group-btn">                    
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
@@ -226,7 +233,7 @@
                 </div>
               </h2>
               <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover">
+                <table id="tblPrinter" class="table table-striped table-bordered table-hover">
                   <thead>
                     <tr>
                       <th><div class="dropup">Модель <span class="caret"></span></div></th>
@@ -264,15 +271,15 @@
                       <td>А4, А3</td>
                     </tr>
                     <tr>
-                      <td>..</td>
-                      <td>..</td>
-                      <td>..</td>
-                      <td>..</td>
-                      <td>..</td>
-                      <td>..</td>
-                      <td>..</td>
-                      <td>..</td>
-                      <td>..</td>
+                      <td><a href="#">Xerox WC 5325</a></td>
+                      <td><a href="#">006R01160</a></td>
+                      <td><a href="#">013R00591</a></td>
+                      <td>H16 - 29</td>
+                      <td>Кладовка</td>
+                      <td><a href="#">-</a></td>
+                      <td>Лазер</td>
+                      <td>Принтер</td>
+                      <td>А4</td>
                     </tr>
                     <tr>
                       <td>..</td>
@@ -736,10 +743,5 @@
         </div>
       </div>
     </div>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
