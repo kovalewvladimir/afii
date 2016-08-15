@@ -72,28 +72,30 @@
                     <option>ЦВ</option>
                 </select>
               </div>
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  <div class="form-group col-sm-6">
-                    <label for="">Тип устройства</label>
-                    <select multiple class="form-control">
-                        <option>Принтер</option>
-                        <option>Копир</option>
-                        <option>Сканер</option>
-                    </select></div>            
-                  <div class="form-group col-sm-6">
-                    <label for="">Формат бумаги</label>
-                    <select multiple class="form-control">
-                        <option>A0</option>
-                        <option>A1</option>
-                        <option>A2</option>
-                        <option>A3</option>
-                        <option>A4</option>
-                    </select>
-                  </div>    
-                </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <label for="">Тип устройства</label>
+                  <div class="panel panel-default">
+                    <div class="panel-body checkbox">
+                      <label><input type="checkbox" value=""> принтер</label>
+                      <label><input type="checkbox" value=""> копир</label>
+                      <label><input type="checkbox" value=""> сканер</label>
+                    </div>
+                  </div>
+                </div>            
+                <div class="col-sm-6">
+                  <label for="">Формат бумаги</label>
+                  <div class="panel panel-default">
+                    <div class="panel-body checkbox">
+                      <label><input type="checkbox" value=""> A0</label>
+                      <label><input type="checkbox" value=""> A1</label>
+                      <label><input type="checkbox" value=""> A2</label>
+                      <label><input type="checkbox" value=""> A3</label>
+                      <label><input type="checkbox" value=""> A4</label>
+                    </div>
+                  </div>
+                </div>    
               </div>
-              
               <div class="form-group">
                 <label for="">Инвентарный</label>
                 <input type="text" class="form-control" id="" placeholder="Например: -">
@@ -233,18 +235,18 @@
                 </div>
               </h2>
               <div class="table-responsive">
-                <table id="tblPrinter" class="table table-striped table-bordered table-hover">
+                <table id="tblPrinter" class="table table-striped table-bordered table-hover tableSort">
                   <thead>
                     <tr>
-                      <th><div class="dropup">Модель <span class="caret"></span></div></th>
-                      <th>Тонер картридж</th>
-                      <th>Драм картридж</th>
-                      <th>№ Кабинета</th>
-                      <th>Пользователь</th>
-                      <th>IP</th>
-                      <th>Тип печати</th>
-                      <th>Тип устройства</th>
-                      <th>Формат бумаги</th>
+                      <th><div>Модель</div></th>
+                      <th><div>Тонер картридж</div></th>
+                      <th><div>Драм картридж</div></th>
+                      <th><div>№ Кабинета</div></th>
+                      <th><div>Пользователь</div></th>
+                      <th><div>IP</div></th>
+                      <th><div>Тип печати</div></th>
+                      <th><div>Тип устройства</div></th>
+                      <th><div>Формат бумаги</div></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -339,14 +341,14 @@
                       </div>
                     </div>
                   </h2>
-                  <table class="table table-striped table-bordered table-hover">
+                  <table class="table table-striped table-bordered table-hover tableSort">
                     <thead>
                       <tr>
-                        <th>Картридж</th>
-                        <th>Тип</th>
-                        <th>Кол-во</th>
-                        <th>Номер полки</th>
-                        <th>Модель принтера</th>
+                        <th><div>Картридж</div></th>
+                        <th><div>Тип</div></th>
+                        <th><div>Кол-во</div></th>
+                        <th><div>Номер полки</div></th>
+                        <th><div>Модель принтера</div></th>
                       </tr>
                     </thead>
                     <tbody>

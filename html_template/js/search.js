@@ -16,23 +16,75 @@ $(document).ready(function(){
   });
     
   
-  // TODO: Как использовать селекторы jQuery для выделения элементов страницы 
-  //       http://ruseller.com/lessons.php?id=682
+  // ---------------------------------------------------------- 
+  // Сортировка (http://ru.stackoverflow.com/questions/173042) 
+  // 
+  // Структура таблицы для сортировки
+  //  <table class="..... tableSort">
+  //    <thead>
+  //      <tr>
+  //        <th><div>...</div></th>
+  //        <th><div>...</div></th>
+  //      </tr>
+  //    </thead>
+  //
+  //
+  // ----------------------------------------------------------
+  var tableSortTH = $('.tableSort thead tr th');
+  var spanCaret = $('<span class="caret"></span>');
   
-  // TODO: Сортировка 
-  //       http://ru.stackoverflow.com/questions/173042/%D1%81%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0-%D1%8D%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D0%BE%D0%B2-%D0%BD%D0%B0-%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B5-%D0%B2-%D0%B0%D0%BB%D1%84%D0%B0%D0%B2%D0%B8%D1%82%D0%BD%D0%BE%D0%BC-%D0%BF%D0%BE%D1%80%D1%8F%D0%B4%D0%BA%D0%B5
+  tableSortTH.click(function () {
+    
+    var thisTH         = this;
+    var $thisTH        = $(this);
+    var thisTHDiv      = $thisTH.children('div');
+    var thisTHDivSpan  = thisTHDiv.children('span');
+    var table          = $thisTH.parents('table');
+    var tableTH        = table.find('th');
+    var tableTHDiv     = tableTH.children('div');
+    var tableTHDivSpan = tableTHDiv.children('span');
+    
+    var sortingOrder = false;
+    var indexSort    = -1;
+    
+    tableTH.each(function (index, element) {
+      if (thisTH == element) {
+        indexSort = index;
+        return false;
+      }
+    });
+    if (indexSort == -1) {
+      console.error('Ошибка: не найден столбец сортировки');
+      return;
+    }
+    indexSort++;
+    
+    if (thisTHDivSpan.length == 0){
+      tableTHDivSpan.remove();
+      tableTHDiv.removeClass('dropup');
+      thisTHDiv.append(spanCaret);
+      thisTHDiv.addClass('dropup');
+    } else {
+      if (tableTHDiv.hasClass('dropup')) {
+        sortingOrder = true;
+        thisTHDiv.removeClass('dropup');
+      } else {
+        sortingOrder = false;
+        thisTHDiv.addClass('dropup');
+      }
+    }
 
-  $("#sort").click(function () {
-    var mylist = $('#menu');
-    var listitems = mylist.children('div').get();
-    listitems.sort(function(a, b) {
-       var compA = $(a).text().toUpperCase();
-       var compB = $(b).text().toUpperCase();
-       return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
-    })
-    $.each(listitems, function(idx, itm) { mylist.append(itm); });
-  });
-  
-  
-  
+
+    var tbody = table.children('tbody');
+    var tr = tbody.children('tr');
+    tr.sort(function(a, b) {
+      var compA = $(a).children('td:nth-child(' + indexSort + ')').text().toLocaleLowerCase();
+      var compB = $(b).children('td:nth-child(' + indexSort + ')').text().toLocaleLowerCase();
+      var result = (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+      return (sortingOrder) ? 
+                            ((compA > compB) ? -1 : (compA < compB) ? 1 : 0) :
+                            ((compA < compB) ? -1 : (compA > compB) ? 1 : 0);
+    });
+    tbody.append(tr);
+  }); 
 });

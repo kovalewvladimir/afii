@@ -92,6 +92,10 @@ body {
   margin-left: 20px;
 }
 
+.tableSort thead tr th {
+  cursor: pointer;
+}
+
 /*
  * Печать 
  */
