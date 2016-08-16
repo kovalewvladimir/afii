@@ -11,5 +11,21 @@ Accounting for inventory items. (Учет товарно-материальны�
 
 ### Back-end часть
 
+
+## TODO
+
+### В разработке
+* Отчеты по складу
+* Карта помещений
+* Вывод на печать
+* Добавить в "принтер" поле: user, password
+
+### Тестирование
+* Поиск в таблице (12.08.2016 - [commit](https://github.com/kovalewvladimir/afii/commit/96121dbc7cd1585a56356640ff12d35d28baed46))
+* Сортировка таблиц (15.08.2016 - [commit](https://github.com/kovalewvladimir/afii/commit/028175f73d3050aa18d5d83e5157e35ec0a0463f))
+
+### Работает
+* Печать QR code (12.08.2016 - [commit](https://github.com/kovalewvladimir/afii/commit/f177e46e745f215c7fd9492b81f4d2066dd50bac))
+
 ## Контактная информация
 e-mail: <kovalew.vladimir@gmail.com>

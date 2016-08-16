@@ -1,4 +1,4 @@
-// Обновить QRcode
+// Обновить QRcode Img
 function updateImgQrcode(size, img){
   var qrcodeDiv = document.createElement('div');
   $(qrcodeDiv).qrcode({
@@ -33,7 +33,11 @@ $(document).ready(function(){
   var paddingPrintQRcode = $('#paddingPrintQRcode');
 
   
+  /***********************************************************
   
+  ** Обработчики событий 
+  
+  ***********************************************************/
   
   // onChange изменение ширины страницы
   widthPage.change(function (){

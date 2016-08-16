@@ -1,5 +1,11 @@
 $(document).ready(function(){
   
+  /***********************************************************
+  
+  ** Поиск в таблице
+  
+  ***********************************************************/
+  
   var searchPrinter = $('#searchPrinter');
   var tblPrintrer   = $('#tblPrinter');
   var td1           = $('#tblPrinter td:nth-child(1)');
@@ -14,22 +20,34 @@ $(document).ready(function(){
         $this.parent().hide();
     });
   });
-    
   
-  // ---------------------------------------------------------- 
-  // Сортировка (http://ru.stackoverflow.com/questions/173042) 
-  // 
-  // Структура таблицы для сортировки
-  //  <table class="..... tableSort">
-  //    <thead>
-  //      <tr>
-  //        <th><div>...</div></th>
-  //        <th><div>...</div></th>
-  //      </tr>
-  //    </thead>
-  //
-  //
-  // ----------------------------------------------------------
+  
+  
+  /***********************************************************
+  
+  ** Сортировка (http://ru.stackoverflow.com/questions/173042) 
+   
+    <!-- Структура таблицы для сортировки -->
+    <table class="..... tableSort">
+      <thead> <!-- Заголовок таблицы -->
+        <tr>
+          ...
+          <th><DIV>...</DIV></th>
+          ...
+        </tr>
+      </thead>
+      <tbody> <!-- Тело цикла -->
+        ...
+        <tr>
+          ...
+          <td>...</td>
+          ...
+        </tr>
+        ...
+      </tbody>
+    </table>
+  
+   ***********************************************************/
   var tableSortTH = $('.tableSort thead tr th');
   var spanCaret = $('<span class="caret"></span>');
   
