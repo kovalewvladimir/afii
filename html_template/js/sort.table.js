@@ -1,33 +1,35 @@
 /*************************************************************
 
-  ** Сортировка (http://ru.stackoverflow.com/questions/173042)
+** Сортировка (http://ru.stackoverflow.com/questions/173042)
 
-    <!-- Структура таблицы для сортировки -->
-    <table class="..... tableSort">
-      <thead> <!-- Заголовок таблицы -->
-        <tr>
-          ...
-          <th><DIV>...</DIV></th>
-          ...
-        </tr>
-      </thead>
-      <tbody> <!-- Тело цикла -->
+  <!-- Структура таблицы для сортировки -->
+  <table class="..... tableSort">
+    <thead> <!-- Заголовок таблицы -->
+      <tr>
         ...
-        <tr>
-          ...
-          <td>...</td>
-          ...
-        </tr>
+        <th><DIV>...</DIV></th>
         ...
-      </tbody>
-    </table>
+      </tr>
+    </thead>
+    <tbody> <!-- Тело таблицы -->
+      ...
+      <tr>
+        ...
+        <td>...</td>
+        ...
+      </tr>
+      ...
+    </tbody>
+  </table>
 
 *************************************************************/
 
 $(document).ready(function(){
-  var tableSortTH = $('.tableSort thead tr th');
-  var spanCaret = $('<span class="caret"></span>');
 
+  var tableSortTH = $('.tableSort thead tr th');
+  var spanCaret   = $('<span class="caret"></span>');
+
+  // onClick по заголовку таблицы
   tableSortTH.click(function () {
 
     // Инициализация переменных

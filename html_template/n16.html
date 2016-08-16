@@ -225,12 +225,10 @@
                   <div class="col-md-9">
                     <div class="input-group">
                       <input type="search" id="searchPrinter" class="form-control" placeholder="Поиск...">
-                      <span class="input-group-addon">по модели</span>
+                      <span class="input-group-addon"></span>
                       <div class="input-group-btn">                    
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                          <li><a href="#">по модели</a></li>
-                        </ul>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="tblPrinter"></ul>
                       </div>
                     </div>
                   </div>
@@ -332,18 +330,16 @@
                       <div class="col-md-9">
                         <div class="input-group">
                           <input type="search" class="form-control" placeholder="Поиск...">
-                          <span class="input-group-addon">по картридж</span>
+                          <span class="input-group-addon"></span>
                           <div class="input-group-btn">                    
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
-                            <ul class="dropdown-menu pull-right" role="menu">
-                              <li><a href="#">по картридж</a></li>
-                            </ul>
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span></button>
+                            <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="tblCartridgesStock"></ul>
                           </div>
                         </div>
                       </div>
                     </div>
                   </h2>
-                  <table class="table table-striped table-bordered table-hover tableSort">
+                  <table id="tblCartridgesStock" class="table table-striped table-bordered table-hover tableSort">
                     <thead>
                       <tr>
                         <th><div>Картридж</div></th>
@@ -403,22 +399,20 @@
                   <h2 class="sub-header">
                     <div class="input-group">
                       <input type="search" class="form-control" placeholder="Поиск...">
-                      <span class="input-group-addon">по картридж</span>
+                      <span class="input-group-addon"></span>
                       <div class="input-group-btn">                    
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                          <li><a href="#">по картридж</a></li>
-                        </ul>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="tblCartridgeRecycling"></ul>
                       </div>
                     </div>
                   </h2>
-                  <table class="table table-striped table-bordered table-hover">
+                  <table id="tblCartridgeRecycling" class="table table-striped table-bordered table-hover tableSort">
                     <thead>
                       <tr>
-                        <th>Картридж</th>
-                        <th>Тип</th>
-                        <th>Кол-во</th>
-                        <th>Модель принтера</th>
+                        <th><div>Картридж</div></th>
+                        <th><div>Тип</div></th>
+                        <th><div>Кол-во</div></th>
+                        <th><div>Модель принтера</div></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -476,24 +470,22 @@
                   <div class="col-md-9">
                     <div class="input-group">
                       <input type="search" class="form-control" placeholder="Поиск...">
-                      <span class="input-group-addon">по формату</span>
+                      <span class="input-group-addon"></span>
                       <div class="input-group-btn">                    
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                          <li><a href="#">по формату</a></li>
-                        </ul>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="tblPaper"></ul>
                       </div>
                     </div>
                   </div>
                 </div>
               </h2>
-              <table class="table table-striped table-bordered table-hover">
+              <table id="tblPaper" class="table table-striped table-bordered table-hover tableSort">
                 <thead>
                   <tr>
-                    <th>Формат</th>
-                    <th>Размеры</th>
-                    <th>Номер</th>
-                    <th>Кол-во рулонов</th>
+                    <th><div>Формат</div></th>
+                    <th><div>Размеры</div></th>
+                    <th><div>Номер</div></th>
+                    <th><div>Кол-во рулонов</div></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -537,25 +529,22 @@
                   <div class="col-md-9">
                     <div class="input-group">
                       <input type="search" class="form-control" placeholder="Поиск...">
-                      <span class="input-group-addon">по формату</span>
+                      <span class="input-group-addon"></span>
                       <div class="input-group-btn">                    
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                          <li><a href="#">по формату</a></li>
-                        </ul>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="tblZips"></ul>
                       </div>
                     </div>
                   </div>
                 </div>
-                
               </h2>
-              <table class="table table-striped table-bordered table-hover">
+              <table id="tblZips" class="table table-striped table-bordered table-hover tableSort">
                 <thead>
                   <tr>
-                    <th>Код</th>
-                    <th>Тип</th>
-                    <th>Кол-во</th>                 
-                    <th>Модель принтера</th>
+                    <th><div>Код</div></th>
+                    <th><div>Тип</div></th>
+                    <th><div>Кол-во</div></th>
+                    <th><div>Модель принтера</div></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -605,23 +594,21 @@
                   <div class="col-md-9">
                     <div class="input-group">
                       <input type="search" class="form-control" placeholder="Поиск...">
-                      <span class="input-group-addon">по наименованию</span>
+                      <span class="input-group-addon"></span>
                       <div class="input-group-btn">                    
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                          <li><a href="#">по наименованию</a></li>
-                        </ul>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="tblDistrib"></ul>
                       </div>
                     </div>
                   </div>
                 </div>
               </h2>
-              <table class="table table-striped table-bordered table-hover">
+              <table id="tblDistrib" class="table table-striped table-bordered table-hover tableSort">
                 <thead>
                   <tr>
-                    <th>№</th>
-                    <th>Наименование</th>
-                    <th>Кол-во</th>
+                    <th><div>№</div></th>
+                    <th><div>Наименование</div></th>
+                    <th><div>Кол-во</div></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -679,15 +666,10 @@
                   <div class="col-md-8">
                     <div class="input-group">
                       <input type="search" class="form-control" placeholder="Поиск...">
-                      <span class="input-group-addon">по наименованию</span>
+                      <span class="input-group-addon"></span>
                       <div class="input-group-btn">                    
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span><!--<span class="sr-only">Меню с переключением</span>--></button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                          <li><a href="#">по №</a></li>
-                          <li><a href="#">по наименованию</a></li>
-                          <li><a href="#">по количеству</a></li>
-                          <li><a href="#">по номеру полки</a></li>
-                        </ul>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="tblStorage15"></ul>
                       </div>
                     </div>
                   </div>
@@ -704,13 +686,13 @@
                   </div>
                 </div>
                 <div class="col-md-8">
-                  <table class="table table-striped table-bordered table-hover">
+                  <table id="tblStorage15" class="table table-striped table-bordered table-hover tableSort">
                     <thead>
                       <tr>
-                        <td>№</td>
-                        <td>Наименование</td>
-                        <td>Кол-во</td>
-                        <td>Номер полки</td>
+                        <th><div>№</div></th>
+                        <th><div>Наименование</div></th>
+                        <th><div>Кол-во</div></th>
+                        <th><div>Номер полки</div></th>
                       </tr>
                     </thead>
                     <tbody>
