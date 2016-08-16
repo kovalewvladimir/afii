@@ -11,15 +11,15 @@ function updateImgQrcode(size, img){
 }
 
 $(document).ready(function(){
-  
+
   updateImgQrcode(128, '.imgQRcode');
 
   var pageQRcode        = $('#pageQRcode');
   var printQRcode       = $('.printQRcode');
   var titleQRcode       = $('.titleQRcode');
-  var printQRcodeCount1 = $('#printQRcodeCount1'); 
-  var printQRcodeCount2 = $('#printQRcodeCount2'); 
-  
+  var printQRcodeCount1 = $('#printQRcodeCount1');
+  var printQRcodeCount2 = $('#printQRcodeCount2');
+
   var widthPage          = $('#widthPage');
   var heightPage         = $('#heightPage');
   var sizeQRcode         = $('#sizeQRcode');
@@ -32,28 +32,28 @@ $(document).ready(function(){
   var paddingPageQRcode  = $('#paddingPageQRcode');
   var paddingPrintQRcode = $('#paddingPrintQRcode');
 
-  
+
   /***********************************************************
-  
-  ** Обработчики событий 
-  
+
+  ** Обработчики событий
+
   ***********************************************************/
-  
+
   // onChange изменение ширины страницы
   widthPage.change(function (){
     pageQRcode.css('width', this.value + 'mm');
   });
-  
+
   // onChange изменение высоты страницы
   heightPage.change(function (){
     pageQRcode.css('height', this.value + 'mm');
   });
-  
+
   // onChange изменение размера QRcode
   sizeQRcode.change(function (){
     updateImgQrcode(this.value, '.imgQRcode');
   });
-  
+
   // onChange изменение кол-во QRcode
   countQRcode.change(function (){
     switch (this.value) {
@@ -67,7 +67,7 @@ $(document).ready(function(){
         break;
     }
   });
-  
+
   // onClick вкл/выкл рамки QRcode
   isBorderQRcode.click(function (){
     if (this.checked){
@@ -78,12 +78,12 @@ $(document).ready(function(){
       borderTypeQRcode.attr('disabled', true);
     }
   });
-  
+
   // onChange изменение типа рамки QRcode
   borderTypeQRcode.change(function (){
     printQRcode.css('border', '0.5mm ' + this.value + '#000');
   });
-  
+
   // onClick вкл/выкл заголовок QRcode
   isTitleQRcode.click(function (){
     if (this.checked) {
@@ -92,14 +92,14 @@ $(document).ready(function(){
     } else {
       titleQRcode.hide();
       titleSizeQRcode.attr('disabled', true);
-    }    
+    }
   });
-  
+
   // onChange изменение размера заголовка QRcode
   titleSizeQRcode.change(function (){
     titleQRcode.css('font-size', this.value + 'px');
   });
-  
+
   // onChange изменение отступа снаружи
   paddingPageQRcode.change(function (){
     pageQRcode.css('padding', this.value + 'mm');
@@ -109,7 +109,7 @@ $(document).ready(function(){
   paddingPrintQRcode.change(function (){
     printQRcode.css('padding', this.value + 'mm');
   });
-  
+
   // onClick кнопка печати QRcode
   btnQRcodePrint.click(function (){
     pageQRcode.print();
