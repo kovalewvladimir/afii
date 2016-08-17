@@ -28,7 +28,8 @@ Accounting for inventory items. (Учет товарно-материальны�
 
 ## Работает
 * Печать QR code (12.08.2016 - [commit](https://github.com/kovalewvladimir/afii/commit/f177e46e745f215c7fd9492b81f4d2066dd50bac))
-* QRcode добавить IP принтера
+* QRcode добавить IP принтера (17.08.2016 - [commit](https://github.com/kovalewvladimir/afii/commit/af7f2d1a71acc5541c5ce1c42b6aaa1fc1b83c26))
+* Вывод на печать страницы n16.html (17.08.2016 - [commit]())
 
 ## Контактная информация
 e-mail: <kovalew.vladimir@gmail.com>

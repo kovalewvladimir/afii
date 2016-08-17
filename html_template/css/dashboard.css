@@ -131,4 +131,12 @@ body {
   #pageQRcode{
     border: none;
   }
+  .main {
+    margin: 0;
+    padding: 0;
+    width: 100%
+  }
+  table {
+    width: 100%;
+  }
 }
