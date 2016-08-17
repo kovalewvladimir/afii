@@ -23,13 +23,13 @@ Accounting for inventory items. (Учет товарно-материальны�
 * Отчеты по складу
 
 ## Тестирование
-* Поиск в таблице (12.08.2016 - [commit](https://github.com/kovalewvladimir/afii/commit/96121dbc7cd1585a56356640ff12d35d28baed46), 17.08.2016 - [commit](https://github.com/kovalewvladimir/afii/commit/79326c9c8ac47c448fcda7b28bd7c586f2137b46))
-* Сортировка таблиц (15.08.2016 - [commit](https://github.com/kovalewvladimir/afii/commit/028175f73d3050aa18d5d83e5157e35ec0a0463f))
+* Поиск в таблице (12.08.2016, 17.08.2016)
+* Сортировка таблиц (15.08.2016)
 
 ## Работает
-* Печать QR code (12.08.2016 - [commit](https://github.com/kovalewvladimir/afii/commit/f177e46e745f215c7fd9492b81f4d2066dd50bac))
-* QRcode добавить IP принтера (17.08.2016 - [commit](https://github.com/kovalewvladimir/afii/commit/af7f2d1a71acc5541c5ce1c42b6aaa1fc1b83c26))
-* Вывод на печать страницы n16.html (17.08.2016 - [commit]())
+* Печать QR code (12.08.2016)
+* QRcode добавить IP принтера (17.08.2016)
+* Вывод на печать страницы n16.html (17.08.2016)
 
 ## Контактная информация
 e-mail: <kovalew.vladimir@gmail.com>

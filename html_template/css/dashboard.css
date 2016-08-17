@@ -139,4 +139,6 @@ body {
   table {
     width: 100%;
   }
+  a[href]:after {
+    content: "";
 }
