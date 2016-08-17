@@ -36,10 +36,12 @@
 
 $(document).ready(function(){
 
+  // Устанавливает текст фильтру. Нужна чтобы пользователь видел по какому столбцу осуществляется поиск.
   function setTextSpanAddon(element, text){
     element.parents('div.input-group').children('span.input-group-addon').text(text)
   }
 
+  // Функция для поиска в таблице
   var functionSearch = function search(eventObj){
     var searchText = this.value;
     eventObj.data.tableTD.each(function (index, element){
@@ -51,9 +53,8 @@ $(document).ready(function(){
     });
   }
 
-
+  // Инициализация фильтров
   var allUlSearch = $('ul[data-search-table-id]');
-
   allUlSearch.each(function () {
     var $thisUL = $(this);
     var idTable = $thisUL.attr('data-search-table-id');
@@ -61,43 +62,24 @@ $(document).ready(function(){
     tableTh.each(function (index){
       var $thisTH = $(this);
       var textTH  = 'по ' + $thisTH.text().toLocaleLowerCase();
-      $thisUL.append('<li data-table-col="' + (index + 1) + '"><a>' + textTH + '</a></li>');
+      $thisUL.append('<li data-search-table-col="' + (index + 1) + '"><a>' + textTH + '</a></li>');
       if (index == 0) {
         setTextSpanAddon($thisUL, textTH);
       }
     });
     var inputSearch = $thisUL.parents('div.input-group').children('input[type="search"]');
-    // TODO:
-    inputSearch.click({tableTD: $('#' + idTable + ' td:nth-child(1)')}, functionSearch);
+    inputSearch.keyup({tableTD: $('#' + idTable + ' td:nth-child(1)')}, functionSearch);
   });
 
-
-
-  var allLIULSearch = allUlSearch.children('li[data-table-col]');
-
+  // onClik выбор фильтра
+  var allLIULSearch = allUlSearch.children('li[data-search-table-col]');
   allLIULSearch.click(function (){
-    var $thisLI = $(this);
+    var $thisLI        = $(this);
+    var $thisUL        = $thisLI.parent('ul');
+    var idTable        = $thisUL.attr('data-search-table-id');
+    var searchTableCol = $thisLI.attr('data-search-table-col');
+    var inputSearch    = $thisUL.parents('div.input-group').children('input[type="search"]');
     setTextSpanAddon($thisLI, $thisLI.text());
-
+    inputSearch.keyup({tableTD: $('#' + idTable + ' td:nth-child(' + searchTableCol + ')')}, functionSearch);
   });
-
-
-
-
-
-  var a = function test(eventObj){
-    console.log(eventObj.data.a);
-    console.log(eventObj.data.b);
-  }
-
-
-
-
-  //var searchPrinter = $('#searchPrinter');
-  //var tblPrintrer   = $('#tblPrinter');
- // var td1           = $('#tblPrinter td:nth-child(1)');
-
-  //searchPrinter.keyup({a:1,b:'2'},a);
-
-  //searchPrinter.keyup();
 });
