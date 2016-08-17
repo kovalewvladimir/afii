@@ -10,7 +10,7 @@ Accounting for inventory items. (Учет товарно-материальны�
 * [jQuery.print](https://github.com/DoersGuild/jQuery.print) (v1.4.0)
 
 ### Back-end часть:
-
+* [Django](https://www.djangoproject.com/)
 
 ## TODO
 
