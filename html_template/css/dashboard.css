@@ -117,7 +117,8 @@ body {
   border: 1px solid #000;
   padding: 1mm;
 }
-.printQRcode h1 {
+.titleQRcode, .ipQRcode {
+  font-size: 24px;
   margin: 0;
   padding: 0;
 }

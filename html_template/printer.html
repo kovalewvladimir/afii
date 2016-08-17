@@ -81,21 +81,18 @@
                     <span class="input-group-addon">
                       <input type="checkbox" id="isTitleQRcode" checked>
                     </span>
-                    <input type="number" id="titleSizeQRcode" class="form-control" value="36" min="12" max="64">
+                    <input type="number" id="titleSizeQRcode" class="form-control" value="24" min="12" max="64">
                     <span class="input-group-addon">px</span>
                   </div>
                 </div>
                 <div class="col-sm-6 form-group">
-                  <label for="">Рамка (тип линии):</label>
+                  <label for="">IP:</label>
                   <div class="input-group">
                     <span class="input-group-addon">
-                      <input type="checkbox" id="isBorderQRcode" checked>
+                      <input type="checkbox" id="isIpQRcode" checked>
                     </span>
-                    <select id="borderTypeQRcode" class="form-control">
-                      <option value="solid">Сплошная</option>
-                      <option value="dashed">Пунктирная 1</option>
-                      <option value="dotted">Пунктирная 2</option>
-                    </select>
+                    <input type="number" id="ipSizeQRcode" class="form-control" value="24" min="12" max="64">
+                    <span class="input-group-addon">px</span>
                   </div>
                 </div>
                 <div class="col-sm-6 form-group">
@@ -112,21 +109,37 @@
                     <span class="input-group-addon">мм</span>
                   </div>
                 </div>
+                <div class="col-sm-12 form-group">
+                  <label for="">Рамка (тип линии):</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      <input type="checkbox" id="isBorderQRcode" checked>
+                    </span>
+                    <select id="borderTypeQRcode" class="form-control">
+                      <option value="solid">Сплошная</option>
+                      <option value="dashed">Пунктирная 1</option>
+                      <option value="dotted">Пунктирная 2</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </form>
             <div id="pageQRcode" class="center-block">
               <div id="printQRcodeCount1" class="printQRcode">
                 <h1 class="titleQRcode text-center">Xerox WC 238</h1>
-                <img class="imgQRcode center-block"> 
+                <img class="imgQRcode center-block">
+                <p class="ipQRcode text-center">10.4.101.9</p>
               </div>
               <div id="printQRcodeCount2" class="row">
                 <div class="printQRcode col-xs-6">
                   <h1 class="titleQRcode text-center">Xerox WC 238</h1>
-                  <img class="imgQRcode center-block"> 
+                  <img class="imgQRcode center-block">
+                  <p class="ipQRcode text-center">10.4.101.9</p>
                 </div>
                 <div class="printQRcode col-xs-6">
                   <h1 class="titleQRcode text-center">Xerox WC 238</h1>
                   <img class="imgQRcode center-block"> 
+                  <p class="ipQRcode text-center">10.4.101.9</p>
                 </div>
               </div>
             </div>
@@ -214,6 +227,14 @@
                    <tr>
                      <td><strong>IP</strong></td>
                      <td><a href="//10.4.101.9/">10.4.101.9</a></td>
+                   </tr>
+                   <tr>
+                     <td><strong>User</strong></td>
+                     <td>admin</td>
+                   </tr>
+                   <tr>
+                     <td><strong>Password</strong></td>
+                     <td>1234</td>
                    </tr>
                    <tr>
                      <td><strong>Тип печати</strong></td>
