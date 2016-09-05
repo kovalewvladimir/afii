@@ -10,5 +10,21 @@ $RECYCLE.BIN/
 *.lnk
 
 # IDEA
+.idea/
 
 # virtualenv
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+[Tt]cl
+pyvenv.cfg
+.venv
+pip-selfcheck.json
+
+# Python
+__pycache__
+.pyc
