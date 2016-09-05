@@ -1,0 +1,84 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ title }}</title>
+
+        <link href="{% static 'inventory/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'inventory/css/dashboard.css' %}" rel="stylesheet">
+
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="{% static 'inventory/js/jquery.min.js' %}"></script>
+        <script src="{% static 'inventory/js/bootstrap.min.js' %}"></script>
+        <!-- Поиск в таблице -->
+        <script src="{% static 'inventory/js/search.table.js' %}"></script>
+        <!-- Сортировка в таблице -->
+        <script src="{% static 'inventory/js/sort.table.js' %}"></script>
+    </head>
+    <body>
+
+        <nav class="navbar navbar-inverse navbar-fixed-top hidden-print" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Учет расходных материалов</a>
+                </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Площадка <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="">Н16</a></li>
+                        <li><a href="">ИЗ</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Настройки <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="">Картриджи</a></li>
+                        <li><a href="">Принтер</a></li>
+                        <li class="divider"></li>
+                        <li><a href="">и т.п.</a></li>
+                    </ul>
+                </li>
+                <li><a href="">Помощь</a></li>
+                </ul>
+            </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar hidden-print">
+                    <ul class="nav nav-sidebar">
+                        <li class="header">Площадка</li>
+                        <li class="active"><a href="n16.html">Н16</a></li>
+                        <li><a href="#">ИЗ</a></li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li class="header">Настройки</li>
+                        <li><a href="">Картриджи</a></li>
+                        <li><a href="">Принтер</a></li>
+                        <li><a href="">и т.п.</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

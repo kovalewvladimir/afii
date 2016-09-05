@@ -28,3 +28,6 @@ pip-selfcheck.json
 # Python
 __pycache__
 .pyc
+
+# Private
+afii/afii/private.py
