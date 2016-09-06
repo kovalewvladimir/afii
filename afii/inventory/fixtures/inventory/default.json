@@ -1,0 +1,37 @@
+[
+  {
+    "model": "inventory.PaperSize",
+    "pk": 1,
+    "fields": {
+      "size": "А0"
+    }
+  },
+  {
+    "model": "inventory.PaperSize",
+    "pk": 2,
+    "fields": {
+      "size": "А1"
+    }
+  },
+  {
+    "model": "inventory.PaperSize",
+    "pk": 3,
+    "fields": {
+      "size": "А2"
+    }
+  },
+  {
+    "model": "inventory.PaperSize",
+    "pk": 4,
+    "fields": {
+      "size": "А2"
+    }
+  },
+  {
+    "model": "inventory.PaperSize",
+    "pk": 5,
+    "fields": {
+      "size": "А2"
+    }
+  }
+]

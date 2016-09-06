@@ -13,15 +13,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Space',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('space_name', models.CharField(blank=True, max_length=50, null=True)),
-                ('space_discription', models.TextField()),
-            ],
-            options={
-                'db_table': 'space',
-            },
-        ),
     ]
