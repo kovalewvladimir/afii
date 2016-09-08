@@ -5,8 +5,8 @@ from django.http.response import HttpResponse
 def main(request):
     args = {}
     args['title'] = 'test'
-    # s = models.Space.objects.all()
-    # s0 = s[0]
-    # st = models.Storage.objects.get(pk=s0.id)
+
+    #args['printer'] = models.Printer.objects.select_related().all()
+    args['space'] = models.Space.objects.all()
 
     return render(request, 'inventory/test.html', args)

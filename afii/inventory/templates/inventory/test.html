@@ -1,4 +1,17 @@
 {% extends 'inventory/main.html' %}
 {% block content %}
-    <h1>TEST</h1>
+    <h1>{{ title }}</h1>
+
+    {% for s in space %}
+        <h2>{{ s }}</h2>
+        {% for p in s.printers.all %}
+            {{ p }}
+            <ul>
+                {% for c in p.get_cartridges %}
+                <li> {{ c.base_cartridge }}, {{ c.base_cartridge.type }}, {{ c.storage }} </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% endfor %}
+
 {% endblock %}
