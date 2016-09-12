@@ -5,7 +5,7 @@
     {% for s in space %}
         <h2>{{ s }}</h2>
         {% for p in s.printers.all %}
-            {{ p }}
+            {{ p }} {{ p.image.url }}
             <ul>
                 {% for c in p.get_cartridges %}
                 <li> {{ c.base_cartridge }}, {{ c.base_cartridge.type }}, {{ c.storage }} </li>

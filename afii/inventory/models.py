@@ -104,9 +104,10 @@ class Printer(models.Model):
     date = models.DateField(blank=True, null=True, verbose_name='Дата установки')
     space = models.ForeignKey(Space, related_name='printers', verbose_name='Площадка')
     description = models.TextField(blank=True, null=True, verbose_name='Примечание')
+    image = models.ImageField(upload_to='media/')
 
     def get_cartridges(self):
-        return [l for bc in self.base_printer.base_cartridges.all() for l in bc.cartridges.all()]
+        return [c for bc in self.base_printer.base_cartridges.all() for c in bc.cartridges.all()]
 
     def __str__(self):
         return str("{}-{}-{}".format(self.space, self.cabinet, self.base_printer))
@@ -120,7 +121,6 @@ class Cartridge(models.Model):
     shelf = models.CharField(max_length=10, verbose_name='№ полки')
     count = models.PositiveIntegerField(verbose_name='Кол-во')
     count_recycling = models.PositiveIntegerField(blank=True, null=True, verbose_name='Кол-во в рециклинг')
-
 
     def __str__(self):
         return str('{}-{}'.format(self.storage, self.base_cartridge))
