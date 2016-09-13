@@ -26,6 +26,8 @@ SECRET_KEY = PRIVATE_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
 ALLOWED_HOSTS = []
 
 
@@ -38,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'inventory'
+    'inventory',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -74,23 +77,23 @@ WSGI_APPLICATION = 'afii.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'afii.sqlite3'),
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'test',
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': '123456',                  # Not used with sqlite3.
-        'HOST': '127.0.0.1',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '4040',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'afii.sqlite3'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#         'NAME': 'test',
+#         'USER': 'root',                      # Not used with sqlite3.
+#         'PASSWORD': '123456',                  # Not used with sqlite3.
+#         'HOST': '127.0.0.1',                      # Set to empty string for localhost. Not used with sqlite3.
+#         'PORT': '4040',                      # Set to empty string for default. Not used with sqlite3.
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -134,3 +137,14 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
+
+# django debug toolbar
+if DEBUG:
+    from django.utils.deprecation import MiddlewareMixin
+    from debug_toolbar.middleware import DebugToolbarMiddleware
+
+    class AtopdedTo110DebugMiddleware(MiddlewareMixin, DebugToolbarMiddleware):
+        pass
+
+    MIDDLEWARE += ['afii.settings.AtopdedTo110DebugMiddleware']
+    INTERNAL_IPS = ('127.0.0.1',)
