@@ -5,15 +5,13 @@ from django.db import connection
 
 
 def main(request):
-
-
     args = {}
     args['title'] = 'test'
 
-    #args['printer'] = models.Printer.objects.select_related().all()
-    args['space'] = models.Space.objects.all()
+    pp = models.Printer.objects.select_related().prefetch_related('base_printer__base_cartridges__cartridges').all()
+    #b = [c.shelf for p in pp for bc in p.base_printer.base_cartridges.all() for c in bc.cartridges.all()]
 
-    p = models.Printer.objects.all()
-
+    args['printers'] = pp
+    #args['space'] = models.Space.objects.all()
 
     return render(request, 'inventory/test.html', args)

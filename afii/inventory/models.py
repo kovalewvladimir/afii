@@ -2,6 +2,8 @@ from itertools import count
 
 from django.db import models
 
+IMAGE_UPLOAD_TO = 'media/'
+
 PRINTING_TYPE = (
     ('JET', 'Струйный'),
     ('LASER', 'Лазер'),
@@ -85,7 +87,7 @@ class BaseCartridge(models.Model):
     type = models.CharField(max_length=10, choices=CARTRIDGE_TYPE, verbose_name='Тип картриджа')
     color = models.CharField(max_length=10, choices=CARTRIDGE_COLOR, blank=True, null=True, verbose_name='Цвет')
     recycling = models.BooleanField(verbose_name='Рециклинг')
-    base_printer = models.ManyToManyField(BasePrinter, related_name='base_cartridges')
+    base_printer = models.ManyToManyField(BasePrinter, blank=True, related_name='base_cartridges')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
 
     def __str__(self):
@@ -96,18 +98,18 @@ class Printer(models.Model):
     Принетер
     '''
     base_printer = models.ForeignKey(BasePrinter, related_name='printers')
+    space = models.ForeignKey(Space, related_name='printers', verbose_name='Площадка')
     cabinet = models.CharField(max_length=50, verbose_name='№ кабинета')
     login = models.CharField(max_length=50, blank=True, null=True, verbose_name='User')
     password = models.CharField(max_length=50, blank=True, null=True, verbose_name='Password')
     ip = models.CharField(max_length=15, verbose_name='IP')
-    sn = models.CharField(max_length=20, verbose_name='Серийный номер')
+    sn = models.CharField(max_length=20,blank=True, null=True, verbose_name='Серийный номер')
     date = models.DateField(blank=True, null=True, verbose_name='Дата установки')
-    space = models.ForeignKey(Space, related_name='printers', verbose_name='Площадка')
     description = models.TextField(blank=True, null=True, verbose_name='Примечание')
-    image = models.ImageField(upload_to='media/')
+    image = models.ImageField(upload_to=IMAGE_UPLOAD_TO)
 
     def get_cartridges(self):
-        return [c for bc in self.base_printer.base_cartridges.all() for c in bc.cartridges.all()]
+        return [c for bc in self.base_printer.base_cartridges.all() for c in bc.cartridges.select_related().all()]
 
     def __str__(self):
         return str("{}-{}-{}".format(self.space, self.cabinet, self.base_printer))
@@ -121,6 +123,7 @@ class Cartridge(models.Model):
     shelf = models.CharField(max_length=10, verbose_name='№ полки')
     count = models.PositiveIntegerField(verbose_name='Кол-во')
     count_recycling = models.PositiveIntegerField(blank=True, null=True, verbose_name='Кол-во в рециклинг')
+    image = models.ImageField(upload_to=IMAGE_UPLOAD_TO)
 
     def __str__(self):
         return str('{}-{}'.format(self.storage, self.base_cartridge))

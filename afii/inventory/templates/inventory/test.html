@@ -5,13 +5,63 @@
     {% for s in space %}
         <h2>{{ s }}</h2>
         {% for p in s.printers.all %}
-            {{ p }} {{ p.image.url }}
+            {{ p.base_printer.name }} {{ p.image.url }}
             <ul>
                 {% for c in p.get_cartridges %}
-                <li> {{ c.base_cartridge }}, {{ c.base_cartridge.type }}, {{ c.storage }} </li>
+                <li> {{ c.base_cartridge.name }}, {{ c.base_cartridge.type }}, {{ c.storage }} </li>
                 {% endfor %}
             </ul>
         {% endfor %}
     {% endfor %}
+
+
+
+    <table id="tblPrinter" class="table table-striped table-bordered table-hover tableSort">
+        <thead>
+            <tr>
+                <th><div>Модель</div></th>
+                <th><div>Тонер картридж</div></th>
+                <th><div>Драм картридж</div></th>
+                <th><div>№ Кабинета</div></th>
+                <th><div>IP</div></th>
+                <th><div>Тип печати</div></th>
+                <th><div>Тип устройства</div></th>
+                <th><div>Формат бумаги</div></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in printers %}
+            <tr>
+                <td>{{ p.base_printer.name }}</td>
+                <td>
+                    {% for bc in p.base_printer.base_cartridges.all %}
+                        {% if bc.type == "TONER" %}
+                            {{ bc.name }}
+                            {% for c in bc.cartridges.all %}
+                                <!--{{ c.shelf }}-->
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for bc in p.base_printer.base_cartridges.all %}
+                        {% if bc.type == "DRAMM" %}
+                            {{ bc.name }}
+                            {% for c in bc.cartridges.all %}
+                                <!--{{ c.shelf }}-->
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ p.cabinet }}</td>
+                <td>{{ p.ip }}</td>
+                <td>{{ p.base_printer.get_type_printing_display }}</td>
+                <td>{{ p.base_printer.get_type_display }}</td>
+                <td>{{ p.base_printer.get_papers_display }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 
 {% endblock %}
