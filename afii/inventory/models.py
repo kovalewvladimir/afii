@@ -2,8 +2,6 @@ from itertools import count
 
 from django.db import models
 
-IMAGE_UPLOAD_TO = 'media/'
-
 PRINTING_TYPE = (
     ('JET', 'Струйный'),
     ('LASER', 'Лазер'),
@@ -67,7 +65,6 @@ class BasePrinter(models.Model):
     '''
     Базовый принтер
     '''
-    # TODO: зипы
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
     type_printing = models.CharField(max_length=10, choices=PRINTING_TYPE, verbose_name='Тип принтера')
     type = models.CharField(max_length=10, choices=PRINTER_TYPE, verbose_name='Тип устройства')
@@ -119,7 +116,7 @@ class Printer(models.Model):
     sn = models.CharField(max_length=20, verbose_name='Серийный номер')
     date = models.DateField(blank=True, null=True, verbose_name='Дата установки')
     description = models.TextField(blank=True, null=True, verbose_name='Примечание')
-    image = models.ImageField(upload_to=IMAGE_UPLOAD_TO)
+    image = models.ImageField(upload_to='printer/')
 
     def get_cartridges(self):
         return [c for bc in self.base_printer.base_cartridges.all() for c in bc.cartridges.select_related().all()]
@@ -135,9 +132,10 @@ class Cartridge(models.Model):
     storage = models.ForeignKey(Storage, related_name='cartridges')
     shelf = models.CharField(max_length=10, verbose_name='№ полки')
     count = models.PositiveIntegerField(verbose_name='Кол-во')
+    min_count = models.PositiveIntegerField(verbose_name='Минимальное кол-во')
     count_recycling = models.PositiveIntegerField(blank=True, null=True, verbose_name='Кол-во в рециклинг')
     description = models.TextField(blank=True, null=True, verbose_name='Примечание')
-    image = models.ImageField(upload_to=IMAGE_UPLOAD_TO)
+    image = models.ImageField(upload_to='cartridge/')
 
     def __str__(self):
         return str('{}-{}'.format(self.storage, self.base_cartridge))
@@ -151,12 +149,29 @@ class Zip(models.Model):
     shelf = models.CharField(max_length=10, verbose_name='№ полки')
     count = models.PositiveIntegerField(verbose_name='Кол-во')
     description = models.TextField(blank=True, null=True, verbose_name='Примечание')
-    image = models.ImageField(upload_to=IMAGE_UPLOAD_TO)
+    base_printers = models.ManyToManyField(BasePrinter, blank=True, related_name='base_zips')
+    image = models.ImageField(upload_to='zip/')
 
 class Paper(models.Model):
     '''
     Бумага
+        Формат
+        Размеры
+        Номер
+        Кол-во рулонов
     '''
+    name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
+    papers = models.CharField(max_length=50, choices=PAPER_TYPE, verbose_name='Формат бумаги')
+    size = models.CharField(max_length=50, verbose_name='Размеры', help_text='Например: 841мм X 175м')
+    count = models.PositiveIntegerField(verbose_name='Кол-во')
+    min_count = models.PositiveIntegerField(verbose_name='Минимальное кол-во')
+    description = models.TextField(blank=True, null=True, verbose_name='Примечание')
+    image = models.ImageField(upload_to='paper/')
+
+
+
+
+
 
 
 
