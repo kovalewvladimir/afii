@@ -1,18 +1,18 @@
 {% extends 'inventory/main.html' %}
+
+{% block header_space %}
+    {% for s in space %}
+        <li><a href="//space/{{ s.pk }}">{{ s.name }}</a></li>
+    {% endfor %}
+{% endblock %}
+
+{% block left_menu_space %}
+    <li class="active"><a href="n16.html">Н16</a></li>
+    <li><a href="#">ИЗ</a></li>
+{% endblock %}
+
 {% block content %}
     <h1>{{ title }}</h1>
-
-    {% for s in space %}
-        <h2>{{ s }}</h2>
-        {% for p in s.printers.all %}
-            {{ p.base_printer.name }} {{ p.image.url }}
-            <ul>
-                {% for c in p.get_cartridges %}
-                <li> {{ c.base_cartridge.name }}, {{ c.base_cartridge.type }}, {{ c.storage }} </li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
-    {% endfor %}
 
     {% url 'inventory:main' %}
 

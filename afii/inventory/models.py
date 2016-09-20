@@ -1,5 +1,3 @@
-from itertools import count
-
 from django.db import models
 
 PRINTING_TYPE = (
@@ -39,21 +37,27 @@ PAPER_TYPE = (
     ('10', 'A4'),
 )
 
+LAN_TYPE = (
+    ('INTEGRATED', 'Встроенная '),
+    ('EXTERNAL', 'Внешняя (PCI)'),
+)
+
 
 class Space(models.Model):
-    '''
+    """
     Площадка
-    '''
+    """
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
 
     def __str__(self):
         return str(self.name)
 
+
 class Storage(models.Model):
-    '''
+    """
     Склад
-    '''
+    """
     space = models.ForeignKey(Space, related_name='storages', verbose_name='Площадка')
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
@@ -61,10 +65,11 @@ class Storage(models.Model):
     def __str__(self):
         return str('{0}-{1}').format(self.space, self.name)
 
+
 class BasePrinter(models.Model):
-    '''
+    """
     Базовый принтер
-    '''
+    """
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
     type_printing = models.CharField(max_length=10, choices=PRINTING_TYPE, verbose_name='Тип принтера')
     type = models.CharField(max_length=10, choices=PRINTER_TYPE, verbose_name='Тип устройства')
@@ -76,10 +81,11 @@ class BasePrinter(models.Model):
     def __str__(self):
         return str(self.name)
 
+
 class BaseCartridge(models.Model):
-    '''
+    """
     Базовый картридж
-    '''
+    """
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
     type = models.CharField(max_length=10, choices=CARTRIDGE_TYPE, verbose_name='Тип картриджа')
     color = models.CharField(max_length=10, choices=CARTRIDGE_COLOR, blank=True, null=True, verbose_name='Цвет')
@@ -90,10 +96,11 @@ class BaseCartridge(models.Model):
     def __str__(self):
         return str(self.name)
 
+
 class BaseZip(models.Model):
-    '''
+    """
     Базовый ЗИП
-    '''
+    """
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
     type = models.CharField(max_length=50, blank=True, null=True, verbose_name='Тип ЗИП')
     base_printers = models.ManyToManyField(BasePrinter, blank=True, related_name='base_zips')
@@ -102,10 +109,11 @@ class BaseZip(models.Model):
     def __str__(self):
         return str(self.name)
 
+
 class Printer(models.Model):
-    '''
+    """
     Принетер
-    '''
+    """
     base_printer = models.ForeignKey(BasePrinter, related_name='printers')
     space = models.ForeignKey(Space, related_name='printers', verbose_name='Площадка')
     cabinet = models.CharField(max_length=50, verbose_name='№ кабинета')
@@ -116,7 +124,8 @@ class Printer(models.Model):
     sn = models.CharField(max_length=20, verbose_name='Серийный номер')
     date = models.DateField(blank=True, null=True, verbose_name='Дата установки')
     description = models.TextField(blank=True, null=True, verbose_name='Примечание')
-    image = models.ImageField(upload_to='printer/')
+    image = models.ImageField(upload_to='printers/')
+    delete = models.BooleanField(default=False, verbose_name='Удален?')
 
     def get_cartridges(self):
         return [c for bc in self.base_printer.base_cartridges.all() for c in bc.cartridges.select_related().all()]
@@ -124,51 +133,104 @@ class Printer(models.Model):
     def __str__(self):
         return str("{}-{}-{}".format(self.space, self.cabinet, self.base_printer))
 
+
 class Cartridge(models.Model):
-    '''
+    """
     Картридж
-    '''
+    """
     base_cartridge = models.ForeignKey(BaseCartridge, related_name='cartridges', verbose_name='Картридж')
-    storage = models.ForeignKey(Storage, related_name='cartridges')
+    space = models.ForeignKey(Space, related_name='cartridges', verbose_name='Площадка')
     shelf = models.CharField(max_length=10, verbose_name='№ полки')
     count = models.PositiveIntegerField(verbose_name='Кол-во')
     min_count = models.PositiveIntegerField(verbose_name='Минимальное кол-во')
     count_recycling = models.PositiveIntegerField(blank=True, null=True, verbose_name='Кол-во в рециклинг')
     description = models.TextField(blank=True, null=True, verbose_name='Примечание')
-    image = models.ImageField(upload_to='cartridge/')
+    image = models.ImageField(blank=True, null=True, upload_to='cartridges/')
+    delete = models.BooleanField(default=False, verbose_name='Удален?')
 
     def __str__(self):
-        return str('{}-{}'.format(self.storage, self.base_cartridge))
+        return str('{}-{}'.format(self.space, self.base_cartridge))
+
 
 class Zip(models.Model):
-    '''
+    """
     ЗИП
-    '''
+    """
     base_zips = models.ForeignKey(BaseZip, related_name='zips', verbose_name='ЗИП')
-    storage = models.ForeignKey(Storage, related_name='zips')
+    space = models.ForeignKey(Space, related_name='zips', verbose_name='Площадка')
     shelf = models.CharField(max_length=10, verbose_name='№ полки')
     count = models.PositiveIntegerField(verbose_name='Кол-во')
     description = models.TextField(blank=True, null=True, verbose_name='Примечание')
-    base_printers = models.ManyToManyField(BasePrinter, blank=True, related_name='base_zips')
-    image = models.ImageField(upload_to='zip/')
+    image = models.ImageField(blank=True, null=True, upload_to='zips/')
+    delete = models.BooleanField(default=False, verbose_name='Удален?')
+
+    def __str__(self):
+        return str('{}-{}').format(self.space, self.base_zips)
+
 
 class Paper(models.Model):
-    '''
+    """
     Бумага
-        Формат
-        Размеры
-        Номер
-        Кол-во рулонов
-    '''
+    """
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
+    space = models.ForeignKey(Space, related_name='papers', verbose_name='Площадка')
     papers = models.CharField(max_length=50, choices=PAPER_TYPE, verbose_name='Формат бумаги')
     size = models.CharField(max_length=50, verbose_name='Размеры', help_text='Например: 841мм X 175м')
     count = models.PositiveIntegerField(verbose_name='Кол-во')
     min_count = models.PositiveIntegerField(verbose_name='Минимальное кол-во')
     description = models.TextField(blank=True, null=True, verbose_name='Примечание')
-    image = models.ImageField(upload_to='paper/')
+    image = models.ImageField(blank=True, null=True, upload_to='papers/')
+    delete = models.BooleanField(default=False, verbose_name='Удален?')
+
+    def __str__(self):
+        return str('{}-{}').format(self.space, self.name)
 
 
+class Distribution(models.Model):
+    """
+    Дистрибутивы
+    """
+    name = models.CharField(max_length=50, unique=True, verbose_name='Наименование')
+    space = models.ForeignKey(Space, related_name='distributions', verbose_name='Площадка')
+    count = models.PositiveIntegerField(verbose_name='Кол-во')
+    image = models.ImageField(upload_to='distributions/')
+    delete = models.BooleanField(default=False, verbose_name='Удален?')
+
+    def __str__(self):
+        return str('{}-{}').format(self.space, self.name)
+
+
+class Computer(models.Model):
+    """
+    Системные блоки
+    """
+    space = models.ForeignKey(Space, related_name='computers', verbose_name='Площадка')
+    cpu = models.CharField(max_length=50, blank=True, null=True, verbose_name='Процессор')
+    motherboard = models.CharField(max_length=50, blank=True, null=True, verbose_name='Материнская плата')
+    ram = models.CharField(max_length=50, blank=True, null=True, verbose_name='Оперативная память')
+    gpu = models.CharField(max_length=50, blank=True, null=True, verbose_name='Видеокарта')
+    lan = models.CharField(max_length=20, blank=True, null=True,choices=LAN_TYPE, verbose_name='Сетевой адаптер')
+    hdd = models.CharField(max_length=50, blank=True, default='-', verbose_name='Жесткий диск')
+    os = models.CharField(max_length=50, blank=True, null=True, verbose_name='Операционная система')
+    description = models.TextField(blank=True, null=True, verbose_name='Примечание')
+    image = models.ImageField(blank=True, null=True, upload_to='computers/')
+    delete = models.BooleanField(default=False, verbose_name='Удален?')
+
+    def __str__(self):
+        return str('{}-{}').format(self.space, self.cpu)
+
+
+class Category(models.Model):
+    """
+    Категория
+    """
+    storage = models.ForeignKey(Storage, related_name='categories')
+    name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
+    is_base = models.BooleanField(default=False, verbose_name='Вложенная категория?')
+    base_categoty = models.ForeignKey('self', blank=True, null=True, limit_choices_to={'is_base': False})
+
+    def __str__(self):
+        return str('{}-{}').format(self.storage, self.name)
 
 
 
@@ -176,18 +238,3 @@ class Paper(models.Model):
 
 
 # TODO: у ключючей on_delete
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

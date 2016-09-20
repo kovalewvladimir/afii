@@ -10,11 +10,6 @@
         <link href="{% static 'inventory/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'inventory/css/dashboard.css' %}" rel="stylesheet">
 
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
         <script src="{% static 'inventory/js/jquery.min.js' %}"></script>
         <script src="{% static 'inventory/js/bootstrap.min.js' %}"></script>
         <!-- Поиск в таблице -->
@@ -40,20 +35,10 @@
                     <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Площадка <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="">Н16</a></li>
-                        <li><a href="">ИЗ</a></li>
+                        {% block header_space %}{% endblock %}
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Настройки <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="">Картриджи</a></li>
-                        <li><a href="">Принтер</a></li>
-                        <li class="divider"></li>
-                        <li><a href="">и т.п.</a></li>
-                    </ul>
-                </li>
-                <li><a href="">Помощь</a></li>
+                <li>{{ username }}</li>
                 </ul>
             </div>
             </div>
@@ -64,14 +49,7 @@
                 <div class="col-sm-3 col-md-2 sidebar hidden-print">
                     <ul class="nav nav-sidebar">
                         <li class="header">Площадка</li>
-                        <li class="active"><a href="n16.html">Н16</a></li>
-                        <li><a href="#">ИЗ</a></li>
-                    </ul>
-                    <ul class="nav nav-sidebar">
-                        <li class="header">Настройки</li>
-                        <li><a href="">Картриджи</a></li>
-                        <li><a href="">Принтер</a></li>
-                        <li><a href="">и т.п.</a></li>
+                        {% block left_menu_space %}{% endblock %}
                     </ul>
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
