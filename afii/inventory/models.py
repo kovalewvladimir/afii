@@ -74,7 +74,7 @@ class BasePrinter(models.Model):
     type_printing = models.CharField(max_length=10, choices=PRINTING_TYPE, verbose_name='Тип принтера')
     type = models.CharField(max_length=10, choices=PRINTER_TYPE, verbose_name='Тип устройства')
     color = models.CharField(max_length=10, choices=CARTRIDGE_COLOR, verbose_name='Цвет')
-    papers = models.CharField(max_length=50, choices=PAPER_TYPE, verbose_name='Формат бумаги')
+    type_paper = models.CharField(max_length=50, choices=PAPER_TYPE, verbose_name='Формат бумаги')
     info_consumables = models.URLField(max_length=200, blank=True, null=True, verbose_name='Информация по расходникам')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
 
@@ -88,8 +88,8 @@ class BaseCartridge(models.Model):
     """
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
     type = models.CharField(max_length=10, choices=CARTRIDGE_TYPE, verbose_name='Тип картриджа')
-    color = models.CharField(max_length=10, choices=CARTRIDGE_COLOR, blank=True, null=True, verbose_name='Цвет')
-    recycling = models.BooleanField(verbose_name='Рециклинг')
+    color = models.CharField(max_length=10, choices=CARTRIDGE_COLOR, blank=True, null=True, verbose_name='Цвет', help_text='Заполнить поле только для "тонер-картиржа"')
+    recycling = models.BooleanField(verbose_name='Рециклинг', help_text='Заполнить поле только для "тонер-картиржа"')
     base_printers = models.ManyToManyField(BasePrinter, blank=True, related_name='base_cartridges')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
 
@@ -121,14 +121,11 @@ class Printer(models.Model):
     login = models.CharField(max_length=50, blank=True, null=True, verbose_name='User')
     password = models.CharField(max_length=50, blank=True, null=True, verbose_name='Password')
     ip = models.CharField(max_length=15, verbose_name='IP')
-    sn = models.CharField(max_length=20, verbose_name='Серийный номер')
+    sn = models.CharField(max_length=20, blank=True, null=True, verbose_name='Серийный номер')
     date = models.DateField(blank=True, null=True, verbose_name='Дата установки')
     description = models.TextField(blank=True, null=True, verbose_name='Примечание')
-    image = models.ImageField(upload_to='printers/')
+    image = models.ImageField(blank=True, null=True, upload_to='printers/')
     delete = models.BooleanField(default=False, verbose_name='Удален?')
-
-    def get_cartridges(self):
-        return [c for bc in self.base_printer.base_cartridges.all() for c in bc.cartridges.select_related().all()]
 
     def __str__(self):
         return str("{}-{}-{}".format(self.space, self.cabinet, self.base_printer))
@@ -174,7 +171,7 @@ class Paper(models.Model):
     """
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
     space = models.ForeignKey(Space, related_name='papers', verbose_name='Площадка')
-    papers = models.CharField(max_length=50, choices=PAPER_TYPE, verbose_name='Формат бумаги')
+    type_paper = models.CharField(max_length=50, choices=PAPER_TYPE, verbose_name='Формат бумаги')
     size = models.CharField(max_length=50, verbose_name='Размеры', help_text='Например: 841мм X 175м')
     count = models.PositiveIntegerField(verbose_name='Кол-во')
     min_count = models.PositiveIntegerField(verbose_name='Минимальное кол-во')
@@ -193,7 +190,7 @@ class Distribution(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name='Наименование')
     space = models.ForeignKey(Space, related_name='distributions', verbose_name='Площадка')
     count = models.PositiveIntegerField(verbose_name='Кол-во')
-    image = models.ImageField(upload_to='distributions/')
+    image = models.ImageField(blank=True, null=True, upload_to='distributions/')
     delete = models.BooleanField(default=False, verbose_name='Удален?')
 
     def __str__(self):

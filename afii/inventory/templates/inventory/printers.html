@@ -1,0 +1,95 @@
+{% extends 'inventory/base.html' %}
+
+
+{% load staticfiles %}
+
+
+{% block head_js_script %}
+    <!-- Поиск в таблице -->
+    <script src="{% static 'inventory/js/search.table.js' %}"></script>
+    <!-- Сортировка в таблице -->
+    <script src="{% static 'inventory/js/sort.table.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+    <h1 class="page-header hidden-print">{% for s in space %}{% if s.pk == space_id %}{{ s.name }}{% endif %}{% endfor %} <small>площадка</small></h1>
+     <!-- Nav tabs -->
+    <ul class="nav nav-pills hidden-print">  <!--или class="nav nav-tabs" для табов-->
+        <li class="active"><a href="{% url 'inventory:printers' space_id %}" data-toggle="tab">Принтер</a></li>
+        <li><a href="{% url 'inventory:cartridges' space_id %}" data-toggle="tab">Картридж</a></li>
+        <li><a href="{% url 'inventory:zips' space_id %}" data-toggle="tab">ЗИПы</a></li>
+        <li><a href="{% url 'inventory:papers' space_id %}" data-toggle="tab">Бумага</a></li>
+        <li><a href="{% url 'inventory:distributions' space_id %}" data-toggle="tab">Дистрибутивы</a></li>
+        <li><a href="{% url 'inventory:computers' space_id %}" data-toggle="tab">Компьютеры</a></li>
+
+        <li><a href="#storage15" data-toggle="tab">Склад 15</a></li>
+        <li><a href="#" data-toggle="tab">и т.п.</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="printers">
+            <h2 class="sub-header hidden-print">
+                <div class="input-group">
+                    <input type="search" id="searchPrinter" class="form-control" placeholder="Поиск...">
+                    <span class="input-group-addon"></span>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="tblPrinter"></ul>
+                    </div>
+                </div>
+            </h2>
+            <div class="table-responsive">
+                <table id="tblPrinter" class="table table-striped table-bordered table-hover tableSort">
+                    <thead>
+                        <tr>
+                            <th><div>Модель</div></th>
+                            <th><div>Тонер картридж</div></th>
+                            <th><div>Драм картридж</div></th>
+                            <th><div>№ Кабинета</div></th>
+                            <th><div>IP</div></th>
+                            <th><div>Тип печати</div></th>
+                            <th><div>Тип устройства</div></th>
+                            <th><div>Формат бумаги</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for p in printers %}
+                        <tr>
+                            <td><a href="{% url 'inventory:printer' p.pk %}">{{ p.base_printer.name }}</a></td>
+                            <td>
+                                {% for bc in p.base_printer.base_cartridges.all %}
+                                    {% if bc.type == "TONER" %}
+                                        {% for c in bc.cartridges.all %}
+                                            {% if c.space.id == space_id %}
+                                                <a href="{% url 'inventory:cartridge' c.pk %}">{{ bc.name }}</a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for bc in p.base_printer.base_cartridges.all %}
+                                    {% if bc.type == "DRAMM" %}
+                                        {% for c in bc.cartridges.all %}
+                                            {% if c.space.id == space_id %}
+                                                <a href="{% url 'inventory:cartridge' c.pk %}">{{ bc.name }}</a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ p.cabinet }}</td>
+                            <td>{{ p.ip }}</td>
+                            <td>{{ p.base_printer.get_type_printing_display }}</td>
+                            <td>{{ p.base_printer.get_type_display }}</td>
+                            <td>{{ p.base_printer.get_papers_display }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
