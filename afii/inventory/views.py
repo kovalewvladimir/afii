@@ -49,15 +49,45 @@ def computers(request, space_id):
 
 
 def printer(request, id):
-    args = {}
+    p_db = models.Printer.objects
+    p_db = p_db.select_related()
+    p_db = get_object_or_404(p_db, pk=id)
 
-    printers = models.Printer.objects
-    printers = printers.select_related()
-    #printers = printers.prefetch_related('base_printer__base_cartridges__cartridges__space')
-    printers = get_object_or_404(printers, pk=id)
+    header = p_db.base_printer.name
+    printer_ip = p_db.ip
+    element = [
+        {'name': '№ Кабинета',               'value': p_db.cabinet},
+        {'name': 'Пользователь',              'value': p_db.user},
+        {'name': 'IP',                        'value': p_db.ip, 'link': p_db.ip},
+        {'name': 'User',                      'value': p_db.login},
+        {'name': 'Password',                  'value': p_db.password},
+        {'name': 'Тип печати',                'value': p_db.base_printer.get_type_printing_display},
+        {'name': 'Цвет тонера',               'value': p_db.base_printer.get_color_display},
+        {'name': 'Тип устройства',            'value': p_db.base_printer.get_type_display},
+        {'name': 'Формат бумаги',             'value': p_db.base_printer.get_type_paper_display},
+        {'name': 'Серийный номер',            'value': p_db.sn},
+        {'name': 'Дата установки',            'value': p_db.date},
+        {'name': 'Информация по расходникам', 'value': p_db.base_printer.info_consumables, 'link': p_db.base_printer.info_consumables},
+        {'name': 'Примечание',                'value': p_db.description},
+    ]
 
-    args['printer'] = printers
+    toner_db = p_db.base_printer.base_cartridges.exclude(type='DRAM')
+    dram_db = p_db.base_printer.base_cartridges.filter(type='DRAM')
 
+    toner = list()
+
+    for tc in toner_db:
+        toner.append({
+            'cartridge': tc.name,
+            'count': tc.
+            #todo:
+        })
+
+    args = {
+        'element': element,
+        'header': header,
+        'printer_ip': printer_ip
+    }
     return render(request, 'inventory/printer.html', args)
 
 

@@ -87,17 +87,17 @@
                     </form>
                     <div id="pageQRcode" class="center-block">
                         <div id="printQRcodeCount1" class="printQRcode">
-                            <h1 class="titleQRcode text-center">Xerox WC 238</h1> <img class="imgQRcode center-block">
-                            <p class="ipQRcode text-center">10.4.101.9</p>
+                            <h1 class="titleQRcode text-center">{{ header }}</h1> <img class="imgQRcode center-block">
+                            <p class="ipQRcode text-center">{{ printer_ip }}</p>
                         </div>
                         <div id="printQRcodeCount2" class="row">
                             <div class="printQRcode col-xs-6">
-                                <h1 class="titleQRcode text-center">Xerox WC 238</h1> <img class="imgQRcode center-block">
-                                <p class="ipQRcode text-center">10.4.101.9</p>
+                                <h1 class="titleQRcode text-center">{{ header }}</h1> <img class="imgQRcode center-block">
+                                <p class="ipQRcode text-center">{{ printer_ip }}</p>
                             </div>
                             <div class="printQRcode col-xs-6">
-                                <h1 class="titleQRcode text-center">Xerox WC 238</h1> <img class="imgQRcode center-block">
-                                <p class="ipQRcode text-center">10.4.101.9</p>
+                                <h1 class="titleQRcode text-center">{{ header }}</h1> <img class="imgQRcode center-block">
+                                <p class="ipQRcode text-center">{{ printer_ip }}</p>
                             </div>
                         </div>
                     </div>
@@ -113,7 +113,7 @@
 
 
 {% block content %}
-    <h1 class="page-header">{{printer.base_printer.name}} <small>Принтер</small>
+    <h1 class="page-header">{{ header }} <small>Принтер</small>
         <div class="btn-group">
           <button type="button" class="btn btn-default btn-sm" title="Редактиорвать"><span class="glyphicon glyphicon-pencil"></span></button>
           <button type="button" class="btn btn-default btn-sm" title="Удалить"><span class="glyphicon glyphicon-trash"></span></button>
@@ -124,7 +124,19 @@
         <div class="col-md-7">
             <table class="table">
                 <tbody>
-                    <tr>
+
+                    {% for e in element %}
+                        <tr>
+                            <td><strong>{{ e.name }}</strong></td>
+                            {% if e.link %}
+                                <td><a href="//{{ e.link }}" target="_blank">{{ e.value }}</a></td>
+                            {% else %}
+                                <td>{{ e.value }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+
+                    <!--<tr>
                         <td><strong>№ Кабинета</strong></td>
                         <td>{{ printer.cabinet }}</td>
                     </tr>
@@ -175,7 +187,7 @@
                     <tr>
                         <td><strong>Примечание</strong></td>
                         <td>{{ printer.description }}</td>
-                    </tr>
+                    </tr>-->
                 </tbody>
             </table>
         </div>
@@ -201,13 +213,6 @@
                     <td class="success">9</td>
                     <td>A-2</td>
                     <td>ЧБ</td>
-                    <td><a href="">Xerox WC 238</a></td>
-                </tr>
-                <tr>
-                    <td><a href="">106R01295</a></td>
-                    <td class="success">2</td>
-                    <td>A-2</td>
-                    <td>ЦВ</td>
                     <td><a href="">Xerox WC 238</a></td>
                 </tr>
             </tbody>

@@ -14,7 +14,7 @@ PRINTER_TYPE = (
 )
 CARTRIDGE_TYPE = (
     ('TONER', 'Тонер-картридж'),
-    ('DRAMM', 'Драм-картридж'),
+    ('DRAM', 'Драм-картридж'),
     ('JET', 'Струйный-картридж'),
 )
 CARTRIDGE_COLOR = (
@@ -79,7 +79,7 @@ class BasePrinter(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
 
     def __str__(self):
-        return str(self.name)
+        return str(str('{}-{}').format(self.pk, self.name))
 
 
 class BaseCartridge(models.Model):
