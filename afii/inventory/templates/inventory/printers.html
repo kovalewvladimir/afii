@@ -70,7 +70,7 @@
                             </td>
                             <td>
                                 {% for bc in p.base_printer.base_cartridges.all %}
-                                    {% if bc.type == "DRAMM" %}
+                                    {% if bc.type == "DRAM" %}
                                         {% for c in bc.cartridges.all %}
                                             {% if c.space.id == space_id %}
                                                 <a href="{% url 'inventory:cartridge' c.pk %}">{{ bc.name }}</a>
@@ -83,7 +83,7 @@
                             <td>{{ p.ip }}</td>
                             <td>{{ p.base_printer.get_type_printing_display }}</td>
                             <td>{{ p.base_printer.get_type_display }}</td>
-                            <td>{{ p.base_printer.get_papers_display }}</td>
+                            <td>{{ p.base_printer.get_type_paper_display }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

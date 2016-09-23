@@ -124,7 +124,6 @@
         <div class="col-md-7">
             <table class="table">
                 <tbody>
-
                     {% for e in element %}
                         <tr>
                             <td><strong>{{ e.name }}</strong></td>
@@ -135,59 +134,6 @@
                             {% endif %}
                         </tr>
                     {% endfor %}
-
-                    <!--<tr>
-                        <td><strong>№ Кабинета</strong></td>
-                        <td>{{ printer.cabinet }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Пользователь</strong></td>
-                        <td>{{ printer.user }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>IP</strong></td>
-                        <td><a href="{{ printer.ip }}">{{ printer. }}</a></td>
-                    </tr>
-                    <tr>
-                        <td><strong>User</strong></td>
-                        <td>{{ printer.login }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Password</strong></td>
-                        <td>{{ printer.password }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Тип печати</strong></td>
-                        <td>{{ printer.base_printer.get_type_printing_display }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Цвет тонера</strong></td>
-                        <td>{{ printer.base_printer.get_color_display }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Тип устройства</strong></td>
-                        <td>{{ printer.base_printer.get_type_display }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Формат бумаги</strong></td>
-                        <td>{{ printer.base_printer.get_type_paper_display }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Серийный номер</strong></td>
-                        <td>{{ printer.sn }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Дата установки</strong></td>
-                        <td>{% if printer.date %}{{ printer.date }}{% endif %}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Информация по расходникам</strong></td>
-                        <td><a href="{{ printer. }}">{{ printer.base_printer.info_consumables }}</a></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Примечание</strong></td>
-                        <td>{{ printer.description }}</td>
-                    </tr>-->
                 </tbody>
             </table>
         </div>
@@ -195,69 +141,77 @@
             <a href="{% if printer.image %}{{ printer.image.url }}{% else %}{% static 'inventory/img/default.png' %}{% endif %}" class="thumbnail"> <img src="{% if printer.image %}{{ printer.image.url }}{% else %}{% static 'inventory/img/default.png' %}{% endif %}" alt="{{ printer.base_printer.name }}"> </a>
         </div>
     </div>
-    <div class="panel panel-success">
-        <div class="panel-heading"><strong>Тонер картридж</strong></div>
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Картридж</th>
-                    <th>Кол-во</th>
-                    <th>Номер полки</th>
-                    <th>Цвет тонера</th>
-                    <th>Модель принтера</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><a href="">106R01294</a></td>
-                    <td class="success">9</td>
-                    <td>A-2</td>
-                    <td>ЧБ</td>
-                    <td><a href="">Xerox WC 238</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="panel panel-danger">
-        <div class="panel-heading"><strong>Драм картридж</strong></div>
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Картридж</th>
-                    <th>Кол-во</th>
-                    <th>Номер полки</th>
-                    <th>Модель принтера</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><a href="">113R01294</a></td>
-                    <td class="danger">0</td>
-                    <td>A-4</td>
-                    <td><a href="">Xerox WC 238</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="panel panel-warning">
-        <div class="panel-heading"><strong>ЗИПы</strong></div>
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Код</th>
-                    <th>Тип</th>
-                    <th>Кол-во</th>
-                    <th>Модель принтера</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><a href="">126K29404</a></td>
-                    <td>Фьюзер</td>
-                    <td class="warning">1</td>
-                    <td><a href="">Xerox WC 238</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    {% if toner %}
+        <div class="panel panel-{{ toner_table_status }}">
+            <div class="panel-heading"><strong>Тонер картридж</strong></div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Картридж</th>
+                        <th>Кол-во</th>
+                        <th>Номер полки</th>
+                        <th>Цвет тонера</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in toner %}
+                        <tr>
+                            <td><a href="{{ t.link }}">{{ t.name }}</a></td>
+                            <td class="{{ t.status }}">{{ t.count }}</td>
+                            <td>{{ t.shelf }}</td>
+                            <td>{{ t.color }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    {% if dram %}
+        <div class="panel panel-{{ dram_table_status }}">
+            <div class="panel-heading"><strong>Драм картридж</strong></div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Картридж</th>
+                        <th>Кол-во</th>
+                        <th>Номер полки</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for d in dram %}
+                            <td><a href="{{ d.link }}">{{ d.name }}</a></td>
+                            <td class="{{ d.status }}">{{ d.count }}</td>
+                            <td>{{ d.shelf }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    {% if zip %}
+        <div class="panel panel-{{ zip_table_status }}">
+            <div class="panel-heading"><strong>ЗИПы</strong></div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Код</th>
+                        <th>Тип</th>
+                        <th>Кол-во</th>
+                        <th>Номер полки</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for z in zip %}
+                            <td><a href="{{ z.link }}">{{ z.name }}</a></td>
+                            <td>{{ z.type }}</td>
+                            <td class="{{ z.status }}">{{ z.count }}</td>
+                            <td>{{ z.shelf }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
 {% endblock %}
