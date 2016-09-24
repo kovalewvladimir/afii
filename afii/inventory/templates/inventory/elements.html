@@ -1,0 +1,55 @@
+{% extends 'inventory/base.html' %}
+{% load staticfiles %}
+
+
+{% comment "Переменные шаблона" %}
+    Шаблон наследует 'inventory/base.html' и все его переменные.
+
+    {{ name_element }}        - заголовок
+    {{ type_element }}        - тип (например: Принтер, картридж, и тп.)
+    {{ link_image_element }}  - ссылка на картинку
+    {{ link_edit_element }}   - ссылка на страницу редактирования
+    {{ elements }}            - список элементов отображения
+{% endcomment %}
+
+{% comment "Блоки шаблона" %}
+    Шаблон наследует 'inventory/base.html' и все его блоки.
+
+    {% block header_button %}      - блок кнопок (например: кнопка 'qrcode', кнопка 'изменить')
+    {% block additional_content %} - блок дополнительной информации
+{% endcomment %}
+
+
+{% block content %}
+    <h1 class="page-header">{{ name_element }} <small>{{ type_element }}</small>
+        <div class="btn-group">
+            <a href="{{ link_edit_element }}" class="btn btn-default btn-sm" title="Редактировать"><span class="glyphicon glyphicon-pencil"></span></a>
+            {% block header_button %}{% endblock %}
+        </div>
+    </h1>
+    <div class="row">
+        <div class="col-md-7">
+            <table class="table">
+                <tbody>
+                    {% for e in elements %}
+                        <tr>
+                            <td><strong>{{ e.name }}</strong></td>
+                            {% if e.link %}
+                                <td><a href="//{{ e.link }}" target="_blank">{{ e.value }}</a></td>
+                            {% elif e.status %}
+                                <td class="{{ e.status }}">{{ e.value }}</td>
+                            {% else %}
+                                <td>{{ e.value }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-5">
+            <a href="{{ link_image_element }}" class="thumbnail"><img src="{{ link_image_element }}" alt="{{ name_element }}"></a>
+        </div>
+    </div>
+
+    {% block additional_content %}{% endblock %}
+{% endblock %}
