@@ -4,6 +4,8 @@
 
 {% comment "Переменные шаблона" %}
     Шаблон наследует 'inventory/elements.html' и все его переменные.
+    В шаблон подключается (include) 'inventory/block_table.html'.
+
 
     {{ printer_ip }}         - ip принтера
     {{ toner }}              - тонер-картридж для принтера
@@ -133,74 +135,19 @@
     {% if toner %}
         <div class="panel panel-{{ toner_table_status }}">
             <div class="panel-heading"><strong>Тонер картридж</strong></div>
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>Картридж</th>
-                        <th>Кол-во</th>
-                        <th>Номер полки</th>
-                        <th>Цвет тонера</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for t in toner %}
-                        <tr>
-                            <td><a href="{{ t.link }}">{{ t.name }}</a></td>
-                            <td class="{{ t.status }}">{{ t.count }}</td>
-                            <td>{{ t.shelf }}</td>
-                            <td>{{ t.color }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% include 'inventory/block_table.html' with  table=toner add_table_class='table-bordered table-hover' %}
         </div>
     {% endif %}
     {% if dram %}
         <div class="panel panel-{{ dram_table_status }}">
             <div class="panel-heading"><strong>Драм картридж</strong></div>
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>Картридж</th>
-                        <th>Кол-во</th>
-                        <th>Номер полки</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {% for d in dram %}
-                            <td><a href="{{ d.link }}">{{ d.name }}</a></td>
-                            <td class="{{ d.status }}">{{ d.count }}</td>
-                            <td>{{ d.shelf }}</td>
-                        {% endfor %}
-                    </tr>
-                </tbody>
-            </table>
+            {% include 'inventory/block_table.html' with  table=dram add_table_class='table-bordered table-hover' %}
         </div>
     {% endif %}
     {% if zip %}
         <div class="panel panel-{{ zip_table_status }}">
             <div class="panel-heading"><strong>ЗИПы</strong></div>
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>Код</th>
-                        <th>Тип</th>
-                        <th>Кол-во</th>
-                        <th>Номер полки</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {% for z in zip %}
-                            <td><a href="{{ z.link }}">{{ z.name }}</a></td>
-                            <td>{{ z.type }}</td>
-                            <td class="{{ z.status }}">{{ z.count }}</td>
-                            <td>{{ z.shelf }}</td>
-                        {% endfor %}
-                    </tr>
-                </tbody>
-            </table>
+            {% include 'inventory/block_table.html' with  table=zip add_table_class='table-bordered table-hover' %}
         </div>
     {% endif %}
 {% endblock %}

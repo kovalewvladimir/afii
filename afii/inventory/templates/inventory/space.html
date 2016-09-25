@@ -4,6 +4,7 @@
 
 {% comment "Переменные шаблона" %}
     Шаблон наследует 'inventory/base.html' и все его переменные.
+    В шаблон подключается (include) 'inventory/block_table.html'.
 
     {{ name_space }}   - имя площадки
     {{ table }}        - таблица
@@ -68,7 +69,9 @@
                         </div>
                     </div>
                 </h2>
-                {% include 'inventory/block_table.html' with id_table='table' %}
+                <div class="table-responsive">
+                    {% include 'inventory/block_table.html' with id_table='table' add_table_class='table-striped table-bordered table-hover tableSort' %}
+                </div>
             {% endblock %}
         </div>
     </div>

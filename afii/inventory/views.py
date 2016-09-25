@@ -206,54 +206,70 @@ def printer(request, id_printer):
     dram_db = p_db.get_dram_cartridges()
     zip_db = p_db.get_zips()
 
-    toner, toner_table_status = None, None
     if toner_db is not None:
-        toner = list()
+        toner = {
+            'header': [
+                'Картридж',
+                'Кол-во',
+                'Номер полки',
+                'Цвет тонера',
+            ],
+            'value': [],
+        }
         toner_table_status = 'success'
         for t in toner_db:
             status = get_status(t.count, t.min_count)
-            value = {
-                'name': t.base_cartridge.name,
-                'link': reverse('inventory:cartridge', args=[t.pk]),
-                'count': t.count,
-                'shelf': t.shelf,
-                'color': t.base_cartridge.get_color_display,
-                'status': status,
-            }
+            toner['value'].append([
+                {'name': t.base_cartridge.name, 'link': reverse('inventory:cartridge', args=[t.pk])},
+                {'name': t.count, 'status': status},
+                {'name': t.shelf},
+                {'name': t.base_cartridge.get_color_display},
+            ])
             toner_table_status = get_status_table(toner_table_status, status)
-            toner.append(value)
+    else:
+        toner, toner_table_status = None, None
 
     if dram_db is not None:
-        dram = list()
+        dram = {
+            'header': [
+                'Картридж',
+                'Кол-во',
+                'Номер полки',
+            ],
+            'value': [],
+        }
         dram_table_status = 'success'
         for d in dram_db:
             status = get_status(d.count, d.min_count)
-            value = {
-                'name': d.base_cartridge.name,
-                'link': reverse('inventory:cartridge', args=[d.pk]),
-                'count': d.count, 'shelf': d.shelf,
-                'status': status,
-            }
+            dram['value'].append([
+                {'name': d.base_cartridge.name, 'link': reverse('inventory:cartridge', args=[d.pk])},
+                {'name': d.count, 'status': status},
+                {'name': d.shelf},
+            ])
             dram_table_status = get_status_table(dram_table_status, status)
-            dram.append(value)
     else:
         dram, dram_table_status = None, None
 
     if zip_db is not None:
-        zip = list()
+        zip = {
+            'header': [
+                'Код',
+                'Тип',
+                'Кол-во',
+                'Номер полки',
+            ],
+            'value': [],
+        }
         zip_table_status = 'success'
         for z in zip_db:
             status = get_status(z.count, z.min_count)
-            value = {
-                'name': z.base_zip.name,
-                'link': reverse('inventory:zip', args=[z.pk]),
-                'type': z.base_zip.type,
-                'count': z.count,
-                'shelf': z.shelf,
-                'status': status,
-            }
+            zip['value'].append([
+                {'name': z.base_zip.name, 'link': reverse('inventory:zip', args=[z.pk])},
+                {'name': z.base_zip.type},
+                {'name': z.count, 'status': status},
+                {'name': z.shelf},
+            ])
             zip_table_status = get_status_table(zip_table_status, status)
-            zip.append(value)
     else:
         zip, zip_table_status = None, None
 
