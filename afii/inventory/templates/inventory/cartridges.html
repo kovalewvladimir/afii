@@ -1,0 +1,67 @@
+{% extends 'inventory/space.html' %}
+{% load staticfiles %}
+
+
+{% comment "Переменные шаблона" %}
+    Шаблон наследует 'inventory/space.html' и все его переменные.
+
+    {{ count_stock }}     - кол-во картриджей в наличии
+    {{ count_recycling }} - кол-во картриджей в рециклинг
+    {{ table_stock }}     - таблица картриджей в наличии
+    {{ table_recycling }} - таблица картриджей в рециклинг
+{% endcomment %}
+
+{% comment "Блоки шаблона" %}
+    Шаблон наследует 'inventory/space.html' и все его блоки.
+{% endcomment %}
+
+
+{% block tab_content %}
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-pills nav-sub-tabs  hidden-print">  <!--или class="nav nav-tabs" для табов-->
+        <li class="active"><a href="#cartridges-stock" data-toggle="tab" aria-expanded="true"><span class="badge pull-right">{{ count_stock }}</span>В наличии</a></li>
+        <li><a href="#cartridge-recycling" data-toggle="tab" aria-expanded="true"><span class="badge pull-right">{{ count_recycling }}</span>На заправку</a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="cartridges-stock">
+            <h2 class="sub-header hidden-print">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="btn-group btn-group-justified">
+                            <div class="btn-group">
+                                <a href="{{ btn_link_add }}" class="btn btn-default" title="Добавить">{{ btn_name_add }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <input type="search" class="form-control" placeholder="Поиск...">
+                            <span class="input-group-addon">по</span>
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span></button>
+                                <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="tblCartridgesStock"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </h2>
+            {% include 'inventory/block_table.html' with id_table='tblCartridgesStock' table=table_stock only %}
+        </div>
+
+        <div class="tab-pane" id="cartridge-recycling">
+            <h2 class="sub-header hidden-print">
+                <div class="input-group">
+                    <input type="search" class="form-control" placeholder="Поиск...">
+                    <span class="input-group-addon">по</span>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="tblCartridgeRecycling"></ul>
+                    </div>
+                </div>
+            </h2>
+            {% include 'inventory/block_table.html' with id_table='tblCartridgeRecycling' table=table_recycling only %}
+        </div>
+    </div>
+{% endblock %}

@@ -6,11 +6,7 @@ urlpatterns = [
     url(r'^space/(\d+)/', include([
         url(r'^$', views.printers, name='space'),
         url(r'^printers/$', views.printers, name='printers'),
-        url(r'^cartridges/', include([
-            url(r'^$', views.cartridges, name='cartridges'),
-            url(r'^stock/', views.cartridges_stock, name='cartridges_stock'),
-            url(r'^recycling/', views.cartridges_recycling, name='cartridges_recycling'),
-        ])),
+        url(r'^cartridges/$', views.cartridges, name='cartridges'),
         url(r'^zips/$', views.zips, name='zips'),
         url(r'^papers/$', views.papers, name='papers'),
         url(r'^distributions/$', views.distributions, name='distributions'),

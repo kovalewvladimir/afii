@@ -82,7 +82,7 @@ def printers(request, space_id=1):
     return render(request, 'inventory/space.html', args)
 
 
-def cartridges(request, space_id, type=None):
+def cartridges(request, space_id):
     space_id = int(space_id)
     name_space = get_object_or_404(models.Space, pk=space_id).name
 
@@ -90,9 +90,9 @@ def cartridges(request, space_id, type=None):
     c_db = c_db.select_related()
     c_db = c_db.prefetch_related('base_cartridge__base_printers__printers__space')
     c_db = c_db.filter(delete=False)
-    c_db = get_list_or_404(c_db, space__pk=space_id)
+    c_db = c_db.filter(space__pk=space_id)
 
-    table = {
+    table_stock = {
         'header': [
             'Картридж',
             'Тип',
@@ -103,11 +103,22 @@ def cartridges(request, space_id, type=None):
         'value': [],
     }
 
+    table_recycling = {
+        'header': [
+            'Картридж',
+            'В наличии',
+            'В рециклинг',
+            'Модель принтера',
+        ],
+        'value': [],
+    }
+
+    count_stock, count_recycling = 0, 0
     for c in c_db:
-        table['value'].append([
+        table_stock['value'].append([
             {'name': c.base_cartridge.name, 'link': reverse('inventory:cartridge', args=[c.pk])},
             {'name': c.base_cartridge.get_type_display},
-            {'name': c.count},
+            {'name': c.count, 'status': get_status(c.count, c.min_count)},
             {'name': c.shelf},
             {'for_items': [{'name': p.base_printer.name,
                             'link': reverse('inventory:printer', args=[p.pk])}
@@ -115,24 +126,32 @@ def cartridges(request, space_id, type=None):
                            for p in bp.printers.all()
                            if p.space.pk == space_id]},
         ])
+        count_stock += c.count
+        if c.base_cartridge.recycling and c.base_cartridge.type != 'DRAM' and c.count_recycling > 0:
+            table_recycling['value'].append([
+                {'name': c.base_cartridge.name, 'link': reverse('inventory:cartridge', args=[c.pk])},
+                {'name': c.count, 'status': get_status(c.count, c.min_count)},
+                {'name': c.count_recycling},
+                {'for_items': [{'name': p.base_printer.name,
+                                'link': reverse('inventory:printer', args=[p.pk])}
+                               for bp in c.base_cartridge.base_printers.all()
+                               for p in bp.printers.all()
+                               if p.space.pk == space_id]},
+            ])
+            count_recycling += c.count_recycling
 
     args = {
         'space_id': space_id,
         'name_space': name_space,
         'btn_link_add': reverse('admin:inventory_cartridge_add'),
         'btn_name_add': 'Добавить картридж',
-        'table': table,
+        'table_stock': table_stock,
+        'table_recycling': table_recycling,
+        'count_stock': count_stock,
+        'count_recycling': count_recycling,
         'active_tab': 2,
     }
-    return render(request, 'inventory/space.html', args)
-
-
-def cartridges_stock(request, space_id):
-    return cartridges(request, space_id, 'stock')
-
-
-def cartridges_recycling(request, space_id):
-    return cartridges(request, space_id, 'recycling')
+    return render(request, 'inventory/cartridges.html', args)
 
 
 def zips(request, space_id):
@@ -273,9 +292,9 @@ def cartridge(request, id_cartridge):
     if c_db.base_cartridge.type != 'DRAM':
         recycling = c_db.base_cartridge.recycling
         elements.insert(2, {'name': 'Цвет тонера', 'value': c_db.base_cartridge.get_color_display})
-        elements.insert(3, {'name': 'Рециклинк', 'value': 'Да' if recycling else 'Нет'})
+        elements.insert(3, {'name': 'Рециклинг', 'value': 'Да' if recycling else 'Нет'})
         if recycling:
-            elements.insert(4, {'name': 'Кол-во в рециклинк', 'value': c_db.count_recycling})
+            elements.insert(4, {'name': 'Кол-во в рециклинг', 'value': c_db.count_recycling})
 
     args = {
         'elements': elements,
