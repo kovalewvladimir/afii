@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from inventory import models
 
+# TODO: Переименовать функции и локальные переменные функций (например: printers, zip и тп.)
 
 # TODO: Убрать функции get_status, get_status_table в отдельный пакет
 def get_status(current, minimum):
@@ -296,6 +297,8 @@ def cartridge(request, id_cartridge):
     c_db = c_db.select_related()
     c_db = get_object_or_404(c_db, pk=id_cartridge)
 
+    space_id = c_db.space.pk
+
     name_element = c_db.base_cartridge.name
     elements = [
         {'name': 'Тип', 'value': c_db.base_cartridge.get_type_display},
@@ -312,15 +315,58 @@ def cartridge(request, id_cartridge):
         if recycling:
             elements.insert(4, {'name': 'Кол-во в рециклинг', 'value': c_db.count_recycling})
 
+    p_db = c_db.get_printers()
+
+    if p_db is not None:
+        printers = {
+            'header': [
+                'Модель',
+                'Тонер картридж',
+                'Драм картридж',
+                '№ Кабинета',
+                'IP',
+                'Тип печати',
+                'Тип устройства',
+                'Формат бумаги',
+            ],
+            'value': [],
+        }
+
+        for p in p_db:
+            printers['value'].append([
+                {'name': p.base_printer.name, 'link': reverse('inventory:printer', args=[p.pk])},
+                {'for_items': [{'name': c.base_cartridge.name,
+                                'link': reverse('inventory:cartridge', args=[c.pk])}
+                               for bc in p.base_printer.base_cartridges.all()
+                               for c in bc.cartridges.all()
+                               if c.base_cartridge.type != 'DRAM'
+                               if c.space.pk == space_id]},
+                {'for_items': [{'name': c.base_cartridge.name,
+                                'link': reverse('inventory:cartridge', args=[c.pk])}
+                               for bc in p.base_printer.base_cartridges.all()
+                               for c in bc.cartridges.all()
+                               if c.base_cartridge.type == 'DRAM'
+                               if c.space.pk == space_id]},
+                {'name': p.cabinet},
+                {'name': p.ip, 'link': '//' + p.ip},
+                {'name': p.base_printer.get_type_printing_display},
+                {'name': p.base_printer.get_type_display},
+                {'name': p.base_printer.get_type_paper_display},
+            ])
+    else:
+        printers = None
+
+
     args = {
         'elements': elements,
         'name_element': name_element,
         'type_element': 'Картридж',
+        'printers': printers,
         'link_image_element': c_db.image.url if c_db.image else static('inventory/img/default.png'),
         'link_edit_element': reverse('admin:inventory_cartridge_change', args=(id_cartridge,)),
-        'space_id': c_db.space.pk,
+        'space_id': space_id,
     }
-    return render(request, 'inventory/elements.html', args)
+    return render(request, 'inventory/cartridge_or_zip.html', args)
 
 
 def zip(request, id):

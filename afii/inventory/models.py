@@ -181,6 +181,17 @@ class Cartridge(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='cartridges/')
     delete = models.BooleanField(default=False, verbose_name='Удален?')
 
+    def get_printers(self):
+        """
+        Выборка принтера
+        """
+        base_printers = self.base_cartridge.base_printers.all()
+        printers = [p for bp in base_printers for p in bp.printers.filter(space__pk=self.space.pk).filter(delete=False)]
+        if len(printers) == 0:
+            return None
+        return printers
+
+
     def __str__(self):
         return str('{}-{}'.format(self.space, self.base_cartridge))
 

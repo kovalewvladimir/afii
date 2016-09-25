@@ -1,0 +1,12 @@
+{% extends 'inventory/elements.html' %}
+{% load staticfiles %}
+
+
+{% block additional_content %}
+    {% if printers %}
+        <div class="panel panel-default">
+            <div class="panel-heading"><strong>Принтер</strong></div>
+            {% include 'inventory/block_table.html' with  table=printers add_table_class='table-bordered table-hover' %}
+        </div>
+    {% endif %}
+{% endblock %}
