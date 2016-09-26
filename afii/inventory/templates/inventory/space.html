@@ -33,10 +33,10 @@
     <ul class="nav nav-pills hidden-print">  <!--или class="nav nav-tabs" для табов-->
         <li{% if active_tab == 1 %} class="active"{% endif %}><a href="{% url 'inventory:printers' space_id %}">Принтер</a></li>
         <li{% if active_tab == 2 %} class="active"{% endif %}><a href="{% url 'inventory:cartridges' space_id %}">Картридж</a></li>
-        <!--<li{% if active_tab == 3 %} class="active"{% endif %}><a href="{% url 'inventory:zips' space_id %}">ЗИПы</a></li>-->
-        <!--<li{% if active_tab == 4 %} class="active"{% endif %}><a href="{% url 'inventory:papers' space_id %}">Бумага</a></li>-->
-        <!--<li{% if active_tab == 5 %} class="active"{% endif %}><a href="{% url 'inventory:distributions' space_id %}">Дистрибутивы</a></li>-->
-        <!--<li{% if active_tab == 6 %} class="active"{% endif %}><a href="{% url 'inventory:computers' space_id %}">Компьютеры</a></li>-->
+        <li{% if active_tab == 3 %} class="active"{% endif %}><a href="{% url 'inventory:zips' space_id %}">ЗИПы</a></li>
+        <li{% if active_tab == 4 %} class="active"{% endif %}><a href="{% url 'inventory:papers' space_id %}">Бумага</a></li>
+        <li{% if active_tab == 5 %} class="active"{% endif %}><a href="{% url 'inventory:distributions' space_id %}">Дистрибутивы</a></li>
+        <li{% if active_tab == 6 %} class="active"{% endif %}><a href="{% url 'inventory:computers' space_id %}">Компьютеры</a></li>
 
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Склад <span class="caret"></span></a>

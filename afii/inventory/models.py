@@ -58,8 +58,11 @@ class Storage(models.Model):
     """
     Склад
     """
+    class Meta:
+        unique_together = ('name', 'space',)
+
     space = models.ForeignKey(Space, related_name='storage', verbose_name='Площадка')
-    name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
+    name = models.CharField(max_length=50, verbose_name='Имя')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
 
     def __str__(self):
@@ -191,7 +194,6 @@ class Cartridge(models.Model):
             return None
         return printers
 
-
     def __str__(self):
         return str('{}-{}'.format(self.space, self.base_cartridge))
 
@@ -209,6 +211,16 @@ class Zip(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='zips/')
     delete = models.BooleanField(default=False, verbose_name='Удален?')
 
+    def get_printers(self):
+        """
+        Выборка принтера
+        """
+        base_printers = self.base_zip.base_printers.all()
+        printers = [p for bp in base_printers for p in bp.printers.filter(space__pk=self.space.pk).filter(delete=False)]
+        if len(printers) == 0:
+            return None
+        return printers
+
     def __str__(self):
         return str('{}-{}').format(self.space, self.base_zip)
 
@@ -217,7 +229,10 @@ class Paper(models.Model):
     """
     Бумага
     """
-    name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
+    class Meta:
+        unique_together = ('name', 'space',)
+
+    name = models.CharField(max_length=50, verbose_name='Имя')
     space = models.ForeignKey(Space, related_name='papers', verbose_name='Площадка')
     type_paper = models.CharField(max_length=50, choices=PAPER_TYPE, verbose_name='Формат бумаги')
     size = models.CharField(max_length=50, verbose_name='Размеры', help_text='Например: 841мм X 175м')
@@ -235,7 +250,10 @@ class Distribution(models.Model):
     """
     Дистрибутивы
     """
-    name = models.CharField(max_length=50, unique=True, verbose_name='Наименование')
+    class Meta:
+        unique_together = ('name', 'space',)
+
+    name = models.CharField(max_length=50, verbose_name='Наименование')
     space = models.ForeignKey(Space, related_name='distributions', verbose_name='Площадка')
     count = models.PositiveIntegerField(verbose_name='Кол-во')
     image = models.ImageField(blank=True, null=True, upload_to='distributions/')

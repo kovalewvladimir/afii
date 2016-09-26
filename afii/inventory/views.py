@@ -6,7 +6,7 @@ from inventory import models
 
 # TODO: Переименовать функции и локальные переменные функций (например: printers, zip и тп.)
 
-# TODO: Убрать функции get_status, get_status_table в отдельный пакет
+# TODO: Убрать функции get_status, get_status_table в отдельный модуль utils
 def get_status(current, minimum):
     if current > minimum:
         return 'success'
@@ -156,27 +156,159 @@ def cartridges(request, space_id):
 
 
 def zips(request, space_id):
-    args = {}
-    args['space_id'] = int(space_id)
-    return render(request, 'inventory/.html', args)
+    space_id = int(space_id)
+    name_space = get_object_or_404(models.Space, pk=space_id).name
+
+    z_db = models.Zip.objects
+    z_db = z_db.select_related()
+    z_db = z_db.prefetch_related('base_zip__base_printers__printers__space')
+    z_db = z_db.filter(delete=False)
+    z_db = z_db.filter(space__pk=space_id)
+
+    table = {
+        'header': [
+            'Код',
+            'Тип',
+            'Кол-во',
+            'Модель принтера',
+        ],
+        'value': [],
+    }
+
+    for z in z_db:
+        table['value'].append([
+            {'name': z.base_zip.name, 'link': reverse('inventory:zip', args=[z.pk])},
+            {'name': z.base_zip.type},
+            {'name': z.count, 'status': get_status(z.count, z.min_count)},
+            {'for_items': [{'name': p.base_printer.name,
+                            'link': reverse('inventory:printer', args=[p.pk])}
+                           for bp in z.base_zip.base_printers.all()
+                           for p in bp.printers.all()
+                           if p.space.pk == space_id]},
+        ])
+
+    args = {
+        'space_id': space_id,
+        'name_space': name_space,
+        'table': table,
+        'btn_link_add': reverse('admin:inventory_zip_add'),
+        'btn_name_add': 'Добавить ЗИП',
+        'active_tab': 3,
+    }
+    return render(request, 'inventory/space.html', args)
 
 
 def papers(request, space_id):
-    args = {}
-    args['space_id'] = int(space_id)
-    return render(request, 'inventory/.html', args)
+    space_id = int(space_id)
+    name_space = get_object_or_404(models.Space, pk=space_id).name
+
+    p_db = models.Paper.objects
+    p_db = p_db.filter(delete=False)
+    p_db = p_db.filter(space__pk=space_id)
+
+    table = {
+        'header': [
+            'Номер',
+            'Формат',
+            'Размеры',
+            'Кол-во рулонов',
+        ],
+        'value': [],
+    }
+
+    for p in p_db:
+        table['value'].append([
+            {'name': p.name, 'link': reverse('inventory:paper', args=[p.pk])},
+            {'name': p.get_type_paper_display},
+            {'name': p.size},
+            {'name': p.count, 'status': get_status(p.count, p.min_count)},
+        ])
+
+    args = {
+        'space_id': space_id,
+        'name_space': name_space,
+        'table': table,
+        'btn_link_add': reverse('admin:inventory_paper_add'),
+        'btn_name_add': 'Добавить бумагу',
+        'active_tab': 4,
+    }
+    return render(request, 'inventory/space.html', args)
 
 
 def distributions(request, space_id):
-    args = {}
-    args['space_id'] = int(space_id)
-    return render(request, 'inventory/.html', args)
+    space_id = int(space_id)
+    name_space = get_object_or_404(models.Space, pk=space_id).name
+
+    d_db = models.Distribution.objects
+    d_db = d_db.filter(delete=False)
+    d_db = d_db.filter(space__pk=space_id)
+
+    table = {
+        'header': [
+            '№',
+            'Наименование',
+            'Кол-во',
+        ],
+        'value': [],
+    }
+
+    for d in d_db:
+        table['value'].append([
+            {'name': d.pk},
+            {'name': d.name, 'link': reverse('inventory:distribution', args=[d.pk])},
+            {'name': d.count},
+        ])
+
+    args = {
+        'space_id': space_id,
+        'name_space': name_space,
+        'table': table,
+        'btn_link_add': reverse('admin:inventory_distribution_add'),
+        'btn_name_add': 'Добавить дистрибутив',
+        'active_tab': 5,
+    }
+    return render(request, 'inventory/space.html', args)
 
 
 def computers(request, space_id):
-    args = {}
-    args['space_id'] = int(space_id)
-    return render(request, 'inventory/.html', args)
+    space_id = int(space_id)
+    name_space = get_object_or_404(models.Space, pk=space_id).name
+
+    c_db = models.Computer.objects
+    c_db = c_db.filter(delete=False)
+    c_db = c_db.filter(space__pk=space_id)
+
+    table = {
+        'header': [
+            '№',
+            'Процессор',
+            'Материнская плата',
+            'Оперативная память',
+            'Видеокарта',
+            'Сетевой адаптер',
+        ],
+        'value': [],
+    }
+
+    for c in c_db:
+        table['value'].append([
+            {'name': c.pk, 'link': reverse('inventory:computer', args=[c.pk])},
+            {'name': c.cpu},
+            {'name': c.motherboard},
+            {'name': c.ram},
+            {'name': c.gpu},
+            {'name': c.get_lan_display},
+        ])
+
+    args = {
+        'space_id': space_id,
+        'name_space': name_space,
+        'table': table,
+        'btn_link_add': reverse('admin:inventory_computer_add'),
+        'btn_name_add': 'Добавить компьютер',
+        'active_tab': 6,
+    }
+    return render(request, 'inventory/space.html', args)
 
 
 def printer(request, id_printer):
@@ -317,6 +449,7 @@ def cartridge(request, id_cartridge):
 
     p_db = c_db.get_printers()
 
+    # TODO: Вынести в отдельный метод тк используется два раза
     if p_db is not None:
         printers = {
             'header': [
@@ -369,14 +502,102 @@ def cartridge(request, id_cartridge):
     return render(request, 'inventory/cartridge_or_zip.html', args)
 
 
-def zip(request, id):
-    args = {}
-    return render(request, 'inventory/.html', args)
+def zip(request, id_zip):
+    z_db = models.Zip.objects
+    z_db = z_db.select_related()
+    z_db = get_object_or_404(z_db, pk=id_zip)
+
+    space_id = z_db.space.pk
+
+    name_element = z_db.base_zip.name
+    elements = [
+        {'name': 'Тип', 'value': z_db.base_zip.type},
+        {'name': '№ полки', 'value': z_db.shelf},
+        {'name': 'Кол-во', 'value': z_db.count, 'status': get_status(z_db.count, z_db.min_count)},
+        {'name': 'Минимальное кол-во', 'value': z_db.min_count},
+        {'name': 'Примечание', 'value': z_db.description},
+    ]
+
+    p_db = z_db.get_printers()
+
+    # TODO: Вынести в отдельный метод тк используется два раза
+    if p_db is not None:
+        printers = {
+            'header': [
+                'Модель',
+                'Тонер картридж',
+                'Драм картридж',
+                '№ Кабинета',
+                'IP',
+                'Тип печати',
+                'Тип устройства',
+                'Формат бумаги',
+            ],
+            'value': [],
+        }
+
+        for p in p_db:
+            printers['value'].append([
+                {'name': p.base_printer.name, 'link': reverse('inventory:printer', args=[p.pk])},
+                {'for_items': [{'name': c.base_cartridge.name,
+                                'link': reverse('inventory:cartridge', args=[c.pk])}
+                               for bc in p.base_printer.base_cartridges.all()
+                               for c in bc.cartridges.all()
+                               if c.base_cartridge.type != 'DRAM'
+                               if c.space.pk == space_id]},
+                {'for_items': [{'name': c.base_cartridge.name,
+                                'link': reverse('inventory:cartridge', args=[c.pk])}
+                               for bc in p.base_printer.base_cartridges.all()
+                               for c in bc.cartridges.all()
+                               if c.base_cartridge.type == 'DRAM'
+                               if c.space.pk == space_id]},
+                {'name': p.cabinet},
+                {'name': p.ip, 'link': '//' + p.ip},
+                {'name': p.base_printer.get_type_printing_display},
+                {'name': p.base_printer.get_type_display},
+                {'name': p.base_printer.get_type_paper_display},
+            ])
+    else:
+        printers = None
 
 
-def paper(request, id):
-    args = {}
-    return render(request, 'inventory/.html', args)
+    args = {
+        'elements': elements,
+        'name_element': name_element,
+        'type_element': 'ЗИП',
+        'printers': printers,
+        'link_image_element': z_db.image.url if z_db.image else static('inventory/img/default.png'),
+        'link_edit_element': reverse('admin:inventory_zip_change', args=(id_zip,)),
+        'space_id': space_id,
+    }
+    return render(request, 'inventory/cartridge_or_zip.html', args)
+
+
+def paper(request, id_paper):
+    p_db = models.Paper.objects
+    p_db = p_db.select_related()
+    p_db = get_object_or_404(p_db, pk=id_paper)
+
+    space_id = p_db.space.pk
+
+    name_element = p_db.name
+    elements = [
+        {'name': 'Формат', 'value': p_db.get_type_paper_display},
+        {'name': 'Размеры', 'value': p_db.size},
+        {'name': 'Кол-во', 'value': p_db.count, 'status': get_status(p_db.count, p_db.min_count)},
+        {'name': 'Минимальное кол-во', 'value': p_db.min_count},
+        {'name': 'Примечание', 'value': p_db.description},
+    ]
+
+    args = {
+        'elements': elements,
+        'name_element': name_element,
+        'type_element': 'Бумага',
+        'link_image_element': p_db.image.url if p_db.image else static('inventory/img/default.png'),
+        'link_edit_element': reverse('admin:inventory_paper_change', args=(id_paper,)),
+        'space_id': space_id,
+    }
+    return render(request, 'inventory/elements.html', args)
 
 
 def distribution(request, id):
