@@ -144,6 +144,19 @@ class Printer(models.Model):
             return None
         return cartridges
 
+    def get_cartridges_no_filter(self):
+        """
+        Выборка тонер-картриджа и струйного-картриджа
+        """
+        base_cartridges = self.base_printer.base_cartridges.all()
+        cartridges = [c
+                      for bc in base_cartridges
+                      for c in bc.cartridges.all()
+                      if c.delete and c.space.pk == self.space.pk]
+        if len(cartridges) == 0:
+            return None
+        return cartridges
+
     def get_dram_cartridges(self):
         """
         Выборка драм-картриджа
