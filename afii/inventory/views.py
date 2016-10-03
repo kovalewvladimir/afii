@@ -1,29 +1,12 @@
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
 from inventory import models
+from inventory.view_utils import *
+
 
 # TODO: Переименовать функции и локальные переменные функций (например: printers, zip и тп.)
-
-# TODO: Убрать функции get_status, get_status_table в отдельный модуль utils
-def get_status(current, minimum):
-    if current > minimum:
-        return 'success'
-    elif current < minimum:
-        return 'danger'
-    elif current == minimum:
-        return 'warning'
-
-
-def get_status_table(current, new):
-    if new == 'warning':
-        if current != 'danger':
-            return 'warning'
-    if new == 'danger':
-        return 'danger'
-    else:
-        return current
 
 
 def printers(request, space_id=1):
@@ -33,44 +16,9 @@ def printers(request, space_id=1):
     p_db = models.Printer.objects
     p_db = p_db.select_related()
     p_db = p_db.prefetch_related('base_printer__base_cartridges__cartridges__space')
-    p_db = p_db.filter(delete=False)
-    p_db = get_list_or_404(p_db, space__pk=space_id)
+    p_db = default_filters(p_db, space_id)
 
-    table = {
-        'header': [
-            'Модель',
-            'Тонер картридж',
-            'Драм картридж',
-            '№ Кабинета',
-            'IP',
-            'Тип печати',
-            'Тип устройства',
-            'Формат бумаги',
-        ],
-        'value': [],
-    }
-
-    for p in p_db:
-        table['value'].append([
-            {'name': p.base_printer.name, 'link': reverse('inventory:printer', args=[p.pk])},
-            {'for_items': [{'name': c.base_cartridge.name,
-                            'link': reverse('inventory:cartridge', args=[c.pk])}
-                           for bc in p.base_printer.base_cartridges.all()
-                           for c in bc.cartridges.all()
-                           if c.base_cartridge.type != 'DRAM'
-                           if c.space.pk == space_id]},
-            {'for_items': [{'name': c.base_cartridge.name,
-                            'link': reverse('inventory:cartridge', args=[c.pk])}
-                           for bc in p.base_printer.base_cartridges.all()
-                           for c in bc.cartridges.all()
-                           if c.base_cartridge.type == 'DRAM'
-                           if c.space.pk == space_id]},
-            {'name': p.cabinet},
-            {'name': p.ip, 'link': '//' + p.ip},
-            {'name': p.base_printer.get_type_printing_display},
-            {'name': p.base_printer.get_type_display},
-            {'name': p.base_printer.get_type_paper_display},
-        ])
+    table = get_table_printers(p_db, space_id)
 
     args = {
         'space_id': space_id,
@@ -90,8 +38,7 @@ def cartridges(request, space_id):
     c_db = models.Cartridge.objects
     c_db = c_db.select_related()
     c_db = c_db.prefetch_related('base_cartridge__base_printers__printers__space')
-    c_db = c_db.filter(delete=False)
-    c_db = c_db.filter(space__pk=space_id)
+    c_db = default_filters(c_db, space_id)
 
     table_stock = {
         'header': [
@@ -102,6 +49,7 @@ def cartridges(request, space_id):
             'Модель принтера',
         ],
         'value': [],
+        'count': 0,
     }
 
     table_recycling = {
@@ -112,9 +60,9 @@ def cartridges(request, space_id):
             'Модель принтера',
         ],
         'value': [],
+        'count': 0,
     }
 
-    count_stock, count_recycling = 0, 0
     for c in c_db:
         table_stock['value'].append([
             {'name': c.base_cartridge.name, 'link': reverse('inventory:cartridge', args=[c.pk])},
@@ -125,9 +73,9 @@ def cartridges(request, space_id):
                             'link': reverse('inventory:printer', args=[p.pk])}
                            for bp in c.base_cartridge.base_printers.all()
                            for p in bp.printers.all()
-                           if p.space.pk == space_id]},
+                           if not p.delete and p.space.pk == space_id]},
         ])
-        count_stock += c.count
+        table_stock['count'] += c.count
         if c.base_cartridge.recycling and c.base_cartridge.type != 'DRAM' and c.count_recycling > 0:
             table_recycling['value'].append([
                 {'name': c.base_cartridge.name, 'link': reverse('inventory:cartridge', args=[c.pk])},
@@ -137,9 +85,9 @@ def cartridges(request, space_id):
                                 'link': reverse('inventory:printer', args=[p.pk])}
                                for bp in c.base_cartridge.base_printers.all()
                                for p in bp.printers.all()
-                               if p.space.pk == space_id]},
+                               if p.delete and p.space.pk == space_id]},
             ])
-            count_recycling += c.count_recycling
+            table_recycling['count'] += c.count_recycling
 
     args = {
         'space_id': space_id,
@@ -148,8 +96,6 @@ def cartridges(request, space_id):
         'btn_name_add': 'Добавить картридж',
         'table_stock': table_stock,
         'table_recycling': table_recycling,
-        'count_stock': count_stock,
-        'count_recycling': count_recycling,
         'active_tab': 2,
     }
     return render(request, 'inventory/cartridges.html', args)
@@ -162,30 +108,9 @@ def zips(request, space_id):
     z_db = models.Zip.objects
     z_db = z_db.select_related()
     z_db = z_db.prefetch_related('base_zip__base_printers__printers__space')
-    z_db = z_db.filter(delete=False)
-    z_db = z_db.filter(space__pk=space_id)
+    z_db = default_filters(z_db, space_id)
 
-    table = {
-        'header': [
-            'Код',
-            'Тип',
-            'Кол-во',
-            'Модель принтера',
-        ],
-        'value': [],
-    }
-
-    for z in z_db:
-        table['value'].append([
-            {'name': z.base_zip.name, 'link': reverse('inventory:zip', args=[z.pk])},
-            {'name': z.base_zip.type},
-            {'name': z.count, 'status': get_status(z.count, z.min_count)},
-            {'for_items': [{'name': p.base_printer.name,
-                            'link': reverse('inventory:printer', args=[p.pk])}
-                           for bp in z.base_zip.base_printers.all()
-                           for p in bp.printers.all()
-                           if p.space.pk == space_id]},
-        ])
+    table = get_table_zips(z_db, space_id, True)
 
     args = {
         'space_id': space_id,
@@ -203,8 +128,7 @@ def papers(request, space_id):
     name_space = get_object_or_404(models.Space, pk=space_id).name
 
     p_db = models.Paper.objects
-    p_db = p_db.filter(delete=False)
-    p_db = p_db.filter(space__pk=space_id)
+    p_db = default_filters(p_db, space_id)
 
     table = {
         'header': [
@@ -240,8 +164,7 @@ def distributions(request, space_id):
     name_space = get_object_or_404(models.Space, pk=space_id).name
 
     d_db = models.Distribution.objects
-    d_db = d_db.filter(delete=False)
-    d_db = d_db.filter(space__pk=space_id)
+    d_db = default_filters(d_db, space_id)
 
     table = {
         'header': [
@@ -275,8 +198,7 @@ def computers(request, space_id):
     name_space = get_object_or_404(models.Space, pk=space_id).name
 
     c_db = models.Computer.objects
-    c_db = c_db.filter(delete=False)
-    c_db = c_db.filter(space__pk=space_id)
+    c_db = default_filters(c_db, space_id)
 
     table = {
         'header': [
@@ -339,72 +261,9 @@ def printer(request, id_printer):
     dram_db = p_db.get_dram_cartridges()
     zip_db = p_db.get_zips()
 
-    if toner_db is not None:
-        toner = {
-            'header': [
-                'Картридж',
-                'Кол-во',
-                'Номер полки',
-                'Цвет тонера',
-            ],
-            'value': [],
-        }
-        toner_table_status = 'success'
-        for t in toner_db:
-            status = get_status(t.count, t.min_count)
-            toner['value'].append([
-                {'name': t.base_cartridge.name, 'link': reverse('inventory:cartridge', args=[t.pk])},
-                {'name': t.count, 'status': status},
-                {'name': t.shelf},
-                {'name': t.base_cartridge.get_color_display},
-            ])
-            toner_table_status = get_status_table(toner_table_status, status)
-    else:
-        toner, toner_table_status = None, None
-
-    if dram_db is not None:
-        dram = {
-            'header': [
-                'Картридж',
-                'Кол-во',
-                'Номер полки',
-            ],
-            'value': [],
-        }
-        dram_table_status = 'success'
-        for d in dram_db:
-            status = get_status(d.count, d.min_count)
-            dram['value'].append([
-                {'name': d.base_cartridge.name, 'link': reverse('inventory:cartridge', args=[d.pk])},
-                {'name': d.count, 'status': status},
-                {'name': d.shelf},
-            ])
-            dram_table_status = get_status_table(dram_table_status, status)
-    else:
-        dram, dram_table_status = None, None
-
-    if zip_db is not None:
-        zip = {
-            'header': [
-                'Код',
-                'Тип',
-                'Кол-во',
-                'Номер полки',
-            ],
-            'value': [],
-        }
-        zip_table_status = 'success'
-        for z in zip_db:
-            status = get_status(z.count, z.min_count)
-            zip['value'].append([
-                {'name': z.base_zip.name, 'link': reverse('inventory:zip', args=[z.pk])},
-                {'name': z.base_zip.type},
-                {'name': z.count, 'status': status},
-                {'name': z.shelf},
-            ])
-            zip_table_status = get_status_table(zip_table_status, status)
-    else:
-        zip, zip_table_status = None, None
+    table_toner = get_table_cartridges(toner_db)
+    table_dram = get_table_cartridges(dram_db)
+    table_zip = get_table_zips(zip_db)
 
     args = {
         'elements': elements,
@@ -413,12 +272,9 @@ def printer(request, id_printer):
         'link_image_element': p_db.image.url if p_db.image else static('inventory/img/default.png'),
         'link_edit_element': reverse('admin:inventory_printer_change', args=(id_printer,)),
         'printer_ip': printer_ip,
-        'toner': toner,
-        'toner_table_status': toner_table_status,
-        'dram': dram,
-        'dram_table_status': dram_table_status,
-        'zip': zip,
-        'zip_table_status': zip_table_status,
+        'table_toner': table_toner,
+        'table_dram': table_dram,
+        'table_zip': table_zip,
         'space_id': p_db.space.pk,
     }
     return render(request, 'inventory/printer.html', args)
@@ -448,53 +304,13 @@ def cartridge(request, id_cartridge):
             elements.insert(4, {'name': 'Кол-во в рециклинг', 'value': c_db.count_recycling})
 
     p_db = c_db.get_printers()
-
-    # TODO: Вынести в отдельный метод тк используется два раза
-    if p_db is not None:
-        printers = {
-            'header': [
-                'Модель',
-                'Тонер картридж',
-                'Драм картридж',
-                '№ Кабинета',
-                'IP',
-                'Тип печати',
-                'Тип устройства',
-                'Формат бумаги',
-            ],
-            'value': [],
-        }
-
-        for p in p_db:
-            printers['value'].append([
-                {'name': p.base_printer.name, 'link': reverse('inventory:printer', args=[p.pk])},
-                {'for_items': [{'name': c.base_cartridge.name,
-                                'link': reverse('inventory:cartridge', args=[c.pk])}
-                               for bc in p.base_printer.base_cartridges.all()
-                               for c in bc.cartridges.all()
-                               if c.base_cartridge.type != 'DRAM'
-                               if c.space.pk == space_id]},
-                {'for_items': [{'name': c.base_cartridge.name,
-                                'link': reverse('inventory:cartridge', args=[c.pk])}
-                               for bc in p.base_printer.base_cartridges.all()
-                               for c in bc.cartridges.all()
-                               if c.base_cartridge.type == 'DRAM'
-                               if c.space.pk == space_id]},
-                {'name': p.cabinet},
-                {'name': p.ip, 'link': '//' + p.ip},
-                {'name': p.base_printer.get_type_printing_display},
-                {'name': p.base_printer.get_type_display},
-                {'name': p.base_printer.get_type_paper_display},
-            ])
-    else:
-        printers = None
-
+    table_printers = get_table_printers(p_db, space_id)
 
     args = {
         'elements': elements,
         'name_element': name_element,
         'type_element': 'Картридж',
-        'printers': printers,
+        'table_printers': table_printers,
         'link_image_element': c_db.image.url if c_db.image else static('inventory/img/default.png'),
         'link_edit_element': reverse('admin:inventory_cartridge_change', args=(id_cartridge,)),
         'space_id': space_id,
@@ -519,53 +335,13 @@ def zip(request, id_zip):
     ]
 
     p_db = z_db.get_printers()
-
-    # TODO: Вынести в отдельный метод тк используется два раза
-    if p_db is not None:
-        printers = {
-            'header': [
-                'Модель',
-                'Тонер картридж',
-                'Драм картридж',
-                '№ Кабинета',
-                'IP',
-                'Тип печати',
-                'Тип устройства',
-                'Формат бумаги',
-            ],
-            'value': [],
-        }
-
-        for p in p_db:
-            printers['value'].append([
-                {'name': p.base_printer.name, 'link': reverse('inventory:printer', args=[p.pk])},
-                {'for_items': [{'name': c.base_cartridge.name,
-                                'link': reverse('inventory:cartridge', args=[c.pk])}
-                               for bc in p.base_printer.base_cartridges.all()
-                               for c in bc.cartridges.all()
-                               if c.base_cartridge.type != 'DRAM'
-                               if c.space.pk == space_id]},
-                {'for_items': [{'name': c.base_cartridge.name,
-                                'link': reverse('inventory:cartridge', args=[c.pk])}
-                               for bc in p.base_printer.base_cartridges.all()
-                               for c in bc.cartridges.all()
-                               if c.base_cartridge.type == 'DRAM'
-                               if c.space.pk == space_id]},
-                {'name': p.cabinet},
-                {'name': p.ip, 'link': '//' + p.ip},
-                {'name': p.base_printer.get_type_printing_display},
-                {'name': p.base_printer.get_type_display},
-                {'name': p.base_printer.get_type_paper_display},
-            ])
-    else:
-        printers = None
-
+    table_printers = get_table_printers(p_db, space_id)
 
     args = {
         'elements': elements,
         'name_element': name_element,
         'type_element': 'ЗИП',
-        'printers': printers,
+        'table_printers': table_printers,
         'link_image_element': z_db.image.url if z_db.image else static('inventory/img/default.png'),
         'link_edit_element': reverse('admin:inventory_zip_change', args=(id_zip,)),
         'space_id': space_id,

@@ -6,8 +6,6 @@
     Шаблон наследует 'inventory/space.html' и все его переменные.
     В шаблон подключается (include) 'inventory/block_table.html'.
 
-    {{ count_stock }}     - кол-во картриджей в наличии
-    {{ count_recycling }} - кол-во картриджей в рециклинг
     {{ table_stock }}     - таблица картриджей в наличии
     {{ table_recycling }} - таблица картриджей в рециклинг
 {% endcomment %}
@@ -21,8 +19,8 @@
 
     <!-- Nav tabs -->
     <ul class="nav nav-pills nav-sub-tabs  hidden-print">  <!--или class="nav nav-tabs" для табов-->
-        <li class="active"><a href="#cartridges-stock" data-toggle="tab" aria-expanded="true"><span class="badge pull-right">{{ count_stock }}</span>В наличии</a></li>
-        <li><a href="#cartridge-recycling" data-toggle="tab" aria-expanded="true"><span class="badge pull-right">{{ count_recycling }}</span>На заправку</a></li>
+        <li class="active"><a href="#cartridges-stock" data-toggle="tab" aria-expanded="true"><span class="badge pull-right">{{ table_stock.count }}</span>В наличии</a></li>
+        <li><a href="#cartridge-recycling" data-toggle="tab" aria-expanded="true"><span class="badge pull-right">{{ table_recycling.count }}</span>На заправку</a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">

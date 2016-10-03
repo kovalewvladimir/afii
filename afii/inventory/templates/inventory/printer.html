@@ -8,12 +8,9 @@
 
 
     {{ printer_ip }}         - ip принтера (для модального окна qrcode)
-    {{ toner }}              - тонер-картридж для принтера
-    {{ toner_table_status }} - статус таблицы тонер-картриджа
-    {{ dram }}               - драм-картридж для принтера
-    {{ dram_table_status }}  - статус таблицы драм-картридж
-    {{ zip }}                - запчасти для принтера
-    {{ zip_table_status }}   - статус таблицы запчасти
+    {{ table_toner }}              - тонер-картридж для принтера
+    {{ table_dram }}               - драм-картридж для принтера
+    {{ table_zip }}                - запчасти для принтераи
 {% endcomment %}
 
 {% comment "Блоки шаблона" %}
@@ -133,22 +130,22 @@
 {% endblock %}
 
 {% block additional_content %}
-    {% if toner %}
-        <div class="panel panel-{{ toner_table_status }}">
+    {% if table_toner %}
+        <div class="panel panel-{{ table_toner.status }}">
             <div class="panel-heading"><strong>Тонер картридж</strong></div>
-            {% include 'inventory/block_table.html' with  table=toner add_table_class='table-bordered table-hover' %}
+            {% include 'inventory/block_table.html' with  table=table_toner add_table_class='table-bordered table-hover' %}
         </div>
     {% endif %}
-    {% if dram %}
-        <div class="panel panel-{{ dram_table_status }}">
+    {% if table_dram %}
+        <div class="panel panel-{{ table_dram.status }}">
             <div class="panel-heading"><strong>Драм картридж</strong></div>
-            {% include 'inventory/block_table.html' with  table=dram add_table_class='table-bordered table-hover' %}
+            {% include 'inventory/block_table.html' with  table=table_dram add_table_class='table-bordered table-hover' %}
         </div>
     {% endif %}
-    {% if zip %}
-        <div class="panel panel-{{ zip_table_status }}">
+    {% if table_zip %}
+        <div class="panel panel-{{ table_zip.status }}">
             <div class="panel-heading"><strong>ЗИПы</strong></div>
-            {% include 'inventory/block_table.html' with  table=zip add_table_class='table-bordered table-hover' %}
+            {% include 'inventory/block_table.html' with  table=table_zip add_table_class='table-bordered table-hover' %}
         </div>
     {% endif %}
 {% endblock %}
