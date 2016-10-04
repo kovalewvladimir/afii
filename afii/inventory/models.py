@@ -38,8 +38,8 @@ PAPER_TYPE = (
 )
 
 LAN_TYPE = (
-    ('INTEGRATED', 'Встроенная '),
-    ('EXTERNAL', 'Внешняя (PCI)'),
+    ('INTEGRATED', 'Встроенный'),
+    ('EXTERNAL', 'Внешний (PCI)'),
 )
 
 

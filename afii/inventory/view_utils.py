@@ -1,4 +1,5 @@
 from django.urls import reverse
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 
 def get_status(current, minimum):
@@ -24,6 +25,10 @@ def default_filters(model, space_id):
     result = model.filter(delete=False)
     result = result.filter(space__pk=space_id)
     return result
+
+
+def get_image_url(model):
+    return model.image.url if model.image else static('inventory/img/default.png')
 
 
 def get_table_printers(printers, space_id):
@@ -108,7 +113,7 @@ def get_table_zips(zips, space_id=None, is_printers=False):
         'status': 'success',
     }
     if is_printers:
-        table['header'].append('Модель принтера');
+        table['header'].append('Модель принтера')
     for z in zips:
         status = get_status(z.count, z.min_count)
         item = [{'name': z.base_zip.name, 'link': reverse('inventory:zip', args=[z.pk])},

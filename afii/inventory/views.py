@@ -1,12 +1,13 @@
-from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
 from inventory import models
-from inventory.view_utils import *
-
-
-# TODO: Переименовать функции и локальные переменные функций (например: printers, zip и тп.)
+from inventory.view_utils import (default_filters,
+                                  get_status,
+                                  get_image_url,
+                                  get_table_cartridges,
+                                  get_table_printers,
+                                  get_table_zips,)
 
 
 def printers(request, space_id=1):
@@ -269,7 +270,7 @@ def printer(request, id_printer):
         'elements': elements,
         'name_element': name_element,
         'type_element': 'Принтер',
-        'link_image_element': p_db.image.url if p_db.image else static('inventory/img/default.png'),
+        'link_image_element': get_image_url(p_db),
         'link_edit_element': reverse('admin:inventory_printer_change', args=(id_printer,)),
         'printer_ip': printer_ip,
         'table_toner': table_toner,
@@ -311,7 +312,7 @@ def cartridge(request, id_cartridge):
         'name_element': name_element,
         'type_element': 'Картридж',
         'table_printers': table_printers,
-        'link_image_element': c_db.image.url if c_db.image else static('inventory/img/default.png'),
+        'link_image_element': get_image_url(c_db),
         'link_edit_element': reverse('admin:inventory_cartridge_change', args=(id_cartridge,)),
         'space_id': space_id,
     }
@@ -342,7 +343,7 @@ def zip(request, id_zip):
         'name_element': name_element,
         'type_element': 'ЗИП',
         'table_printers': table_printers,
-        'link_image_element': z_db.image.url if z_db.image else static('inventory/img/default.png'),
+        'link_image_element': get_image_url(z_db),
         'link_edit_element': reverse('admin:inventory_zip_change', args=(id_zip,)),
         'space_id': space_id,
     }
@@ -369,18 +370,63 @@ def paper(request, id_paper):
         'elements': elements,
         'name_element': name_element,
         'type_element': 'Бумага',
-        'link_image_element': p_db.image.url if p_db.image else static('inventory/img/default.png'),
+        'link_image_element': get_image_url(p_db),
         'link_edit_element': reverse('admin:inventory_paper_change', args=(id_paper,)),
         'space_id': space_id,
     }
     return render(request, 'inventory/elements.html', args)
 
 
-def distribution(request, id):
-    args = {}
-    return render(request, 'inventory/.html', args)
+def distribution(request, id_distribution):
+    d_db = models.Distribution.objects
+    d_db = d_db.select_related()
+    d_db = get_object_or_404(d_db, pk=id_distribution)
+
+    space_id = d_db.space.pk
+
+    name_element = d_db.name
+    elements = [
+        {'name': 'Наименование', 'value': d_db.name},
+        {'name': 'Кол-во', 'value': d_db.count},
+    ]
+
+    args = {
+        'elements': elements,
+        'name_element': name_element,
+        'type_element': 'Дистрибутивы',
+        'link_image_element': get_image_url(d_db),
+        'link_edit_element': reverse('admin:inventory_distribution_change', args=(id_distribution,)),
+        'space_id': space_id,
+    }
+    return render(request, 'inventory/elements.html', args)
 
 
-def computer(request, id):
-    args = {}
-    return render(request, 'inventory/.html', args)
+def computer(request, id_computer):
+    c_db = models.Computer.objects
+    c_db = c_db.select_related()
+    c_db = get_object_or_404(c_db, pk=id_computer)
+
+    space_id = c_db.space.pk
+
+    name_element = c_db.pk
+    elements = [
+        {'name': '№', 'value': c_db.pk},
+        {'name': 'Процессор', 'value': c_db.cpu},
+        {'name': 'Материнская плата', 'value': c_db.motherboard},
+        {'name': 'Оперативная память', 'value': c_db.ram},
+        {'name': 'Видеокарта', 'value': c_db.gpu},
+        {'name': 'Сетевой адаптер', 'value': c_db.get_lan_display if c_db.lan else ''},
+        {'name': 'Жесткий диск', 'value': c_db.hdd},
+        {'name': 'Операционная система', 'value': c_db.os},
+        {'name': 'Примечание', 'value': c_db.description},
+    ]
+
+    args = {
+        'elements': elements,
+        'name_element': name_element,
+        'type_element': 'Системные блоки',
+        'link_image_element': get_image_url(c_db),
+        'link_edit_element': reverse('admin:inventory_computer_change', args=(id_computer,)),
+        'space_id': space_id,
+    }
+    return render(request, 'inventory/elements.html', args)
