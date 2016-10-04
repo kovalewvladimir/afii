@@ -80,6 +80,10 @@ $(document).ready(function(){
     tr.sort(function(a, b) {
       var compA = $(a).children('td:nth-child(' + indexSort + ')').text().toLocaleLowerCase();
       var compB = $(b).children('td:nth-child(' + indexSort + ')').text().toLocaleLowerCase();
+      if (!isNaN(compA) && !isNaN(compB)){
+        compA = Number(compA);
+        compB = Number(compB);
+      }
       var result = (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
       return (sortingOrder) ?
                             ((compA > compB) ? -1 : (compA < compB) ? 1 : 0) :
