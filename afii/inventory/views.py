@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.db.models import Sum
 
 from inventory import models
 from inventory.view_utils import (default_filters,
@@ -208,7 +209,8 @@ def computers(request, space_id):
             'Материнская плата',
             'Оперативная память',
             'Видеокарта',
-            'Сетевой адаптер',
+            'Наклейка лицензии',
+            'Блок питания',
         ],
         'value': [],
     }
@@ -220,7 +222,8 @@ def computers(request, space_id):
             {'name': c.motherboard},
             {'name': c.ram},
             {'name': c.gpu},
-            {'name': c.get_lan_display},
+            {'name': c.license_sticker},
+            {'name': c.power_supply},
         ])
 
     args = {
@@ -232,6 +235,69 @@ def computers(request, space_id):
         'active_tab': 6,
     }
     return render(request, 'inventory/space.html', args)
+
+
+def storage(request, space_id, id_storage):
+    space_id = int(space_id)
+    name_space = get_object_or_404(models.Space, pk=space_id).name
+
+    is_db = models.ItemStorage.objects
+    is_db = is_db.select_related()
+    is_db = is_db.filter(delete=False)
+    is_db = is_db.filter(category__storage__space__id=space_id)
+
+    c_db = models.Category.objects
+    c_db = c_db.select_related()
+    c_db = c_db.prefetch_related('categories')
+    c_db = c_db.filter(is_base=True)
+    c_db = c_db.filter(storage__pk=id_storage)
+
+    category = list()
+    count_all = 0
+    for c in c_db:
+        item = {
+            'name': c.name,
+            'for_items': list(),
+        }
+        sum_count = 0
+        for i in c.categories.all():
+            #count = i.items.all().aggregate(Sum('count'))['count__sum']
+            count = i.items.count()
+            item['for_items'].append({
+                'name': i.name,
+                'count': count,
+            })
+            sum_count += count
+        item['count'] = sum_count
+        count_all += sum_count
+        category.append(item)
+
+    table = {
+        'header': [
+            '№',
+            'Наименование',
+            'Кол-во',
+            'Номер полки',
+        ],
+        'value': [],
+    }
+
+    for i in is_db:
+        table['value'].append([
+            {'name': i.pk},
+            {'name': i.name},
+            {'name': i.count},
+            {'name': i.shelf},
+        ])
+
+    args = {
+        'space_id': space_id,
+        'name_space': name_space,
+        'table': table,
+        'category': category,
+        'count_all': count_all,
+    }
+    return render(request, 'inventory/storage.html', args)
 
 
 def printer(request, id_printer):
@@ -416,6 +482,8 @@ def computer(request, id_computer):
         {'name': 'Оперативная память', 'value': c_db.ram},
         {'name': 'Видеокарта', 'value': c_db.gpu},
         {'name': 'Сетевой адаптер', 'value': c_db.get_lan_display if c_db.lan else ''},
+        {'name': 'Блок питания', 'value': c_db.power_supply},
+        {'name': 'Наклейка лицензии', 'value': c_db.license_sticker},
         {'name': 'Жесткий диск', 'value': c_db.hdd},
         {'name': 'Операционная система', 'value': c_db.os},
         {'name': 'Примечание', 'value': c_db.description},

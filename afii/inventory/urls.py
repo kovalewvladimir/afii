@@ -11,6 +11,7 @@ urlpatterns = [
         url(r'^papers/$', views.papers, name='papers'),
         url(r'^distributions/$', views.distributions, name='distributions'),
         url(r'^computers/$', views.computers, name='computers'),
+        url(r'^storage/(\d+)/$', views.storage, name='storage'),
         #url(r'^/$', views., name=''),
     ])),
 

@@ -273,6 +273,8 @@ class Computer(models.Model):
     ram = models.CharField(max_length=50, blank=True, null=True, verbose_name='Оперативная память')
     gpu = models.CharField(max_length=50, blank=True, null=True, verbose_name='Видеокарта')
     lan = models.CharField(max_length=20, blank=True, null=True, choices=LAN_TYPE, verbose_name='Сетевой адаптер')
+    power_supply = models.CharField(max_length=50, blank=True, null=True, verbose_name='Блок питания')
+    license_sticker = models.BooleanField(default=False, verbose_name='Наклейка лицензии')
     hdd = models.CharField(max_length=50, blank=True, default='-', verbose_name='Жесткий диск')
     os = models.CharField(max_length=50, blank=True, null=True, verbose_name='Операционная система')
     description = models.TextField(blank=True, null=True, verbose_name='Примечание')
@@ -288,12 +290,29 @@ class Category(models.Model):
     Категория
     """
     storage = models.ForeignKey(Storage, related_name='categories')
-    name = models.CharField(max_length=50, unique=True, verbose_name='Имя')
-    is_base = models.BooleanField(default=False, verbose_name='Вложенная категория?')
-    base_categoty = models.ForeignKey('self', blank=True, null=True, limit_choices_to={'is_base': False})
+    name = models.CharField(max_length=50, verbose_name='Имя')
+    is_base = models.BooleanField(default=False, verbose_name='Базовая категория?')
+    base_category = models.ForeignKey('self', blank=True, null=True, related_name='categories',
+                                      limit_choices_to={'is_base': True})
 
     def __str__(self):
         return str('{}-{}').format(self.storage, self.name)
+
+
+class ItemStorage(models.Model):
+    """
+    Вещи на складе
+    """
+    category = models.ForeignKey(Category, related_name='items')
+    name = models.CharField(max_length=50, verbose_name='Наименование')
+    count = models.PositiveIntegerField(verbose_name='Кол-во')
+    shelf = models.CharField(max_length=10, verbose_name='№ полки')
+    delete = models.BooleanField(default=False, verbose_name='Удален?')
+    image = models.ImageField(blank=True, null=True, upload_to='item_storage/')
+    description = models.TextField(blank=True, null=True, verbose_name='Примечание')
+
+    def __str__(self):
+        return str('{}').format(self.name)
 
 # TODO: у ключючей on_delete
 # TODO: поле delete у base_ALL
