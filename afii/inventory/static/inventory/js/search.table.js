@@ -47,9 +47,9 @@ $(document).ready(function(){
     eventObj.data.tableTD.each(function (index, element){
       var $this = $(this);
       if ($this.text().toLowerCase().indexOf(searchText.toLowerCase()) != -1)
-        $this.parent().show();
+        $this.parent().show('fast');
       else
-        $this.parent().hide();
+        $this.parent().hide('fast');
     });
   }
 

@@ -15,8 +15,12 @@
 {% endcomment %}
 
 
-{% block tab_content %}
+{% block add_page_js_script %}
+    <!-- Фильтрация данных  в таблице склада -->
+    <script src="{% static 'inventory/js/filter.storage.table.js' %}"></script>
+{% endblock %}
 
+{% block tab_content %}
     <h2 class="sub-header hidden-print">
         <div class="row">
             <div class="col-md-4">
@@ -43,17 +47,17 @@
     </h2>
     <div class="row">
         <div class="col-md-4 hidden-print">
-            <div class="list-group">
-                <a href="#" class="list-group-item active"><span class="badge">{{ count_all }}</span>Все</a>
+            <ul id="categotyMenu" class="list-group">
+                <li class="list-group-item active" data-category-id="0"><span class="badge">{{ count_all }}</span>Все</li>
                 {% for c in category %}
-                    <a href="#" class="list-group-item"><span class="badge">{{ c.count }}</span>{{ c.name }}</a>
+                    <li class="list-group-item"><span class="badge">{{ c.count }}</span>{{ c.name }}</li>
                     {% if c.for_items %}
                         {% for i in c.for_items %}
-                            <a href="#" class="list-group-item sub-item"><span class="badge">{{ i.count }}</span>{{ i.name }}</a>
+                            <li class="list-group-item sub-item" data-category-id=""><span class="badge">{{ i.count }}</span>{{ i.name }}</li>
                         {% endfor %}
                     {% endif %}
                 {% endfor %}
-            </div>
+            </ul>
         </div>
         <div class="col-md-8">
             <div class="table-responsive">
@@ -61,5 +65,4 @@
             <div class="table-responsive">
         </div>
     </div>
-
 {% endblock %}

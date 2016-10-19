@@ -16,7 +16,8 @@
 {% comment "Блоки шаблона" %}
     Шаблон наследует 'inventory/base.html' и все его блоки.
 
-    {% block tab_content %} -
+    {% block tab_content %}        - контент внутри активной tab панели
+    {% block add_page_js_script %} - подключение дополнительных js скриптов
 {% endcomment %}
 
 
@@ -25,6 +26,7 @@
     <script src="{% static 'inventory/js/search.table.js' %}"></script>
     <!-- Сортировка в таблице -->
     <script src="{% static 'inventory/js/sort.table.js' %}"></script>
+    {% block add_page_js_script %}{% endblock %}
 {% endblock %}
 
 {% block content %}

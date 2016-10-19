@@ -262,7 +262,7 @@ def storage(request, space_id, id_storage):
         sum_count = 0
         for i in c.categories.all():
             #count = i.items.all().aggregate(Sum('count'))['count__sum']
-            count = i.items.count()
+            count = 0 #i.items.count()
             item['for_items'].append({
                 'name': i.name,
                 'count': count,
