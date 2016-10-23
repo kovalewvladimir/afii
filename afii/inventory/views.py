@@ -248,7 +248,7 @@ def storage(request, space_id, id_storage):
 
     c_db = models.Category.objects
     c_db = c_db.select_related()
-    c_db = c_db.prefetch_related('categories')
+    c_db = c_db.prefetch_related('categories__items')
     c_db = c_db.filter(is_base=True)
     c_db = c_db.filter(storage__pk=id_storage)
 
@@ -261,16 +261,19 @@ def storage(request, space_id, id_storage):
         }
         sum_count = 0
         for i in c.categories.all():
-            #count = i.items.all().aggregate(Sum('count'))['count__sum']
-            count = 0 #i.items.count()
+            count = i.items.count()
             item['for_items'].append({
                 'name': i.name,
                 'count': count,
+                'category_id': i.pk,
             })
             sum_count += count
         item['count'] = sum_count
         count_all += sum_count
         category.append(item)
+
+    class Value(list):
+        category_id = 0
 
     table = {
         'header': [
@@ -283,12 +286,14 @@ def storage(request, space_id, id_storage):
     }
 
     for i in is_db:
-        table['value'].append([
+        value = Value([
             {'name': i.pk},
             {'name': i.name},
             {'name': i.count},
             {'name': i.shelf},
         ])
+        value.category_id = i.category.pk
+        table['value'].append(value)
 
     args = {
         'space_id': space_id,

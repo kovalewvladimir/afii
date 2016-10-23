@@ -303,7 +303,7 @@ class ItemStorage(models.Model):
     """
     Вещи на складе
     """
-    category = models.ForeignKey(Category, related_name='items')
+    category = models.ForeignKey(Category, related_name='items', limit_choices_to={'is_base': False})
     name = models.CharField(max_length=50, verbose_name='Наименование')
     count = models.PositiveIntegerField(verbose_name='Кол-во')
     shelf = models.CharField(max_length=10, verbose_name='№ полки')

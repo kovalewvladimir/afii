@@ -53,7 +53,7 @@
                     <li class="list-group-item"><span class="badge">{{ c.count }}</span>{{ c.name }}</li>
                     {% if c.for_items %}
                         {% for i in c.for_items %}
-                            <li class="list-group-item sub-item" data-category-id=""><span class="badge">{{ i.count }}</span>{{ i.name }}</li>
+                            <li class="list-group-item sub-item" data-category-id="{{ i.category_id }}"><span class="badge">{{ i.count }}</span>{{ i.name }}</li>
                         {% endfor %}
                     {% endif %}
                 {% endfor %}

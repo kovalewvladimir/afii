@@ -14,7 +14,7 @@
     </thead>
     <tbody>
         {% for value in table.value %}
-            <tr>
+            <tr{% if value.category_id %} data-category-id="{{ value.category_id }}"{% endif %}>
                 {% for v in value %}
                     <td{% if v.status %} class="{{ v.status }}"{% endif %}>
                     {% if v.for_items %}
