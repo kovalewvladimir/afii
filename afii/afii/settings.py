@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from afii.private import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,12 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = PRIVATE_SECRET_KEY
+SECRET_KEY = '1!mgsgscdkp%&n(@votc7cv#t87vb_-8tl70-esf)to#x!gpni'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 ALLOWED_HOSTS = []
 
@@ -40,8 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'inventory',
-    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -67,7 +62,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'inventory.context_processors.space',
             ],
         },
     },
@@ -75,26 +69,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'afii.wsgi.application'
 
+
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'afii.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': 'test',
-#         'USER': 'root',                      # Not used with sqlite3.
-#         'PASSWORD': '123456',                  # Not used with sqlite3.
-#         'HOST': '127.0.0.1',                      # Set to empty string for localhost. Not used with sqlite3.
-#         'PORT': '4040',                      # Set to empty string for default. Not used with sqlite3.
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -118,9 +103,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'ru-RU'
+LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Moscow'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -133,19 +118,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# Media files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-MEDIA_URL = '/media/'
-
-
-# django debug toolbar
-if DEBUG:
-    from django.utils.deprecation import MiddlewareMixin
-    from debug_toolbar.middleware import DebugToolbarMiddleware
-
-    class AtopdedTo110DebugMiddleware(MiddlewareMixin, DebugToolbarMiddleware):
-        pass
-
-    MIDDLEWARE += ['afii.settings.AtopdedTo110DebugMiddleware']
-    INTERNAL_IPS = ('127.0.0.1',)
