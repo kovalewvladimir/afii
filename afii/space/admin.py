@@ -4,4 +4,6 @@ from space.models import Space
 
 @admin.register(Space)
 class SpaceAdmin(admin.ModelAdmin):
-    pass
+    ordering = ('name',)
+    list_display = ('name',)
+    search_fields = ['name']
