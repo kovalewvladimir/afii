@@ -1,3 +1,7 @@
 from django.contrib import admin
+from space.models import Space
 
-# Register your models here.
+
+@admin.register(Space)
+class SpaceAdmin(admin.ModelAdmin):
+    pass
