@@ -7,3 +7,5 @@ class SpaceAdmin(admin.ModelAdmin):
     ordering = ('name',)
     list_display = ('name',)
     search_fields = ['name']
+
+    filter_horizontal = ('apps',)

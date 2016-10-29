@@ -1,0 +1,71 @@
+{% load staticfiles %}
+
+
+{% comment "Переменные шаблона" %}
+    {{ page_title }} - Заголовок страницы
+    {{ space_id }}   - id текущей площадки
+
+    Переменные инициализируются контент процессором:
+    {{ spaces }} - контент процессор 'inventory.context_processors.space'
+    {{ user }}  - контент процессор 'django.contrib.auth.context_processors.auth'
+{% endcomment %}
+
+{% comment "Блоки шаблона" %}
+    {% block page_js_script %} - javascript
+    {% block modal_windows %}  - модальные окна (используется для окна печати qr кода)
+    {% block content %}        - основной контент
+{% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ page_title }}</title>
+
+        <link href="{% static 'inventory/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'inventory/css/dashboard.css' %}" rel="stylesheet">
+
+        <script src="{% static 'inventory/js/jquery.min.js' %}"></script>
+        <script src="{% static 'inventory/js/bootstrap.min.js' %}"></script>
+
+        {% block page_js_script %}{% endblock %}
+    </head>
+    <body>
+        {% block modal_windows %}{% endblock %}
+        <nav class="navbar navbar-inverse navbar-fixed-top hidden-print" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'inventory:main' %}">Учет расходных материалов</a>
+                </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Площадка <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        {% for s in spaces %}
+                            <li><a href="{% url 'space:space' s.pk %}">{{ s.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li><a>{{ user }}</a></li>
+                </ul>
+            </div>
+            </div>
+        </nav>
+
+
+        <div class="main">
+            {% block content %}{% endblock %}
+        </div>
+
+    </body>
+</html>

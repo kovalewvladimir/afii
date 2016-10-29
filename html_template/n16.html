@@ -171,21 +171,9 @@
     </nav>
 
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar hidden-print">
-          <ul class="nav nav-sidebar">
-            <li class="header">Площадка</li>
-            <li class="active"><a href="n16.html">Н16</a></li>
-            <li><a href="#">ИЗ</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li class="header">Настройки</li>
-            <li><a href="">Картриджи</a></li>
-            <li><a href="">Принтер</a></li>
-            <li><a href="">и т.п.</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+
+        <div class="main">
           <!-- Уведомления Alert -->
           <div class="hidden-print">
             <div class="alert alert-danger">
@@ -199,11 +187,16 @@
               <p>4 картриджа дожидаются заправки</p>
             </div>
           </div>
-          
-                    
-          <h1 class="page-header hidden-print">Н16 <small>площадка</small></h1>
-          <!-- Nav tabs -->
+
+          <h1 class="page-header hidden-print">Площадка</h1>
+
           <ul class="nav nav-pills hidden-print">  <!--или class="nav nav-tabs" для табов-->
+            <li class="active"><a href="#printers">n16</a></li>
+            <li><a href="#cartridges">iz2</a></li>
+          </ul>
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-pills  nav-sub-tabs hidden-print">  <!--или class="nav nav-tabs" для табов-->
             <li class="active"><a href="#printers" data-toggle="tab">Принтер</a></li>
             <li><a href="#cartridges" data-toggle="tab">Картридж</a></li>
             <li><a href="#paper" data-toggle="tab">Бумага</a></li>
@@ -764,7 +757,6 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
   </body>
 </html>

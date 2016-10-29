@@ -1,0 +1,38 @@
+{% extends 'inventory/base.html' %}
+{% load staticfiles %}
+
+
+{% comment "Переменные шаблона" %}
+    Шаблон наследует 'inventory/base.html' и все его переменные.
+
+    {{ space }} - Текущая площадка
+{% endcomment %}
+
+{% comment "Блоки шаблона" %}
+    Шаблон наследует 'inventory/base.html' и все его блоки.
+
+{% endcomment %}
+
+
+{% block content %}
+    <h1 class="page-header hidden-print">Площадка<small> {{ space.name }}</small></h1>
+
+    <ul class="nav nav-pills hidden-print">
+        {% for s in spaces %}
+            <li{% if s.pk == space.pk %} class="active"{% endif %}><a href="{% url 'space:space' s.pk %}">{{ s.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <ul class="nav nav-pills nav-sub-tabs  hidden-print">
+        {% for a in space.apps.all %}
+            <li><a>{{ a.verbose_name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active">
+            {% block tab_content %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

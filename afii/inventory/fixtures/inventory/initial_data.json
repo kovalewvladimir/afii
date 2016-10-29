@@ -1,0 +1,21 @@
+[
+  {
+    "model": "inventory.InventoryApp",
+    "pk": 1,
+    "fields": {
+      "name": "printer",
+      "verbose_name": "Принтер",
+      "description": ""
+    }
+  },
+
+  {
+    "model": "inventory.InventoryApp",
+    "pk": 2,
+    "fields": {
+      "name": "storage",
+      "verbose_name": "Склад",
+      "description": ""
+    }
+  }
+]

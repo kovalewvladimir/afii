@@ -74,7 +74,7 @@ class BaseCartridge(models.Model):
     recycling = models.BooleanField(verbose_name='Рециклинг',
                                     help_text='заполнить поле только для "тонер-картиржа"')
     base_printers = models.ManyToManyField(BasePrinter, blank=True, related_name='base_cartridges',
-                                           verbose_name='базовый принтер')
+                                           verbose_name='принтер')
     description = models.TextField(blank=True, null=True, verbose_name='описание')
 
     class Meta:
@@ -92,7 +92,7 @@ class BaseZip(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name='имя')
     type = models.CharField(max_length=50, blank=True, null=True, verbose_name='тип ЗИП')
     base_printers = models.ManyToManyField(BasePrinter, blank=True, related_name='base_zips',
-                                           verbose_name='базовый принтер')
+                                           verbose_name='принтер')
     description = models.TextField(blank=True, null=True, verbose_name='описание')
 
     class Meta:
@@ -108,7 +108,7 @@ class Printer(models.Model):
     Принетер
     """
     base_printer = models.ForeignKey(BasePrinter, related_name='printers',
-                                     verbose_name='базовый принтер')
+                                     verbose_name='принтер')
     space = models.ForeignKey(Space, related_name='printers', verbose_name='площадка')
     cabinet = models.CharField(max_length=50, verbose_name='№ кабинета')
     user = models.CharField(max_length=50, blank=True, null=True, verbose_name='пользователь')
