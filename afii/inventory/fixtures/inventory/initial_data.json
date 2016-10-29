@@ -3,8 +3,9 @@
     "model": "inventory.InventoryApp",
     "pk": 1,
     "fields": {
-      "name": "printer",
+      "app_name": "printer",
       "verbose_name": "Принтер",
+      "view_name_url": "printer:printer_all",
       "description": ""
     }
   },
@@ -13,8 +14,31 @@
     "model": "inventory.InventoryApp",
     "pk": 2,
     "fields": {
-      "name": "storage",
+      "app_name": "cartridge",
+      "verbose_name": "Картиридж",
+      "view_name_url": "printer:cartridge_all",
+      "description": ""
+    }
+  },
+
+  {
+    "model": "inventory.InventoryApp",
+    "pk": 3,
+    "fields": {
+      "app_name": "zip",
+      "verbose_name": "ЗИП",
+      "view_name_url": "printer:zip_all",
+      "description": ""
+    }
+  },
+
+  {
+    "model": "inventory.InventoryApp",
+    "pk": 4,
+    "fields": {
+      "app_name": "storage",
       "verbose_name": "Склад",
+      "view_name_url": "storage:storage_all",
       "description": ""
     }
   }

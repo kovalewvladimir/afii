@@ -1,5 +1,6 @@
 from django.db import models
 from space.models import Space
+from printer import managers
 
 
 PRINTING_TYPE = (
@@ -121,6 +122,8 @@ class Printer(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name='примечание')
     image = models.ImageField(blank=True, null=True, upload_to='printers/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
+
+    objects = managers.PrinterManager()
 
     class Meta:
         verbose_name = 'принтер организации'

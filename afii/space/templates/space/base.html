@@ -5,12 +5,15 @@
 {% comment "Переменные шаблона" %}
     Шаблон наследует 'inventory/base.html' и все его переменные.
 
-    {{ space }} - Текущая площадка
+    {{ space }}    - выбранная площадка
+    {{ storage }}  - выбранный склад
+    {{ app_name }} - имя приложения
 {% endcomment %}
 
 {% comment "Блоки шаблона" %}
     Шаблон наследует 'inventory/base.html' и все его блоки.
 
+    {% block tab_content %} - контент внутри активной tab панели
 {% endcomment %}
 
 
@@ -25,7 +28,18 @@
 
     <ul class="nav nav-pills nav-sub-tabs  hidden-print">
         {% for a in space.apps.all %}
-            <li><a>{{ a.verbose_name }}</a></li>
+            {% if a.app_name == 'storage' %}
+                <li class="dropdown{% if storage %} active{% endif %}">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ a.verbose_name }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        {% for s in space.storage.all %}
+                            <li{% if s.pk == storage.pk %} class="active"{% endif %}><a href="{% url a.get_url s.pk %}">{{ s.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% else %}
+                <li{% if a.app_name == app_name %} class="active"{% endif %}><a href="{% url a.get_url space.pk %}">{{ a.verbose_name }}</a></li>
+            {% endif %}
         {% endfor %}
     </ul>
 

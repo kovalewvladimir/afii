@@ -1,0 +1,29 @@
+{% extends 'space/base.html' %}
+{% load staticfiles %}
+
+{% comment "Переменные шаблона" %}
+    Шаблон наследует 'space/base.html' и все его переменные.
+    В шаблон подключается (include) 'inventory/block_table_and_search.html'.
+
+{% endcomment %}
+
+{% comment "Блоки шаблона" %}
+    Шаблон наследует 'space/base.html' и все его переменные.
+    В шаблон подключается (include) 'inventory/block_table_and_search.html'.
+
+    {% block tab_content %}        - контент внутри активной tab панели
+    {% block add_page_js_script %} - подключение дополнительных js скриптов
+{% endcomment %}
+
+
+{% block page_js_script %}
+    <!-- Поиск в таблице -->
+    <script src="{% static 'inventory/js/search.table.js' %}"></script>
+    <!-- Сортировка в таблице -->
+    <script src="{% static 'inventory/js/sort.table.js' %}"></script>
+    {% block add_page_js_script %}{% endblock %}
+{% endblock %}
+
+{% block tab_content %}
+    {% include 'inventory/block_table_and_search.html' %}
+{% endblock %}
