@@ -1,4 +1,7 @@
 from django.db import models
+from django.urls import reverse
+
+from inventory.table import Item
 from space.models import Space
 from printer import managers
 
@@ -128,6 +131,24 @@ class Printer(models.Model):
     class Meta:
         verbose_name = 'принтер организации'
         verbose_name_plural = 'принтеры организации'
+
+    def get_items_toner_cartridge(self, space_id):
+        items = list()
+        items += [Item(c.base_cartridge.name, reverse('printer:cartridge', args=[c.pk]))
+                  for bc in self.base_printer.base_cartridges.all()
+                  if bc.type != 'DRAM'
+                  for c in bc.cartridges.all()
+                  if c.is_active and c.space.pk == space_id]
+        return items
+
+    def get_items_dram_cartridge(self, space_id):
+        items = list()
+        items += [Item(c.base_cartridge.name, reverse('printer:cartridge', args=[c.pk]))
+                  for bc in self.base_printer.base_cartridges.all()
+                  if bc.type == 'DRAM'
+                  for c in bc.cartridges.all()
+                  if c.is_active and c.space.pk == space_id]
+        return items
 
     def __str__(self):
         return str("{}-{}-{}".format(self.space, self.cabinet, self.base_printer))

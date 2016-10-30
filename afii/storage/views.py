@@ -3,7 +3,7 @@ from storage import models
 
 
 def storage_view(request, storage_id):
-    storage = get_object_or_404(models.Storage, pk=int(storage_id))
+    storage = get_object_or_404(models.Storage.objects.select_related('space'), pk=int(storage_id))
     space = storage.space
 
     args = {

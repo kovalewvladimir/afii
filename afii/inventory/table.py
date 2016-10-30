@@ -12,13 +12,13 @@
 # ]
 
 
-class Items:
+class Item:
     def __init__(self, name, url=None):
         self.name = name
         self.url = url
 
 
-class Cell(Items):
+class Cell(Item):
     def __init__(self, name=None, url=None, status=None, items=None):
         super().__init__(name, url)
         self.status = status
