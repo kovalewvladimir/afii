@@ -27,8 +27,8 @@ class PrinterManager(models.Manager):
         for p in printers:
             table.append(
                 Cell(p.base_printer.name, reverse('printer:printer', args=[p.pk])),
-                Cell(items=p.get_items_toner_cartridge(space_id)),
-                Cell(items=p.get_items_dram_cartridge(space_id)),
+                Cell(items=p.get_items_cartridge(space_id, 'TONER')),
+                Cell(items=p.get_items_cartridge(space_id, 'DRAM')),
                 Cell(p.cabinet),
                 Cell(p.ip, '//' + p.ip),
                 Cell(p.base_printer.get_type_printing_display),

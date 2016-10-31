@@ -132,20 +132,17 @@ class Printer(models.Model):
         verbose_name = 'принтер организации'
         verbose_name_plural = 'принтеры организации'
 
-    def get_items_toner_cartridge(self, space_id):
+    def get_items_cartridge(self, space_id, type_cartridge):
         items = list()
+        if type_cartridge == 'TONER':
+            is_type = lambda t: t != 'DRAM'
+        elif type_cartridge == 'DRAM':
+            is_type = lambda t: t == 'DRAM'
+        else:
+            return None
         items += [Item(c.base_cartridge.name, reverse('printer:cartridge', args=[c.pk]))
                   for bc in self.base_printer.base_cartridges.all()
-                  if bc.type != 'DRAM'
-                  for c in bc.cartridges.all()
-                  if c.is_active and c.space.pk == space_id]
-        return items
-
-    def get_items_dram_cartridge(self, space_id):
-        items = list()
-        items += [Item(c.base_cartridge.name, reverse('printer:cartridge', args=[c.pk]))
-                  for bc in self.base_printer.base_cartridges.all()
-                  if bc.type == 'DRAM'
+                  if is_type(bc.type)
                   for c in bc.cartridges.all()
                   if c.is_active and c.space.pk == space_id]
         return items
