@@ -1,0 +1,165 @@
+{% extends 'space/base.html' %}
+{% load staticfiles %}
+
+
+{% comment "Переменные шаблона" %}
+    Шаблон наследует 'inventory/base.html' и все его переменные.
+
+    {{ name_element }}        - заголовок
+    {{ type_element }}        - тип (например: Принтер, картридж, и тп.)
+    {{ link_image_element }}  - ссылка на картинку
+    {{ link_edit_element }}   - ссылка на страницу редактирования
+    {{ elements }}            - список элементов отображения
+{% endcomment %}
+
+{% comment "Блоки шаблона" %}
+    Шаблон наследует 'inventory/base.html' и все его блоки.
+
+    {% block header_button %}      - блок кнопок (например: кнопка 'qrcode', кнопка 'изменить')
+    {% block additional_content %} - блок дополнительной информации
+{% endcomment %}
+
+
+{% block page_js_script %}
+    <!-- jQuery plugin QR код -->
+    <script src="{% static 'inventory/js/jquery.qrcode.min.js' %}"></script>
+    <!-- jQuery plugin print -->
+    <script src="{% static 'inventory/js/jquery.print.js' %}"></script>
+    <!-- js обработка qrcode -->
+    <script src="{% static 'inventory/js/print.qrcode.js' %}"></script>
+{% endblock %}
+
+{% block modal_windows %}
+    <div class="modal fade" id="ModalQRcode" tabindex="-1" role="dialog" aria-labelledby="ModalQRcodeLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="ModalQRcodeLabel">QR code</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label for="widthPage">Ширина страницы:</label>
+                                <div class="input-group">
+                                    <input type="number" id="widthPage" class="form-control" value="93.5" step="0.5" min="10" max="150"> <span class="input-group-addon">мм</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="heightPage">Высота страницы:</label>
+                                <div class="input-group">
+                                    <input type="number" id="heightPage" class="form-control" value="67" step="0.5" min="10" max="1000"> <span class="input-group-addon">мм</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="">Размер QR code:</label>
+                                <div class="input-group">
+                                    <input type="number" id="sizeQRcode" class="form-control" value="128" min="64" max="256"> <span class="input-group-addon">px</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="">Кол-во QR code:</label>
+                                <div class="input-group">
+                                    <select id="countQRcode" class="form-control">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                    <span class="input-group-addon">шт</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="">Oтступ снаружи:</label>
+                                <div class="input-group">
+                                    <input type="number" id="paddingPageQRcode" class="form-control" value="1" step="0.5" min="0" max="20"> <span class="input-group-addon">мм</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="">Отступ внутри:</label>
+                                <div class="input-group">
+                                    <input type="number" id="paddingPrintQRcode" class="form-control" value="1" step="0.5" min="0" max="20"> <span class="input-group-addon">мм</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="">Заголовок:</label>
+                                <div class="input-group"> <span class="input-group-addon">
+                                    <input type="checkbox" id="isTitleQRcode" checked>
+                                    </span>
+                                    <input type="number" id="titleSizeQRcode" class="form-control" value="24" min="12" max="64"> <span class="input-group-addon">px</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="">Рамка (тип линии):</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                    <input type="checkbox" id="isBorderQRcode" checked>
+                                    </span>
+                                    <select id="borderTypeQRcode" class="form-control">
+                                        <option value="solid">Сплошная</option>
+                                        <option value="dashed">Пунктирная 1</option>
+                                        <option value="dotted">Пунктирная 2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="pageQRcode" class="center-block">
+                        <div id="printQRcodeCount1" class="printQRcode">
+                            <h1 class="titleQRcode text-center">{{ name_element }}</h1>
+                            <img class="imgQRcode center-block">
+                        </div>
+                        <div id="printQRcodeCount2" class="row">
+                            <div class="printQRcode col-xs-6">
+                                <h1 class="titleQRcode text-center">{{ name_element }}</h1>
+                                <img class="imgQRcode center-block">
+                            </div>
+                            <div class="printQRcode col-xs-6">
+                                <h1 class="titleQRcode text-center">{{ name_element }}</h1>
+                                <img class="imgQRcode center-block">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button type="button" id="btnQRcodePrint" class="btn btn-primary">Печать...</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">{{ name_element }} <small>{{ type_element }}</small>
+        <div class="btn-group">
+            <a href="{{ link_edit_element }}" class="btn btn-default btn-sm" title="Редактировать"><span class="glyphicon glyphicon-pencil"></span></a>
+            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#ModalQRcode" title="QR"><span class="glyphicon glyphicon-qrcode"></span></button>
+            {% block header_button %}{% endblock %}
+        </div>
+    </h1>
+    <div class="row">
+        <div class="col-md-7">
+            <table class="table">
+                <tbody>
+                    {% for e in elements %}
+                        <tr>
+                            <td><strong>{{ e.name }}</strong></td>
+                            {% if e.link %}
+                                <td><a href="//{{ e.link }}" target="_blank">{{ e.value }}</a></td>
+                            {% elif e.status %}
+                                <td class="{{ e.status }}">{{ e.value }}</td>
+                            {% else %}
+                                <td>{{ e.value }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-5">
+            <a href="{{ link_image_element }}" class="thumbnail"><img src="{{ link_image_element }}" alt="{{ name_element }}"></a>
+        </div>
+    </div>
+
+    {% block additional_content %}{% endblock %}
+{% endblock %}

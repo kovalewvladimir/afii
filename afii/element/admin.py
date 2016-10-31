@@ -1,5 +1,5 @@
 from django.contrib import admin
-from elements.models import Paper, Distribution, Computer
+from element.models import Paper, Distribution, Computer
 
 
 @admin.register(Paper)

@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('space', '0002_space'),
-        ('elements', '0001_initial'),
+        ('element', '0001_initial'),
     ]
 
     operations = [

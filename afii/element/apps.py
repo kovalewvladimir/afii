@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ElementsConfig(AppConfig):
-    name = 'elements'
+class ElementConfig(AppConfig):
+    name = 'element'
     verbose_name = 'доп. элементы'
