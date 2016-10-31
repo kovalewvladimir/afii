@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'printer',
     'space',
     'storage',
+    'elements',
 ]
 
 MIDDLEWARE = [

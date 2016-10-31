@@ -37,3 +37,5 @@ class PrinterManager(models.Manager):
             )
 
         return table
+
+

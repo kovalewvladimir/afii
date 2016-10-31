@@ -49,6 +49,10 @@ class BasePrinter(models.Model):
     Базовый принтер
     """
 
+    class Meta:
+        verbose_name = 'принтер'
+        verbose_name_plural = 'принтеры'
+
     name = models.CharField(max_length=50, unique=True, verbose_name='имя')
     type_printing = models.CharField(max_length=10, choices=PRINTING_TYPE, verbose_name='технология печати')
     type = models.CharField(max_length=10, choices=PRINTER_TYPE, verbose_name='тип устройства')
@@ -58,10 +62,6 @@ class BasePrinter(models.Model):
                                        verbose_name='информация по расходникам')
     description = models.TextField(blank=True, null=True, verbose_name='описание')
 
-    class Meta:
-        verbose_name = 'принтер'
-        verbose_name_plural = 'принтеры'
-
     def __str__(self):
         return self.name
 
@@ -70,6 +70,11 @@ class BaseCartridge(models.Model):
     """
     Базовый картридж
     """
+
+    class Meta:
+        verbose_name = 'картридж'
+        verbose_name_plural = 'картриджи'
+
     name = models.CharField(max_length=50, unique=True, verbose_name='имя')
     type = models.CharField(max_length=10, choices=CARTRIDGE_TYPE, verbose_name='тип картриджа')
     color = models.CharField(max_length=10, choices=CARTRIDGE_COLOR,
@@ -81,10 +86,6 @@ class BaseCartridge(models.Model):
                                            verbose_name='принтер')
     description = models.TextField(blank=True, null=True, verbose_name='описание')
 
-    class Meta:
-        verbose_name = 'картридж'
-        verbose_name_plural = 'картриджи'
-
     def __str__(self):
         return self.name
 
@@ -93,15 +94,16 @@ class BaseZip(models.Model):
     """
     Базовый ЗИП
     """
+
+    class Meta:
+        verbose_name = 'запчасти для принтера'
+        verbose_name_plural = 'запчасти для принтера'
+
     name = models.CharField(max_length=50, unique=True, verbose_name='имя')
     type = models.CharField(max_length=50, blank=True, null=True, verbose_name='тип ЗИП')
     base_printers = models.ManyToManyField(BasePrinter, blank=True, related_name='base_zips',
                                            verbose_name='принтер')
     description = models.TextField(blank=True, null=True, verbose_name='описание')
-
-    class Meta:
-        verbose_name = 'запчасти для принтера'
-        verbose_name_plural = 'запчасти для принтера'
 
     def __str__(self):
         return self.name
@@ -111,6 +113,11 @@ class Printer(models.Model):
     """
     Принетер
     """
+
+    class Meta:
+        verbose_name = 'принтер организации'
+        verbose_name_plural = 'принтеры организации'
+
     base_printer = models.ForeignKey(BasePrinter, related_name='printers',
                                      verbose_name='принтер')
     space = models.ForeignKey(Space, related_name='printers', verbose_name='площадка')
@@ -127,10 +134,6 @@ class Printer(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
     objects = managers.PrinterManager()
-
-    class Meta:
-        verbose_name = 'принтер организации'
-        verbose_name_plural = 'принтеры организации'
 
     def get_items_cartridge(self, space_id, type_cartridge):
         items = list()
@@ -155,6 +158,11 @@ class Cartridge(models.Model):
     """
     Картридж
     """
+
+    class Meta:
+        verbose_name = 'картридж организации'
+        verbose_name_plural = 'картриджи организации'
+
     base_cartridge = models.ForeignKey(BaseCartridge, related_name='cartridges', verbose_name='картридж')
     space = models.ForeignKey(Space, related_name='cartridges', verbose_name='площадка')
     shelf = models.CharField(max_length=10, verbose_name='№ полки')
@@ -165,10 +173,6 @@ class Cartridge(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='cartridges/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
-    class Meta:
-        verbose_name = 'картридж организации'
-        verbose_name_plural = 'картриджи организации'
-
     def __str__(self):
         return str('{}-{}'.format(self.space, self.base_cartridge))
 
@@ -177,6 +181,12 @@ class Zip(models.Model):
     """
     ЗИП
     """
+
+    class Meta:
+        verbose_name = 'запчасти для принтера организации'
+        verbose_name_plural = 'запчасти для принтера организации'
+
+
     base_zip = models.ForeignKey(BaseZip, related_name='zips', verbose_name='ЗИП')
     space = models.ForeignKey(Space, related_name='zips', verbose_name='площадка')
     shelf = models.CharField(max_length=10, verbose_name='№ полки')
@@ -185,10 +195,6 @@ class Zip(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name='примечание')
     image = models.ImageField(blank=True, null=True, upload_to='zips/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
-
-    class Meta:
-        verbose_name = 'запчасти для принтера организации'
-        verbose_name_plural = 'запчасти для принтера организации'
 
     def __str__(self):
         return str('{}-{}').format(self.space, self.base_zip)

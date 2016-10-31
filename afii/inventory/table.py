@@ -32,9 +32,12 @@ class Rows:
 
 
 class Table:
-    def __init__(self):
+    def __init__(self, table_id='table', is_button_add=True):
         self.header = list()
         self.rows = list()
+
+        self.table_id = table_id
+        self.is_button_add = is_button_add
 
     def append(self, *cell, category=None):
         self.rows.append(Rows(*cell, category=None))
