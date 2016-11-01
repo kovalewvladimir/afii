@@ -30,4 +30,5 @@ class ComputerAdmin(admin.ModelAdmin):
     list_filter = ('space',)
     search_fields = ['cpu']
 
-    radio_fields = {'space': admin.VERTICAL}
+    radio_fields = {'space': admin.VERTICAL,
+                    'lan': admin.VERTICAL}

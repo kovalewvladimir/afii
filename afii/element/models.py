@@ -2,6 +2,7 @@ from django.db import models
 
 from printer.models import PAPER_TYPE
 from space.models import Space
+from element import managers
 
 LAN_TYPE = (
     ('INTEGRATED', 'Встроенный'),
@@ -29,6 +30,8 @@ class Paper(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='papers/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
+    objects = managers.ElementManager()
+
     def __str__(self):
         return self.name
 
@@ -48,6 +51,8 @@ class Distribution(models.Model):
     count = models.PositiveIntegerField(verbose_name='кол-во')
     image = models.ImageField(blank=True, null=True, upload_to='distributions/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
+
+    objects = managers.ElementManager()
 
     def __str__(self):
         return self.name
@@ -76,5 +81,7 @@ class Computer(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='computers/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
+    objects = managers.ElementManager()
+
     def __str__(self):
-        return str('{}-{}').format(self.space, self.cpu)
+        return str(self.pk)

@@ -5,11 +5,11 @@
 {% comment "Переменные шаблона" %}
     Шаблон наследует 'inventory/base.html' и все его переменные.
 
-    {{ name_element }}        - заголовок
-    {{ type_element }}        - тип (например: Принтер, картридж, и тп.)
-    {{ link_image_element }}  - ссылка на картинку
-    {{ link_edit_element }}   - ссылка на страницу редактирования
-    {{ elements }}            - список элементов отображения
+    {{ element.name }}        - заголовок
+    {{ element.type_element }}        - тип (например: Принтер, картридж, и тп.)
+    {{ element.link_to_image }}  - ссылка на картинку
+    {{ element.link_to_page_edit }}   - ссылка на страницу редактирования
+    {{ element }}            - объект для отображения
 {% endcomment %}
 
 {% comment "Блоки шаблона" %}
@@ -105,16 +105,16 @@
                     </form>
                     <div id="pageQRcode" class="center-block">
                         <div id="printQRcodeCount1" class="printQRcode">
-                            <h1 class="titleQRcode text-center">{{ name_element }}</h1>
+                            <h1 class="titleQRcode text-center">{{ element.name }}</h1>
                             <img class="imgQRcode center-block">
                         </div>
                         <div id="printQRcodeCount2" class="row">
                             <div class="printQRcode col-xs-6">
-                                <h1 class="titleQRcode text-center">{{ name_element }}</h1>
+                                <h1 class="titleQRcode text-center">{{ element.name }}</h1>
                                 <img class="imgQRcode center-block">
                             </div>
                             <div class="printQRcode col-xs-6">
-                                <h1 class="titleQRcode text-center">{{ name_element }}</h1>
+                                <h1 class="titleQRcode text-center">{{ element.name }}</h1>
                                 <img class="imgQRcode center-block">
                             </div>
                         </div>
@@ -130,9 +130,9 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="page-header">{{ name_element }} <small>{{ type_element }}</small>
+    <h1 class="page-header">{{ element.name }} <small>{{ element.type_element }}</small>
         <div class="btn-group">
-            <a href="{{ link_edit_element }}" class="btn btn-default btn-sm" title="Редактировать"><span class="glyphicon glyphicon-pencil"></span></a>
+            <a href="{{ element.link_to_page_edit }}" class="btn btn-default btn-sm" title="Редактировать"><span class="glyphicon glyphicon-pencil"></span></a>
             <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#ModalQRcode" title="QR"><span class="glyphicon glyphicon-qrcode"></span></button>
             {% block header_button %}{% endblock %}
         </div>
@@ -141,15 +141,15 @@
         <div class="col-md-7">
             <table class="table">
                 <tbody>
-                    {% for e in elements %}
+                    {% for f in element.fields %}
                         <tr>
-                            <td><strong>{{ e.name }}</strong></td>
-                            {% if e.link %}
-                                <td><a href="//{{ e.link }}" target="_blank">{{ e.value }}</a></td>
-                            {% elif e.status %}
-                                <td class="{{ e.status }}">{{ e.value }}</td>
+                            <td><strong>{{ f.name }}</strong></td>
+                            {% if f.url %}
+                                <td><a href="{{ f.url }}" target="_blank">{{ f.value }}</a></td>
+                            {% elif f.status %}
+                                <td class="{{ f.status }}">{{ f.value }}</td>
                             {% else %}
-                                <td>{{ e.value }}</td>
+                                <td>{{ f.value }}</td>
                             {% endif %}
                         </tr>
                     {% endfor %}
@@ -157,7 +157,7 @@
             </table>
         </div>
         <div class="col-md-5">
-            <a href="{{ link_image_element }}" class="thumbnail"><img src="{{ link_image_element }}" alt="{{ name_element }}"></a>
+            <a href="{{ element.link_to_image }}" class="thumbnail"><img src="{{ element.link_to_image }}" alt="{{ element.name }}"></a>
         </div>
     </div>
 
