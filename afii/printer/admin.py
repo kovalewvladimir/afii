@@ -2,6 +2,12 @@ from django.contrib import admin
 from printer.models import BasePrinter, BaseCartridge, BaseZip, Printer, Cartridge, Zip
 
 
+class BasePrinterInline(admin.StackedInline):
+    model = Printer
+    extra = 0
+    show_change_link = True
+
+
 @admin.register(BasePrinter)
 class BasePrinterAdmin(admin.ModelAdmin):
     ordering = ('name',)
@@ -9,10 +15,17 @@ class BasePrinterAdmin(admin.ModelAdmin):
     list_filter = ('type_printing', 'type')
     search_fields = ['name']
 
+    inlines = [BasePrinterInline]
     radio_fields = {'type_printing': admin.VERTICAL,
                     'type': admin.VERTICAL,
                     'color': admin.VERTICAL,
                     'type_paper': admin.HORIZONTAL}
+
+
+class BaseCartridgeInline(admin.StackedInline):
+    model = Cartridge
+    extra = 0
+    show_change_link = True
 
 
 @admin.register(BaseCartridge)
@@ -22,9 +35,16 @@ class BaseCartridgeAdmin(admin.ModelAdmin):
     list_filter = ('type', 'recycling')
     search_fields = ['name']
 
+    inlines = [BaseCartridgeInline]
     filter_horizontal = ('base_printers',)
     radio_fields = {'type': admin.VERTICAL,
                     'color': admin.VERTICAL}
+
+
+class BaseZipInline(admin.StackedInline):
+    model = Zip
+    extra = 0
+    show_change_link = True
 
 
 @admin.register(BaseZip)
@@ -34,6 +54,7 @@ class BaseZipAdmin(admin.ModelAdmin):
     list_filter = ('type',)
     search_fields = ['name']
 
+    inlines = [BaseZipInline]
     filter_horizontal = ('base_printers',)
 
 
