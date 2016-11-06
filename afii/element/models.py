@@ -3,6 +3,7 @@ from django.db import models
 from printer.models import PAPER_TYPE
 from space.models import Space
 from element import managers
+from inventory.models import BaseModel
 
 LAN_TYPE = (
     ('INTEGRATED', 'Встроенный'),
@@ -10,7 +11,7 @@ LAN_TYPE = (
 )
 
 
-class Paper(models.Model):
+class Paper(BaseModel):
     """
     Бумага
     """
@@ -36,7 +37,7 @@ class Paper(models.Model):
         return self.name
 
 
-class Distribution(models.Model):
+class Distribution(BaseModel):
     """
     Дистрибутивы
     """
@@ -58,7 +59,7 @@ class Distribution(models.Model):
         return self.name
 
 
-class Computer(models.Model):
+class Computer(BaseModel):
     """
     Системные блоки
     """

@@ -36,6 +36,41 @@
     "model": "inventory.InventoryApp",
     "pk": 4,
     "fields": {
+      "app_name": "paper",
+      "verbose_name": "Бумага",
+      "view_name_url": "element:paper_all",
+      "description": ""
+    }
+  },
+
+
+  {
+    "model": "inventory.InventoryApp",
+    "pk": 5,
+    "fields": {
+      "app_name": "distribution",
+      "verbose_name": "Дистрибутивы",
+      "view_name_url": "element:distribution_all",
+      "description": ""
+    }
+  },
+
+
+  {
+    "model": "inventory.InventoryApp",
+    "pk": 6,
+    "fields": {
+      "app_name": "computer",
+      "verbose_name": "Системные блоки",
+      "view_name_url": "element:computer_all",
+      "description": ""
+    }
+  },
+
+  {
+    "model": "inventory.InventoryApp",
+    "pk": 7,
+    "fields": {
       "app_name": "storage",
       "verbose_name": "Склад",
       "view_name_url": "storage:storage_all",

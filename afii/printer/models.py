@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+from inventory.models import BaseModel
 from inventory.table import Item
 from space.models import Space
 from printer import managers
@@ -44,7 +45,7 @@ PAPER_TYPE = (
 )
 
 
-class BasePrinter(models.Model):
+class BasePrinter(BaseModel):
     """
     Базовый принтер
     """
@@ -66,7 +67,7 @@ class BasePrinter(models.Model):
         return self.name
 
 
-class BaseCartridge(models.Model):
+class BaseCartridge(BaseModel):
     """
     Базовый картридж
     """
@@ -90,7 +91,7 @@ class BaseCartridge(models.Model):
         return self.name
 
 
-class BaseZip(models.Model):
+class BaseZip(BaseModel):
     """
     Базовый ЗИП
     """
@@ -109,7 +110,7 @@ class BaseZip(models.Model):
         return self.name
 
 
-class Printer(models.Model):
+class Printer(BaseModel):
     """
     Принетер
     """
@@ -135,6 +136,9 @@ class Printer(models.Model):
 
     objects = managers.PrinterManager()
 
+    def get_absolute_url(self):
+        return reverse('printer:printer', args=[self.pk])
+
     def get_items_cartridge(self, space_id, type_cartridge):
         items = list()
         if type_cartridge == 'TONER':
@@ -143,7 +147,7 @@ class Printer(models.Model):
             is_type = lambda t: t == 'DRAM'
         else:
             return None
-        items += [Item(c.base_cartridge.name, reverse('printer:cartridge', args=[c.pk]))
+        items += [Item(c.base_cartridge.name, c.get_absolute_url())
                   for bc in self.base_printer.base_cartridges.all()
                   if is_type(bc.type)
                   for c in bc.cartridges.all()
@@ -151,10 +155,10 @@ class Printer(models.Model):
         return items
 
     def __str__(self):
-        return str("{}-{}-{}".format(self.space, self.cabinet, self.base_printer))
+        return str(self.base_printer)
 
 
-class Cartridge(models.Model):
+class Cartridge(BaseModel):
     """
     Картридж
     """
@@ -173,11 +177,16 @@ class Cartridge(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='cartridges/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
+    objects = managers.CartridgeManager()
+
+    def get_absolute_url(self):
+        return reverse('printer:cartridge', args=[self.pk])
+
     def __str__(self):
-        return str('{}-{}'.format(self.space, self.base_cartridge))
+        return str(self.base_cartridge)
 
 
-class Zip(models.Model):
+class Zip(BaseModel):
     """
     ЗИП
     """
@@ -185,7 +194,6 @@ class Zip(models.Model):
     class Meta:
         verbose_name = 'запчасти для принтера организации'
         verbose_name_plural = 'запчасти для принтера организации'
-
 
     base_zip = models.ForeignKey(BaseZip, related_name='zips', verbose_name='ЗИП')
     space = models.ForeignKey(Space, related_name='zips', verbose_name='площадка')
@@ -195,6 +203,9 @@ class Zip(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name='примечание')
     image = models.ImageField(blank=True, null=True, upload_to='zips/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
+
+    def get_absolute_url(self):
+        return reverse('printer:zip', args=[self.pk])
 
     def __str__(self):
         return str('{}-{}').format(self.space, self.base_zip)

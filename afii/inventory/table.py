@@ -39,5 +39,5 @@ class Table:
         self.table_id = table_id
         self.is_button_add = is_button_add
 
-    def append(self, *cell, category=None):
-        self.rows.append(Rows(*cell, category=None))
+    def append_row(self, *cell, category=None):
+        self.rows.append(Rows(*cell, category))

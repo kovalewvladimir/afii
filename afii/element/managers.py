@@ -10,30 +10,42 @@ from inventory.utils import get_status
 # TODO: сделать вывод url
 # TODO: реализовать вывод (да,нет) у полей BooleanField
 class ElementManager(models.Manager):
+    element_db = None
+
     def get_element(self, pk, model_fields):
         element_db = get_object_or_404(self, pk=pk)
-        model_meta = self.model._meta
 
-        is_status = False
-        if 'count' in model_fields and 'min_count' in model_fields:
-            is_status = True
+        is_count = False
+        is_min_count = False
+        for mf in model_fields:
+            if mf['field'] == 'count':
+                is_count = True
+            if mf['field'] == 'min_count':
+                is_min_count = True
+        is_status = is_count and is_min_count
 
         fields = list()
 
         for mf in model_fields:
+            m = mf['model']
+            f = mf['field']
+            if mf['model'] == 'self':
+                e_db = element_db
+            else:
+                e_db = getattr(element_db, m)
             field = Field()
-            field.name = model_meta.get_field(mf).verbose_name.capitalize()
-            field.value = getattr(element_db, 'get_%s_display' % mf, getattr(element_db, mf))
-            if is_status and mf == 'count':
-                field.status = get_status(element_db.count, element_db.min_count)
+            field.name = e_db.get_field(f)
+            field.value = getattr(e_db, 'get_%s_display' % f, getattr(e_db, f))
+            if is_status and f == 'count':
+                field.status = get_status(e_db.count, e_db.min_count)
             fields.append(field)
 
         element = Element()
         element.name = str(element_db).capitalize()
-        element.type_element = model_meta.verbose_name
+        element.type_element = element_db.get_verbose_name
         element.fields = fields
         element.link_to_image = element_db.image.url if element_db.image else static('inventory/img/default.png')
-        element.link_to_page_edit = reverse('admin:%s_%s_change' % (model_meta.app_label, model_meta.model_name), args=(pk,))
+        element.link_to_page_edit = element_db.get_admin_change_edit()
 
+        self.element_db = element_db
         return element
-

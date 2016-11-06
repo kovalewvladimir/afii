@@ -1,47 +1,48 @@
 from django.shortcuts import render
+from django.utils.decorators import classonlymethod
+from django.views.generic import ListView
 
 from element import models
 
 
-def paper_view(request, paper_id):
+class ElementView(ListView):
+    model = None
+    model_fields = None
+    template_name = 'element/base.html'
+    context_object_name = 'element'
+
+    def get_queryset(self):
+        return self.model.objects.get_element(self.args[0], self.model_fields)
+
+
+class PaperView(ElementView):
+    model = models.Paper
+    model_fields = {
+        'self': [
+            'name',
+            'space',
+            'type_paper',
+            'size',
+            'count',
+            'min_count',
+            'description',
+            'is_active',
+        ],
+    }
+
+
+class DistributionView(ElementView):
+    model = models.Distribution
     model_fields = [
         'name',
         'space',
-        'type_paper',
-        'size',
-        'count',
-        'min_count',
-        'description',
-        'is_active',
-    ]
-
-    element = models.Paper.objects.get_element(paper_id, model_fields)
-
-    args = {
-        'element': element,
-    }
-
-    return render(request, 'element/base.html', args)
-
-
-def distribution_view(request, paper_id):
-    model_fields = [
-        'name',
-        'space',
         'count',
         'is_active',
     ]
 
-    element = models.Distribution.objects.get_element(paper_id, model_fields)
 
-    args = {
-        'element': element,
-    }
-
-    return render(request, 'element/base.html', args)
-
-
-def computer_view(request, paper_id):
+class ComputerView(ElementView):
+    model = models.Computer
     model_fields = [
         'cpu',
         'space',
@@ -57,12 +58,6 @@ def computer_view(request, paper_id):
         'is_active',
     ]
 
-    element = models.Computer.objects.get_element(paper_id, model_fields)
 
-    args = {
-        'element': element,
-    }
-
-    return render(request, 'element/base.html', args)
-
-
+def all_view(request, paper_id):
+    pass

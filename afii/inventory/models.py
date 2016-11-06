@@ -2,6 +2,20 @@ from django.db import models
 from django.urls import reverse
 
 
+class BaseModel(models.Model):
+    class Meta:
+        abstract = True
+
+    def get_admin_change_edit(self):
+        return reverse('admin:%s_%s_change' % (self._meta.app_label, self._meta.model_name), args=(self.pk,))
+
+    def get_verbose_name(self):
+        return self._meta.verbose_name
+
+    def get_field(self, name):
+        return self._meta.get_field(name).verbose_name.capitalize()
+
+
 class InventoryApp(models.Model):
     """
     Приложения inventory
