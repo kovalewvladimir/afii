@@ -1,0 +1,40 @@
+{% extends 'space/base_table.html' %}
+{% load staticfiles %}
+
+{% comment "Переменные шаблона" %}
+    Шаблон наследует 'space/base_table.html' и все его переменные.
+    В шаблон подключается (include) 'inventory/block_table_and_search.html'.
+
+{% endcomment %}
+
+{% comment "Блоки шаблона" %}
+    Шаблон наследует 'space/base_table.html' и все его переменные.
+    В шаблон подключается (include) 'inventory/block_table_and_search.html'.
+
+    {% block tab_content %}        - контент внутри активной tab панели
+{% endcomment %}
+
+
+{% block tab_content %}
+    <ul class="nav nav-pills nav-sub-tabs  hidden-print">
+        <li class="active"><a href="#cartridges-toner" data-toggle="tab" aria-expanded="true"><span class="badge pull-right">{{ tables.toner.count }}</span>Тонер</a></li>
+        <li><a href="#cartridges-dram" data-toggle="tab" aria-expanded="true"><span class="badge pull-right">{{ tables.dram.count }}</span>Драм</a></li>
+        <li><a href="#cartridges-send-to-recycling" data-toggle="tab" aria-expanded="true"><span class="badge pull-right">{{ tables.send_to_recycling.count }}</span>Отправить рециклинг</a></li>
+        <li><a href="#cartridges-in-recycling" data-toggle="tab" aria-expanded="true"><span class="badge pull-right">{{ tables.in_recycling.count }}</span>В рециклинге</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="cartridges-toner">
+            {% include 'inventory/block_table_and_search.html' with table=tables.toner %}
+        </div>
+        <div class="tab-pane" id="cartridges-dram">
+            {% include 'inventory/block_table_and_search.html' with table=tables.dram %}
+        </div>
+        <div class="tab-pane" id="cartridges-send-to-recycling">
+            {% include 'inventory/block_table_and_search.html' with table=tables.send_to_recycling %}
+        </div>
+        <div class="tab-pane" id="cartridges-in-recycling">
+            {% include 'inventory/block_table_and_search.html' with table=tables.in_recycling %}
+        </div>
+    </div>
+{% endblock %}

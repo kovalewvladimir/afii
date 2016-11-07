@@ -2,41 +2,24 @@ from django.shortcuts import render, get_object_or_404
 
 from element.views import ElementView
 from printer import models
+from space.views import TableView
 
 
-def printer_all_view(request, space_id):
-    space = get_object_or_404(models.Space, pk=int(space_id))
-    table = models.Printer.objects.get_table(int(space_id))
-
-    args = {
-        'space': space,
-        'app_name': 'printer',
-        'table': table,
-    }
-
-    return render(request, 'space/base_table.html', args)
+class PrinterAllView(TableView):
+    model = models.Printer
+    app_name = 'printer'
 
 
-def cartridge_all_view(request, space_id):
-    space = get_object_or_404(models.Space, pk=int(space_id))
-
-    args = {
-        'space': space,
-        'app_name': 'cartridge',
-    }
-
-    return render(request, 'space/base_table.html', args)
+class CartridgeAllView(TableView):
+    model = models.Cartridge
+    app_name = 'cartridge'
+    template_name = 'printer/cartridge_all.html'
+    context_object_name = 'tables'
 
 
-def zip_all_view(request, space_id):
-    space = get_object_or_404(models.Space, pk=int(space_id))
-
-    args = {
-        'space': space,
-        'app_name': 'zip',
-    }
-
-    return render(request, 'space/base_table.html', args)
+class ZipAllView(TableView):
+    model = models.Zip
+    app_name = 'zip'
 
 
 class PrinterView(ElementView):
@@ -59,6 +42,12 @@ class PrinterView(ElementView):
         {'model': 'base_printer', 'field': 'info_consumables'},
         {'model': 'self', 'field': 'description'},
     ]
+
+    def get_context_data(self, **kwargs):
+        context = super(PrinterView, self).get_context_data(**kwargs)
+        # TODO: cartridge and zip get_table()
+        context['123'] = '123'
+        return context
 
 
 class CartridgeView(ElementView):

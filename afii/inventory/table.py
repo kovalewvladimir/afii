@@ -26,18 +26,21 @@ class Cell(Item):
 
 
 class Rows:
-    def __init__(self, *cell, category=None):
+    def __init__(self, cell, category=None):
         self.cell = cell
         self.category = category
 
 
 class Table:
-    def __init__(self, table_id='table', is_button_add=True):
+    def __init__(self, table_id='table', is_button=True):
         self.header = list()
         self.rows = list()
+        self.count = 0
 
         self.table_id = table_id
-        self.is_button_add = is_button_add
+        self.is_button = is_button
+        self.button_name = None
+        self.button_url = None
 
-    def append_row(self, *cell, category=None):
-        self.rows.append(Rows(*cell, category))
+    def append_row(self, cell, category=None):
+        self.rows.append(Rows(cell, category))

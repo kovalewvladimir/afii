@@ -6,11 +6,11 @@
 
 
 <h2 class="sub-header hidden-print">
-    {% if table.is_button_add %}
+    {% if table.is_button %}
         <div class="row">
             <div class="col-md-3">
                 <div class="btn-group btn-group-justified">
-                    <a href="{{ btn_add.url }}" class="btn btn-default" title="Добавить">{{ btn_add.name }}</a>
+                    <a href="{{ table.button_url }}" class="btn btn-default" title="Добавить">{{ table.button_name }}</a>
                 </div>
             </div>
             <div class="col-md-9">
@@ -23,7 +23,7 @@
                         <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="{{ table.table_id }}"></ul>
                     </div>
                 </div>
-    {% if table.is_button_add %}
+    {% if table.is_button %}
             </div>
         </div>
     {% endif %}

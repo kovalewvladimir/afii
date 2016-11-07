@@ -147,7 +147,7 @@ class Printer(BaseModel):
             is_type = lambda t: t == 'DRAM'
         else:
             return None
-        items += [Item(c.base_cartridge.name, c.get_absolute_url())
+        items += [Item(c, c.get_absolute_url())
                   for bc in self.base_printer.base_cartridges.all()
                   if is_type(bc.type)
                   for c in bc.cartridges.all()
@@ -173,6 +173,7 @@ class Cartridge(BaseModel):
     count = models.PositiveIntegerField(verbose_name='кол-во')
     min_count = models.PositiveIntegerField(verbose_name='минимальное кол-во')
     count_recycling = models.PositiveIntegerField(blank=True, default=0, verbose_name='кол-во в рециклинг')
+    count_in_recycling = models.PositiveIntegerField(blank=True, default=0, verbose_name='кол-во в рециклинге')
     description = models.TextField(blank=True, null=True, verbose_name='примечание')
     image = models.ImageField(blank=True, null=True, upload_to='cartridges/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
@@ -181,6 +182,14 @@ class Cartridge(BaseModel):
 
     def get_absolute_url(self):
         return reverse('printer:cartridge', args=[self.pk])
+
+    def get_printers(self, space_id):
+        items = list()
+        items += [Item(p, p.get_absolute_url())
+                  for bp in self.base_cartridge.base_printers.all()
+                  for p in bp.printers.all()
+                  if p.is_active and p.space.pk == space_id]
+        return items
 
     def __str__(self):
         return str(self.base_cartridge)
