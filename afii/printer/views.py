@@ -1,8 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-
 from element.views import ElementView
 from printer import models
-from space.views import TableView
+from inventory.views import TableView
 
 
 class PrinterAllView(TableView):
@@ -28,26 +26,21 @@ class PrinterView(ElementView):
         {'model': 'self', 'field': 'base_printer'},
         {'model': 'self', 'field': 'space'},
         {'model': 'self', 'field': 'cabinet'},
+        {'model': 'self', 'field': 'user'},
         {'model': 'base_printer', 'field': 'type_printing'},
         {'model': 'base_printer', 'field': 'type'},
         {'model': 'base_printer', 'field': 'color'},
         {'model': 'base_printer', 'field': 'type_paper'},
-        {'model': 'self', 'field': 'user'},
+        {'model': 'self', 'field': 'ip'},
         {'model': 'self', 'field': 'login'},
         {'model': 'self', 'field': 'password'},
-        {'model': 'self', 'field': 'ip'},
         {'model': 'self', 'field': 'sn'},
         {'model': 'self', 'field': 'date'},
         {'model': 'self', 'field': 'is_active'},
         {'model': 'base_printer', 'field': 'info_consumables'},
         {'model': 'self', 'field': 'description'},
     ]
-
-    def get_context_data(self, **kwargs):
-        context = super(PrinterView, self).get_context_data(**kwargs)
-        # TODO: cartridge and zip get_table()
-        context['123'] = '123'
-        return context
+    template_name = 'printer/printer.html'
 
 
 class CartridgeView(ElementView):
@@ -62,16 +55,19 @@ class CartridgeView(ElementView):
         {'model': 'self', 'field': 'is_active'},
         {'model': 'self', 'field': 'description'},
     ]
+    template_name = 'printer/cartridge_or_zip.html'
 
 
 class ZipView(ElementView):
     model = models.Zip
     model_fields = [
-        'base_zip',
-        'space',
-        'shelf',
-        'count',
-        'min_count',
-        'description',
-        'is_active',
+        {'model': 'self', 'field': 'base_zip'},
+        {'model': 'base_zip', 'field': 'type'},
+        {'model': 'self', 'field': 'space'},
+        {'model': 'self', 'field': 'shelf'},
+        {'model': 'self', 'field': 'count'},
+        {'model': 'self', 'field': 'min_count'},
+        {'model': 'self', 'field': 'is_active'},
+        {'model': 'self', 'field': 'description'},
     ]
+    template_name = 'printer/cartridge_or_zip.html'

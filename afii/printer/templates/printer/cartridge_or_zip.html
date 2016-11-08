@@ -1,0 +1,24 @@
+{% extends 'element/base.html' %}
+{% load staticfiles %}
+
+
+{% comment "Переменные шаблона" %}
+    Шаблон наследует 'base/base.html' и все его переменные.
+    В шаблон подключается (include) 'inventory/block_table_and_search.html'.
+
+{% endcomment %}
+
+{% comment "Блоки шаблона" %}
+    Шаблон наследует 'base/base.html' и все его блоки.
+    В шаблон подключается (include) 'inventory/block_table_and_search.html'.
+
+    {% block additional_content %} - блок дополнительной информации
+{% endcomment %}
+
+
+{% block additional_content %}
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong>Принтер</strong></div>
+        {% include 'inventory/block_table.html' with table=element.table_printer add_table_class='table-bordered table-hover' %}
+    </div>
+{% endblock %}

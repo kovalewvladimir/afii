@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 
 from inventory.models import BaseModel
-from inventory.table import Item
+from inventory.table import Item, Table
 from space.models import Space
 from printer import managers
 
@@ -81,7 +81,7 @@ class BaseCartridge(BaseModel):
     color = models.CharField(max_length=10, choices=CARTRIDGE_COLOR,
                              blank=True, null=True, verbose_name='цвет',
                              help_text='заполнить поле только для \'тонер-картиржа\'',)
-    recycling = models.BooleanField(verbose_name='Рециклинг',
+    recycling = models.BooleanField(default=False, verbose_name='Рециклинг',
                                     help_text='заполнить поле только для "тонер-картиржа"')
     base_printers = models.ManyToManyField(BasePrinter, blank=True, related_name='base_cartridges',
                                            verbose_name='принтер')
@@ -139,8 +139,30 @@ class Printer(BaseModel):
     def get_absolute_url(self):
         return reverse('printer:printer', args=[self.pk])
 
-    def get_items_cartridge(self, space_id, type_cartridge):
+    def get_table_cartridges(self):
+        table_cartridges = {
+            'toner': Table(),
+            'dram': Table(),
+        }
+        for bc in self.base_printer.base_cartridges.all():
+            tc = bc.cartridges.get_table(self.space.pk)
+            table_cartridges['toner'] += tc['toner']
+            table_cartridges['dram'] += tc['dram']
+        if len(table_cartridges['toner'].rows) == 0:
+            table_cartridges['toner'] = None
+        if len(table_cartridges['dram'].rows) == 0:
+            table_cartridges['dram'] = None
+        return table_cartridges
+
+    def get_table_zip(self):
+        table = Table()
+        for z in self.base_printer.base_zips.all():
+            table += z.zips.get_table(self.space.pk)
+        return table
+
+    def get_items_cartridge(self, type_cartridge):
         items = list()
+        space_id = self.space.pk
         if type_cartridge == 'TONER':
             is_type = lambda t: t != 'DRAM'
         elif type_cartridge == 'DRAM':
@@ -183,8 +205,15 @@ class Cartridge(BaseModel):
     def get_absolute_url(self):
         return reverse('printer:cartridge', args=[self.pk])
 
-    def get_printers(self, space_id):
+    def get_table_printer(self):
+        table = Table()
+        for bp in self.base_cartridge.base_printers.all():
+            table += bp.printers.get_table(self.space.pk)
+        return table
+
+    def get_item_printer(self):
         items = list()
+        space_id = self.space.pk
         items += [Item(p, p.get_absolute_url())
                   for bp in self.base_cartridge.base_printers.all()
                   for p in bp.printers.all()
@@ -213,8 +242,25 @@ class Zip(BaseModel):
     image = models.ImageField(blank=True, null=True, upload_to='zips/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
+    objects = managers.ZipManager()
+
     def get_absolute_url(self):
         return reverse('printer:zip', args=[self.pk])
 
+    def get_table_printer(self):
+        table = Table()
+        for bp in self.base_zip.base_printers.all():
+            table += bp.printers.get_table(self.space.pk)
+        return table
+
+    def get_item_printer(self):
+        items = list()
+        space_id = self.space.pk
+        items += [Item(p, p.get_absolute_url())
+                  for bp in self.base_zip.base_printers.all()
+                  for p in bp.printers.all()
+                  if p.is_active and p.space.pk == space_id]
+        return items
+
     def __str__(self):
-        return str('{}-{}').format(self.space, self.base_zip)
+        return str(self.base_zip)

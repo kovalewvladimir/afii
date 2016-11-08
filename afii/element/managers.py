@@ -13,7 +13,8 @@ class ElementManager(models.Manager):
     element_db = None
 
     def get_element(self, pk, model_fields):
-        element_db = get_object_or_404(self, pk=pk)
+        db = self.select_related()
+        element_db = get_object_or_404(db, pk=pk)
 
         is_count = False
         is_min_count = False
@@ -41,7 +42,7 @@ class ElementManager(models.Manager):
             fields.append(field)
 
         element = Element()
-        element.name = str(element_db).capitalize()
+        element.name = str(element_db)
         element.type_element = element_db.get_verbose_name
         element.fields = fields
         element.link_to_image = element_db.image.url if element_db.image else static('inventory/img/default.png')

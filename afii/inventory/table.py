@@ -10,6 +10,7 @@
 #     Rows(Cell(items=[Items('asd', ' '), Items('asd2')]), Cell('name1'), category=4),
 #     Rows(Cell('name5'), Cell('name1'), category=5),
 # ]
+from inventory.utils import get_status_table
 
 
 class Item:
@@ -44,3 +45,15 @@ class Table:
 
     def append_row(self, cell, category=None):
         self.rows.append(Rows(cell, category))
+
+    def get_status(self):
+        status = 'success'
+        for r in self.rows:
+            for c in r.cell:
+                status = get_status_table(status, c.status)
+        return status
+
+    def __iadd__(self, other):
+        self.rows += other.rows
+        self.header = other.header
+        return self

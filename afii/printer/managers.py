@@ -1,4 +1,3 @@
-from django.db import models
 from django.urls import reverse
 
 from element.field import Field
@@ -32,8 +31,8 @@ class PrinterManager(ElementManager):
         for p in printers:
             table.append_row([
                 Cell(p.base_printer.name, p.get_absolute_url()),
-                Cell(items=p.get_items_cartridge(space_id, 'TONER')),
-                Cell(items=p.get_items_cartridge(space_id, 'DRAM')),
+                Cell(items=p.get_items_cartridge('TONER')),
+                Cell(items=p.get_items_cartridge('DRAM')),
                 Cell(p.cabinet),
                 Cell(p.ip, '//' + p.ip),
                 Cell(p.base_printer.get_type_printing_display),
@@ -42,6 +41,16 @@ class PrinterManager(ElementManager):
             ])
 
         return table
+
+    def get_element(self, pk, model_fields):
+        element = super().get_element(pk, model_fields)
+        element.ip = self.element_db.ip
+
+        table_cartridges = self.element_db.get_table_cartridges()
+        element.table_toner_cartridge = table_cartridges['toner']
+        element.table_dram_cartridge = table_cartridges['dram']
+        element.table_zip = self.element_db.get_table_zip()
+        return element
 
 
 class CartridgeManager(ElementManager):
@@ -99,7 +108,7 @@ class CartridgeManager(ElementManager):
                     Cell(c.base_cartridge.recycling),
                     Cell(c.count, status=get_status(c.count, c.min_count)),
                     Cell(c.shelf),
-                    Cell(items=c.get_printers(space_id))
+                    Cell(items=c.get_item_printer())
                 ])
                 table_t.count += c.count
             if c.base_cartridge.type == 'DRAM':
@@ -107,7 +116,7 @@ class CartridgeManager(ElementManager):
                     Cell(c.base_cartridge.name, c.get_absolute_url()),
                     Cell(c.count, status=get_status(c.count, c.min_count)),
                     Cell(c.shelf),
-                    Cell(items=c.get_printers(space_id))
+                    Cell(items=c.get_item_printer())
                 ])
                 table_d.count += c.count
             if c.base_cartridge.recycling and c.base_cartridge.type != 'DRAM' and c.count_recycling > 0:
@@ -115,14 +124,14 @@ class CartridgeManager(ElementManager):
                     Cell(c.base_cartridge.name, c.get_absolute_url()),
                     Cell(c.count, status=get_status(c.count, c.min_count)),
                     Cell(c.count_recycling),
-                    Cell(items=c.get_printers(space_id))
+                    Cell(items=c.get_item_printer())
                 ])
                 table_s.count += c.count_recycling
             if c.base_cartridge.recycling and c.base_cartridge.type != 'DRAM' and c.count_in_recycling > 0:
                 table_s.append_row([
                     Cell(c.base_cartridge.name, c.get_absolute_url()),
                     Cell(c.count_in_recycling),
-                    Cell(items=c.get_printers(space_id))
+                    Cell(items=c.get_item_printer())
                 ])
                 table_s.count += c.count_in_recycling
 
@@ -156,4 +165,42 @@ class CartridgeManager(ElementManager):
             field.value = self.element_db.count_recycling
             element.fields.insert(8, field)
 
+        element.table_printer = self.element_db.get_table_printer()
+
+        return element
+
+
+class ZipManager(ElementManager):
+    def get_table(self, space_id):
+        zip_db = self
+        zip_db = zip_db.select_related()
+        zip_db = zip_db.prefetch_related('base_zip__base_printers__printers__space')
+        zip_db = zip_db.filter(is_active=True)
+        zip_db = zip_db.filter(space__pk=space_id)
+
+        table = Table()
+        table.button_name = 'Добавить ЗИП'
+        table.button_url = reverse('admin:printer_zip_add')
+        table.header = [
+            'Код',
+            'Тип',
+            'Кол-во',
+            'Номер полки',
+            'Модель принтера',
+        ]
+
+        for z in zip_db:
+            table.append_row([
+                Cell(z.base_zip, z.get_absolute_url()),
+                Cell(z.base_zip.type),
+                Cell(z.count, status=get_status(z.count, z.min_count)),
+                Cell(z.shelf),
+                Cell(items=z.get_item_printer()),
+            ])
+
+        return table
+
+    def get_element(self, pk, model_fields):
+        element = super().get_element(pk, model_fields)
+        element.table_printer = self.element_db.get_table_printer()
         return element

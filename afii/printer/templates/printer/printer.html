@@ -1,0 +1,148 @@
+{% extends 'element/base.html' %}
+{% load staticfiles %}
+
+
+{% comment "Переменные шаблона" %}
+    Шаблон наследует 'base/base.html' и все его переменные.
+    В шаблон подключается (include) 'inventory/block_table_and_search.html'.
+
+{% endcomment %}
+
+{% comment "Блоки шаблона" %}
+    Шаблон наследует 'base/base.html' и все его блоки.
+    В шаблон подключается (include) 'inventory/block_table_and_search.html'.
+
+    {% block additional_content %} - блок дополнительной информации
+{% endcomment %}
+
+{% block modal_windows %}
+    <div class="modal fade" id="ModalQRcode" tabindex="-1" role="dialog" aria-labelledby="ModalQRcodeLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="ModalQRcodeLabel">QR code</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label for="widthPage">Ширина страницы:</label>
+                                <div class="input-group">
+                                    <input type="number" id="widthPage" class="form-control" value="93.5" step="0.5" min="10" max="150"> <span class="input-group-addon">мм</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="heightPage">Высота страницы:</label>
+                                <div class="input-group">
+                                    <input type="number" id="heightPage" class="form-control" value="67" step="0.5" min="10" max="1000"> <span class="input-group-addon">мм</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="">Размер QR code:</label>
+                                <div class="input-group">
+                                    <input type="number" id="sizeQRcode" class="form-control" value="128" min="64" max="256"> <span class="input-group-addon">px</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="">Кол-во QR code:</label>
+                                <div class="input-group">
+                                    <select id="countQRcode" class="form-control">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                    <span class="input-group-addon">шт</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="">Заголовок:</label>
+                                <div class="input-group"> <span class="input-group-addon">
+                                    <input type="checkbox" id="isTitleQRcode" checked>
+                                    </span>
+                                    <input type="number" id="titleSizeQRcode" class="form-control" value="24" min="12" max="64"> <span class="input-group-addon">px</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="">IP:</label>
+                                <div class="input-group"> <span class="input-group-addon">
+                                    <input type="checkbox" id="isIpQRcode" checked>
+                                    </span>
+                                    <input type="number" id="ipSizeQRcode" class="form-control" value="24" min="12" max="64"> <span class="input-group-addon">px</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="">Oтступ снаружи:</label>
+                                <div class="input-group">
+                                    <input type="number" id="paddingPageQRcode" class="form-control" value="1" step="0.5" min="0" max="20"> <span class="input-group-addon">мм</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="">Отступ внутри:</label>
+                                <div class="input-group">
+                                    <input type="number" id="paddingPrintQRcode" class="form-control" value="1" step="0.5" min="0" max="20"> <span class="input-group-addon">мм</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <label for="">Рамка (тип линии):</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                    <input type="checkbox" id="isBorderQRcode" checked>
+                                    </span>
+                                    <select id="borderTypeQRcode" class="form-control">
+                                        <option value="solid">Сплошная</option>
+                                        <option value="dashed">Пунктирная 1</option>
+                                        <option value="dotted">Пунктирная 2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="pageQRcode" class="center-block">
+                        <div id="printQRcodeCount1" class="printQRcode">
+                            <h1 class="titleQRcode text-center">{{ element.name }}</h1>
+                            <img class="imgQRcode center-block">
+                            <p class="ipQRcode text-center">{{ element.ip }}</p>
+                        </div>
+                        <div id="printQRcodeCount2" class="row">
+                            <div class="printQRcode col-xs-6">
+                                <h1 class="titleQRcode text-center">{{ element.name }}</h1>
+                                <img class="imgQRcode center-block">
+                                <p class="ipQRcode text-center">{{ element.ip }}</p>
+                            </div>
+                            <div class="printQRcode col-xs-6">
+                                <h1 class="titleQRcode text-center">{{ element.name }}</h1>
+                                <img class="imgQRcode center-block">
+                                <p class="ipQRcode text-center">{{ element.ip }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button type="button" id="btnQRcodePrint" class="btn btn-primary">Печать...</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block additional_content %}
+    {% if element.table_toner_cartridge %}
+        <div class="panel panel-{{ element.table_toner_cartridge.get_status }}">
+            <div class="panel-heading"><strong>Тонер картридж</strong></div>
+            {% include 'inventory/block_table.html' with  table=element.table_toner_cartridge add_table_class='table-bordered table-hover' %}
+        </div>
+    {% endif %}
+    {% if element.table_dram_cartridge %}
+        <div class="panel panel-{{ element.table_dram_cartridge.get_status }}">
+            <div class="panel-heading"><strong>Драм картридж</strong></div>
+            {% include 'inventory/block_table.html' with  table=element.table_dram_cartridge add_table_class='table-bordered table-hover' %}
+        </div>
+    {% endif %}
+    {% if element.table_zip %}
+        <div class="panel panel-{{ element.table_zip.get_status }}">
+            <div class="panel-heading"><strong>ЗИП</strong></div>
+            {% include 'inventory/block_table.html' with  table=element.table_zip add_table_class='table-bordered table-hover' %}
+        </div>
+    {% endif %}
+{% endblock %}
