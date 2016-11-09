@@ -10,6 +10,9 @@
 #     Rows(Cell(items=[Items('asd', ' '), Items('asd2')]), Cell('name1'), category=4),
 #     Rows(Cell('name5'), Cell('name1'), category=5),
 # ]
+from django.urls import NoReverseMatch
+from django.urls import reverse
+
 from inventory.utils import get_status_table
 
 
@@ -32,16 +35,27 @@ class Rows:
         self.category = category
 
 
+class Button:
+    def __init__(self, is_button=True, button_name=None, button_url=None):
+        self.is_button = is_button
+        self.button_name = button_name
+        self.button_url = button_url
+
+    def get_absolute_url(self):
+        try:
+            return reverse(self.button_url)
+        except NoReverseMatch:
+            return None
+
+
 class Table:
-    def __init__(self, table_id='table', is_button=True):
+    def __init__(self, table_id='table', button=Button()):
         self.header = list()
         self.rows = list()
         self.count = 0
 
         self.table_id = table_id
-        self.is_button = is_button
-        self.button_name = None
-        self.button_url = None
+        self.button = button
 
     def append_row(self, cell, category=None):
         self.rows.append(Rows(cell, category))

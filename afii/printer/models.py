@@ -4,7 +4,7 @@ from django.urls import reverse
 from inventory.models import BaseModel
 from inventory.table import Item, Table
 from space.models import Space
-from printer import managers
+from printer.managers import PrinterManager, CartridgeManager, ZipManager
 
 
 PRINTING_TYPE = (
@@ -59,8 +59,8 @@ class BasePrinter(BaseModel):
     type = models.CharField(max_length=10, choices=PRINTER_TYPE, verbose_name='тип устройства')
     color = models.CharField(max_length=10, choices=CARTRIDGE_COLOR, verbose_name='цвет')
     type_paper = models.CharField(max_length=50, choices=PAPER_TYPE, verbose_name='формат бумаги')
-    info_consumables = models.URLField(max_length=200, blank=True, null=True,
-                                       verbose_name='информация по расходникам')
+    info_consumables = models.CharField(max_length=200, blank=True, null=True,
+                                        verbose_name='информация по расходникам')
     description = models.TextField(blank=True, null=True, verbose_name='описание')
 
     def __str__(self):
@@ -134,7 +134,7 @@ class Printer(BaseModel):
     image = models.ImageField(blank=True, null=True, upload_to='printers/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
-    objects = managers.PrinterManager()
+    objects = PrinterManager()
 
     def get_absolute_url(self):
         return reverse('printer:printer', args=[self.pk])
@@ -200,7 +200,7 @@ class Cartridge(BaseModel):
     image = models.ImageField(blank=True, null=True, upload_to='cartridges/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
-    objects = managers.CartridgeManager()
+    objects = CartridgeManager()
 
     def get_absolute_url(self):
         return reverse('printer:cartridge', args=[self.pk])
@@ -242,7 +242,7 @@ class Zip(BaseModel):
     image = models.ImageField(blank=True, null=True, upload_to='zips/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
-    objects = managers.ZipManager()
+    objects = ZipManager()
 
     def get_absolute_url(self):
         return reverse('printer:zip', args=[self.pk])

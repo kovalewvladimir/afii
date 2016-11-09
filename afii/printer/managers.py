@@ -2,12 +2,13 @@ from django.urls import reverse
 
 from element.field import Field
 from element.managers import ElementManager
-from inventory.table import Table, Cell
+from inventory.managers import TableManager
+from inventory.table import Table, Cell, Button
 from inventory.utils import get_status
 
 
-class PrinterManager(ElementManager):
-    def get_table(self, space_id):
+class PrinterManager(ElementManager, TableManager):
+    def get_table(self, space_id, model_fields=None, button=None):
         printers = self
         printers = printers.select_related()
         printers = printers.prefetch_related('base_printer__base_cartridges__cartridges__space')
@@ -15,8 +16,7 @@ class PrinterManager(ElementManager):
         printers = printers.filter(space__pk=space_id)
 
         table = Table()
-        table.button_name = 'Добавить принтер'
-        table.button_url = reverse('admin:printer_printer_add')
+        table.button = button
         table.header = [
             'Модель',
             'Тонер картридж',
@@ -53,8 +53,8 @@ class PrinterManager(ElementManager):
         return element
 
 
-class CartridgeManager(ElementManager):
-    def get_table(self, space_id):
+class CartridgeManager(ElementManager, TableManager):
+    def get_table(self, space_id, model_fields=None, button=None):
         cartridges = self
         cartridges = cartridges.select_related()
         cartridges = cartridges.prefetch_related('base_cartridge__base_printers__printers__space')
@@ -66,13 +66,10 @@ class CartridgeManager(ElementManager):
         table_s = Table(table_id='table-send-to-recycling')
         table_i = Table(table_id='table-in-recycling')
 
-        table_t.button_name = 'Добавить картридж'
-        table_d.button_name = 'Добавить картридж'
-        table_s.button_name = 'Отправить в рециклинг'
-        table_i.button_name = 'Вернуть из рециклинга'
-
-        table_t.button_url = reverse('admin:printer_cartridge_add')
-        table_d.button_url = reverse('admin:printer_cartridge_add')
+        table_t.button = Button(True, 'Добавить картридж', 'admin:printer_cartridge_add')
+        table_d.button = Button(True, 'Добавить картридж', 'admin:printer_cartridge_add')
+        table_s.button = Button(True, 'Отправить в рециклинг')
+        table_i.button = Button(True, 'Вернуть из рециклинга')
 
         table_t.header = [
             'Картридж',
@@ -170,8 +167,8 @@ class CartridgeManager(ElementManager):
         return element
 
 
-class ZipManager(ElementManager):
-    def get_table(self, space_id):
+class ZipManager(ElementManager, TableManager):
+    def get_table(self, space_id, model_fields=None, button=None):
         zip_db = self
         zip_db = zip_db.select_related()
         zip_db = zip_db.prefetch_related('base_zip__base_printers__printers__space')
@@ -179,8 +176,7 @@ class ZipManager(ElementManager):
         zip_db = zip_db.filter(space__pk=space_id)
 
         table = Table()
-        table.button_name = 'Добавить ЗИП'
-        table.button_url = reverse('admin:printer_zip_add')
+        table.button = button
         table.header = [
             'Код',
             'Тип',

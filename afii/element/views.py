@@ -3,6 +3,8 @@ from django.utils.decorators import classonlymethod
 from django.views.generic import ListView
 
 from element import models
+from inventory.table import Button
+from inventory.views import TableView
 
 
 class ElementView(ListView):
@@ -15,49 +17,82 @@ class ElementView(ListView):
         return self.model.objects.get_element(self.args[0], self.model_fields)
 
 
+class PaperAllView(TableView):
+    model = models.Paper
+    model_fields = [
+        {'model': 'self', 'field': 'name', 'url': True},
+        {'model': 'self', 'field': 'type_paper'},
+        {'model': 'self', 'field': 'size'},
+        {'model': 'self', 'field': 'count', 'status': True},
+    ]
+    app_name = 'paper'
+    button = Button(True, 'Добавить бумагу', 'admin:element_paper_add')
+
+
+class DistributionAllView(TableView):
+    model = models.Distribution
+    model_fields = [
+        {'model': 'self', 'field': 'id'},
+        {'model': 'self', 'field': 'name', 'url': True},
+        {'model': 'self', 'field': 'count'},
+    ]
+    app_name = 'distribution'
+    button = Button(True, 'Добавить дистрибутив', 'admin:element_distribution_add')
+
+
+class ComputerAllView(TableView):
+    model = models.Computer
+    model_fields = [
+        {'model': 'self', 'field': 'id', 'url': True},
+        {'model': 'self', 'field': 'cpu'},
+        {'model': 'self', 'field': 'motherboard'},
+        {'model': 'self', 'field': 'ram'},
+        {'model': 'self', 'field': 'gpu'},
+        {'model': 'self', 'field': 'license_sticker'},
+        {'model': 'self', 'field': 'power_supply'},
+    ]
+    app_name = 'computer'
+    button = Button(True, 'Добавить системый блок', 'admin:element_computer_add')
+
+
 class PaperView(ElementView):
     model = models.Paper
-    model_fields = {
-        'self': [
-            'name',
-            'space',
-            'type_paper',
-            'size',
-            'count',
-            'min_count',
-            'description',
-            'is_active',
-        ],
-    }
+    model_fields = [
+        {'model': 'self', 'field': 'name'},
+        {'model': 'self', 'field': 'space'},
+        {'model': 'self', 'field': 'type_paper'},
+        {'model': 'self', 'field': 'size'},
+        {'model': 'self', 'field': 'count', 'status': True},
+        {'model': 'self', 'field': 'min_count'},
+        {'model': 'self', 'field': 'is_active'},
+        {'model': 'self', 'field': 'description'},
+    ]
 
 
 class DistributionView(ElementView):
     model = models.Distribution
     model_fields = [
-        'name',
-        'space',
-        'count',
-        'is_active',
+        {'model': 'self', 'field': 'name'},
+        {'model': 'self', 'field': 'space'},
+        {'model': 'self', 'field': 'count'},
+        {'model': 'self', 'field': 'is_active'},
+        {'model': 'self', 'field': 'description'},
     ]
 
 
 class ComputerView(ElementView):
     model = models.Computer
     model_fields = [
-        'cpu',
-        'space',
-        'motherboard',
-        'ram',
-        'gpu',
-        'lan',
-        'power_supply',
-        'license_sticker',
-        'hdd',
-        'os',
-        'description',
-        'is_active',
+        {'model': 'self', 'field': 'cpu'},
+        {'model': 'self', 'field': 'space'},
+        {'model': 'self', 'field': 'motherboard'},
+        {'model': 'self', 'field': 'ram'},
+        {'model': 'self', 'field': 'gpu'},
+        {'model': 'self', 'field': 'lan'},
+        {'model': 'self', 'field': 'power_supply'},
+        {'model': 'self', 'field': 'license_sticker'},
+        {'model': 'self', 'field': 'hdd'},
+        {'model': 'self', 'field': 'os'},
+        {'model': 'self', 'field': 'is_active'},
+        {'model': 'self', 'field': 'description'},
     ]
-
-
-def all_view(request, paper_id):
-    pass

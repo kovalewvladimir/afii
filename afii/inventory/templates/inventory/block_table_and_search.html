@@ -1,16 +1,14 @@
 {% comment "Переменные" %}
     {{ table }}        - таблица
-    {{ btn_add.url }}  - ссылка на добавление элемента
-    {{ btn_add.name }} - текст кнопки
 {% endcomment %}
 
 
 <h2 class="sub-header hidden-print">
-    {% if table.is_button %}
+    {% if table.button.is_button %}
         <div class="row">
             <div class="col-md-3">
                 <div class="btn-group btn-group-justified">
-                    <a href="{{ table.button_url }}" class="btn btn-default" title="Добавить">{{ table.button_name }}</a>
+                    <a href="{{ table.button.get_absolute_url }}" class="btn btn-default" title="Добавить">{{ table.button.button_name }}</a>
                 </div>
             </div>
             <div class="col-md-9">
@@ -23,7 +21,7 @@
                         <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="{{ table.table_id }}"></ul>
                     </div>
                 </div>
-    {% if table.is_button %}
+    {% if table.button.sis_button %}
             </div>
         </div>
     {% endif %}

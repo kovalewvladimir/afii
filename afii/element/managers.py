@@ -1,13 +1,14 @@
 from django.db import models
 from django.shortcuts import get_object_or_404
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.urls import reverse
+
 
 from element.field import Field, Element
-from inventory.utils import get_status
+from inventory.managers import TableManager
+from inventory.table import Table
+from inventory.utils import get_status, get_is_count_status, get_data, get_field_display
 
 
-# TODO: сделать вывод url
 # TODO: реализовать вывод (да,нет) у полей BooleanField
 class ElementManager(models.Manager):
     element_db = None
@@ -16,29 +17,21 @@ class ElementManager(models.Manager):
         db = self.select_related()
         element_db = get_object_or_404(db, pk=pk)
 
-        is_count = False
-        is_min_count = False
-        for mf in model_fields:
-            if mf['field'] == 'count':
-                is_count = True
-            if mf['field'] == 'min_count':
-                is_min_count = True
-        is_status = is_count and is_min_count
-
+        is_count_status = get_is_count_status(model_fields)
         fields = list()
 
         for mf in model_fields:
             m = mf['model']
             f = mf['field']
-            if mf['model'] == 'self':
-                e_db = element_db
-            else:
-                e_db = getattr(element_db, m)
+            u = mf.get('url')
+            e_db = get_data(m, element_db)
             field = Field()
             field.name = e_db.get_field(f)
-            field.value = getattr(e_db, 'get_%s_display' % f, getattr(e_db, f))
-            if is_status and f == 'count':
+            field.value = get_field_display(e_db, f)
+            if is_count_status and f == 'count':
                 field.status = get_status(e_db.count, e_db.min_count)
+            if u:
+                field.url = 'http://' + field.value
             fields.append(field)
 
         element = Element()
@@ -50,3 +43,7 @@ class ElementManager(models.Manager):
 
         self.element_db = element_db
         return element
+
+
+class ElementAndTableManager(ElementManager, TableManager):
+    pass

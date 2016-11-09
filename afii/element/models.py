@@ -1,8 +1,8 @@
 from django.db import models
 
+from element.managers import ElementAndTableManager
 from printer.models import PAPER_TYPE
 from space.models import Space
-from element import managers
 from inventory.models import BaseModel
 
 LAN_TYPE = (
@@ -31,7 +31,7 @@ class Paper(BaseModel):
     image = models.ImageField(blank=True, null=True, upload_to='papers/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
-    objects = managers.ElementManager()
+    objects = ElementAndTableManager()
 
     def __str__(self):
         return self.name
@@ -50,10 +50,11 @@ class Distribution(BaseModel):
     name = models.CharField(max_length=50, verbose_name='наименование')
     space = models.ForeignKey(Space, related_name='distributions', verbose_name='площадка')
     count = models.PositiveIntegerField(verbose_name='кол-во')
+    description = models.TextField(blank=True, null=True, verbose_name='примечание')
     image = models.ImageField(blank=True, null=True, upload_to='distributions/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
-    objects = managers.ElementManager()
+    objects = ElementAndTableManager()
 
     def __str__(self):
         return self.name
@@ -82,7 +83,7 @@ class Computer(BaseModel):
     image = models.ImageField(blank=True, null=True, upload_to='computers/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
-    objects = managers.ElementManager()
+    objects = ElementAndTableManager()
 
     def __str__(self):
         return str(self.pk)
