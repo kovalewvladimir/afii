@@ -158,6 +158,8 @@ class Printer(BaseModel):
         table = Table()
         for z in self.base_printer.base_zips.all():
             table += z.zips.get_table(self.space.pk)
+        if len(table.rows) == 0:
+            table = None
         return table
 
     def get_items_cartridge(self, type_cartridge):

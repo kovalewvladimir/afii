@@ -36,7 +36,7 @@ class Rows:
 
 
 class Button:
-    def __init__(self, is_button=True, button_name=None, button_url=None):
+    def __init__(self, is_button=False, button_name=None, button_url=None):
         self.is_button = is_button
         self.button_name = button_name
         self.button_url = button_url

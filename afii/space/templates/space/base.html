@@ -30,7 +30,7 @@
         {% for a in space.apps.all %}
             {% if a.app_name == 'storage' %}
                 <li class="dropdown{% if storage %} active{% endif %}">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ a.verbose_name }} <span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ a.verbose_name }}{% if storage %} {{ storage.name }}{% endif %} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         {% for s in space.storage.all %}
                             <li{% if s.pk == storage.pk %} class="active"{% endif %}><a href="{% url a.get_url s.pk %}">{{ s.name }}</a></li>

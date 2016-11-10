@@ -1,0 +1,68 @@
+{% extends 'space/base_table.html' %}
+{% load staticfiles %}
+
+
+{% comment "Переменные шаблона" %}
+    Шаблон наследует 'space/base_table.html' и все его переменные.
+    В шаблон подключается (include) 'inventory/block_table.html'.
+
+    {{ category }}
+    {{ count_all }}
+{% endcomment %}
+
+{% comment "Блоки шаблона" %}
+    Шаблон наследует 'space/base_table.html' и все его блоки.
+{% endcomment %}
+
+
+{% block add_page_js_script %}
+    <!-- Фильтрация данных  в таблице склада -->
+    <script src="{% static 'inventory/js/filter.storage.table.js' %}"></script>
+{% endblock %}
+
+{% block tab_content %}
+    <h2 class="sub-header hidden-print">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group">
+                        <a href="{% url 'admin:storage_category_add' %}" class="btn btn-default" title="Добавить"><span class="glyphicon glyphicon-plus"></span> категорию</a>
+                        <!--<button type="button" class="btn btn-default" title="Добавить"><span class="glyphicon glyphicon-plus"></span> категорию</button>-->
+                    </div>
+                    <div class="btn-group">
+                        <a href="{% url 'admin:storage_itemstorage_add' %}" class="btn btn-default" title="Добавить"><span class="glyphicon glyphicon-plus"></span> наименование</a>
+                        <!--<button type="button" class="btn btn-default" title="Добавить"><span class="glyphicon glyphicon-plus"></span> наименование</button>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input type="search" class="form-control" placeholder="Поиск...">
+                    <span class="input-group-addon"></span>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="table"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h2>
+    <div class="row">
+        <div class="col-md-4 hidden-print">
+            <ul id="categotyMenu" class="list-group">
+                <li class="list-group-item active" data-category-id="0"><span class="badge">{{ category.get_all_count }}</span>Все</li>
+                {% for c in category %}
+                    <li class="list-group-item"><span class="badge">{{ c.get_count }}</span>{{ c.name }}</li>
+                    {% for sc in c.sub_category %}
+                        <li class="list-group-item sub-item" data-category-id="{{ sc.category_id }}"><span class="badge">{{ sc.count }}</span>{{ sc.name }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-8">
+            <div class="table-responsive">
+                {% include 'inventory/block_table.html' with id_table='table' add_table_class='table-striped table-bordered table-hover tableSort' %}
+            <div class="table-responsive">
+        </div>
+    </div>
+{% endblock %}

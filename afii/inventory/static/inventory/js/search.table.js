@@ -41,15 +41,24 @@ $(document).ready(function(){
     element.parents('div.input-group').children('span.input-group-addon').text(text)
   }
 
+  // Функция для поиска на складе
+  function isDataCategoryId(element){
+    var trCategoryId = Number(element.parent().attr('data-category-id'));
+    var activeCategoryId = Number($('li[data-category-id].active').attr('data-category-id'));
+    if (activeCategoryId == 0 || isNaN(trCategoryId) || isNaN(activeCategoryId))
+      return true;
+    return trCategoryId == activeCategoryId;
+  }
+
   // Функция для поиска в таблице
   var functionSearch = function search(eventObj){
     var searchText = this.value;
     eventObj.data.tableTD.each(function (index, element){
       var $this = $(this);
-      if ($this.text().toLowerCase().indexOf(searchText.toLowerCase()) != -1)
-        $this.parent().show('fast');
+      if ($this.text().toLowerCase().indexOf(searchText.toLowerCase()) != -1 && isDataCategoryId($this))
+        $this.parent().show();
       else
-        $this.parent().hide('fast');
+        $this.parent().hide();
     });
   }
 

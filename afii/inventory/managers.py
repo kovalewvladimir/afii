@@ -6,10 +6,14 @@ from inventory.utils import get_data, get_field_display, get_is_count_status, ge
 
 
 class TableManager(models.Manager):
-    def get_table(self, space_id, model_fields=None, button=None):
+    def _filter_data(self, space_id):
         data = self.select_related()
         data = data.filter(is_active=True)
         data = data.filter(space__pk=space_id)
+        return data
+
+    def get_table(self, space_id, model_fields=None, button=None, is_category=False):
+        data = self._filter_data(space_id)
 
         table = Table()
         table.button = button
@@ -35,7 +39,10 @@ class TableManager(models.Manager):
                     cell.url = _d.get_absolute_url()
                 cell.name = get_field_display(_d, f)
                 cells.append(cell)
-            table.rows.append(Rows(cells))
+            rows = Rows(cells)
+            if is_category:
+                rows.category = d.category.id
+            table.rows.append(rows)
             is_header = False
 
         return table

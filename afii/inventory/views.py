@@ -7,14 +7,15 @@ from space import models
 
 class TableView(ListView):
     model = None
+    model_fields = None
     template_name = 'space/base_table.html'
     context_object_name = 'table'
     app_name = None
-    model_fields = None
     button = Button()
+    is_category = False
 
     def get_queryset(self):
-        return self.model.objects.get_table(int(self.args[0]), self.model_fields, self.button)
+        return self.model.objects.get_table(int(self.args[0]), self.model_fields, self.button, self.is_category)
 
     def get_context_data(self, **kwargs):
         context = super(TableView, self).get_context_data(**kwargs)

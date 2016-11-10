@@ -8,7 +8,7 @@ from inventory.utils import get_status
 
 
 class PrinterManager(ElementManager, TableManager):
-    def get_table(self, space_id, model_fields=None, button=None):
+    def get_table(self, space_id, model_fields=None, button=None, is_category=False):
         printers = self
         printers = printers.select_related()
         printers = printers.prefetch_related('base_printer__base_cartridges__cartridges__space')
@@ -54,7 +54,7 @@ class PrinterManager(ElementManager, TableManager):
 
 
 class CartridgeManager(ElementManager, TableManager):
-    def get_table(self, space_id, model_fields=None, button=None):
+    def get_table(self, space_id, model_fields=None, button=None, is_category=False):
         cartridges = self
         cartridges = cartridges.select_related()
         cartridges = cartridges.prefetch_related('base_cartridge__base_printers__printers__space')
@@ -168,7 +168,7 @@ class CartridgeManager(ElementManager, TableManager):
 
 
 class ZipManager(ElementManager, TableManager):
-    def get_table(self, space_id, model_fields=None, button=None):
+    def get_table(self, space_id, model_fields=None, button=None, is_category=False):
         zip_db = self
         zip_db = zip_db.select_related()
         zip_db = zip_db.prefetch_related('base_zip__base_printers__printers__space')
