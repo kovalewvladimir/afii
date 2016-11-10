@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.utils.decorators import classonlymethod
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 
 from element import models
@@ -7,6 +7,7 @@ from inventory.table import Button
 from inventory.views import TableView
 
 
+@method_decorator(login_required, name='dispatch')
 class ElementView(ListView):
     model = None
     model_fields = None

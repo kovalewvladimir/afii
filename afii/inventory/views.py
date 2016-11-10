@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 
@@ -5,6 +7,7 @@ from inventory.table import Button
 from space import models
 
 
+@method_decorator(login_required, name='dispatch')
 class TableView(ListView):
     model = None
     model_fields = None

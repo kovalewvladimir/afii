@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView
+from django.contrib.auth.decorators import login_required
 
 from space import models
 
 
+@login_required
 def space_view(request, space_id):
     space = get_object_or_404(models.Space, pk=int(space_id))
 

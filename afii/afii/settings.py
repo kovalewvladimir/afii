@@ -131,6 +131,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
 
+# Страница авторизации
+LOGIN_URL = '/admin/login/?next=/admin/'
+
+
 # Django Debug Toolbar
 if DEBUG:
     INSTALLED_APPS += [
