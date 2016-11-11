@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^printer/', include('printer.urls'), name='printer'),
     url(r'^element/', include('element.urls'), name='element'),
     url(r'^storage/', include('storage.urls'), name='storage'),
+    url(r'^auth/', include('loginsys.urls'), name='loginsys'),
     url(r'^', include('inventory.urls'), name='inventory'),
 ]
 

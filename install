@@ -11,19 +11,18 @@ sudo pip3 install virtualenv
 sudo mkdir /opt/afii/
 sudo chmod 777 /opt/afii/
 
+# копирование проекта
 git clone https://github.com/kovalewvladimir/afii.git /opt/afii
-virtualenv --no-site-packages -p python3 /opt/afii/
 cd /opt/afii/
+git checkout deploy
+virtualenv --no-site-packages -p python3 /opt/afii/
 source ./bin/activate
 pip install -r ./requirements.txt
 deactivate
 
-cd /opt/afii/afii/
-touch ./afii/private.py
-echo "PRIVATE_SECRET_KEY = '&8+dl^g^+p$ih+bpmzu0)_fk06o)al$v=uio-mcoo**yh*7@d-'" > ./afii/private.py
-
+# запуск
 cd /opt/afii/
 source ./bin/activate
 cd /opt/afii/afii/
-python manage.py runserver 0.0.0.0:8000
+nohup python manage.py runserver 0.0.0.0:8000 > /opt/afii/afii.log &
 deactivate

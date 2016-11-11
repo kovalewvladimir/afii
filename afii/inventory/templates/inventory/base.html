@@ -46,19 +46,26 @@
                     </button>
                     <a class="navbar-brand" href="{% url 'inventory:main' %}">Учет расходных материалов</a>
                 </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Площадка <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        {% for s in spaces %}
-                            <li><a href="{% url 'space:space' s.pk %}">{{ s.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-                <li><a>{{ user }}</a></li>
-                </ul>
-            </div>
+                {% if user.is_authenticated %}
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Площадка <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    {% for s in spaces %}
+                                        <li><a href="{% url 'space:space' s.pk %}">{{ s.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown">{{ user }} <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'loginsys:logout' %}">Выйти</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                {% endif %}
             </div>
         </nav>
 

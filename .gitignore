@@ -30,6 +30,6 @@ __pycache__
 .pyc
 
 # Private
-afii/afii/private.py
+afii/afii/private_settings.py
 
 media/

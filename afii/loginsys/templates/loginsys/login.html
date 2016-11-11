@@ -1,0 +1,32 @@
+{% extends 'inventory/base.html' %}
+
+{% comment "Переменные шаблона" %}
+    Шаблон наследует 'inventory/base.html' и все его переменные.
+
+{% endcomment %}
+
+{% comment "Блоки шаблона" %}
+    Шаблон наследует 'inventory/base.html' и все его блоки.
+
+{% endcomment %}
+
+
+{% block content %}
+    <form action="{% url 'loginsys:login' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Логин</label>
+            <input type="text" name="username" class="form-control" placeholder="Логин">
+        </div>
+        <div class="form-group">
+            <label>Пароль</label>
+            <input type="password" name="password" class="form-control" placeholder="Пароль">
+        </div>
+        <div class="form-group">
+        {% if login_error %}
+            <label class="text-danger">{{ login_error }}</label>
+        {% endif %}
+        </div>
+        <button type="submit" class="btn btn-default">Войти</button>
+    </form>
+{% endblock %}
