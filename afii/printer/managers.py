@@ -125,12 +125,12 @@ class CartridgeManager(ElementManager, TableManager):
                 ])
                 table_s.count += c.count_recycling
             if c.base_cartridge.recycling and c.base_cartridge.type != 'DRAM' and c.count_in_recycling > 0:
-                table_s.append_row([
+                table_i.append_row([
                     Cell(c.base_cartridge.name, c.get_absolute_url()),
                     Cell(c.count_in_recycling),
                     Cell(items=c.get_item_printer())
                 ])
-                table_s.count += c.count_in_recycling
+                table_i.count += c.count_in_recycling
 
         tables = {
             'toner': table_t,
