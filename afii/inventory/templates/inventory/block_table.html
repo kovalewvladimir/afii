@@ -4,35 +4,37 @@
     {{ add_table_class }} - включить/выключить сортировку таблицы
 {% endcomment %}
 
-<table id="{{ id_table }}" class="table {{ add_table_class }}">
-    <thead>
-        <tr>
-            {% for header in table.header %}
-                <th><div>{{ header }}</div></th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for row in table.rows %}
-            <tr{% if row.category %} data-category-id="{{ row.category }}" {% endif %}>
-                {% for cell in row.cell %}
-                    <td{% if cell.status %} class="{{ cell.status }}"{% endif %}>
-                        {% if cell.items %}
-                            {% for item in cell.items %}
-                                {% if item.url %}
-                                    <a href="{{ item.url }}">{{ item.name }}</a>
-                                {% elif item.name %}
-                                    {{ item.name }}
-                                {% endif %}
-                            {% endfor %}
-                        {% elif cell.url %}
-                            <a href="{{ cell.url }}">{{ cell.name }}</a>
-                        {% elif cell.name %}
-                            {{ cell.name }}
-                        {% endif %}
-                    </td>
+<div class="table-responsive">
+    <table id="{{ id_table }}" class="table {{ add_table_class }}">
+        <thead>
+            <tr>
+                {% for header in table.header %}
+                    <th><div>{{ header }}</div></th>
                 {% endfor %}
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for row in table.rows %}
+                <tr{% if row.category %} data-category-id="{{ row.category }}" {% endif %}>
+                    {% for cell in row.cell %}
+                        <td{% if cell.status %} class="{{ cell.status }}"{% endif %}>
+                            {% if cell.items %}
+                                {% for item in cell.items %}
+                                    {% if item.url %}
+                                        <a href="{{ item.url }}">{{ item.name }}</a>
+                                    {% elif item.name %}
+                                        {{ item.name }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% elif cell.url %}
+                                <a href="{{ cell.url }}">{{ cell.name }}</a>
+                            {% elif cell.name %}
+                                {{ cell.name }}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

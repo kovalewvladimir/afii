@@ -27,6 +27,5 @@
     {% endif %}
 </h2>
 
-<div class="table-responsive">
-    {% include 'inventory/block_table.html' with id_table=table.table_id add_table_class='table-striped table-bordered table-hover tableSort' %}
-</div>
+
+{% include 'inventory/block_table.html' with id_table=table.table_id add_table_class='table-bordered table-hover tableSort' %}
