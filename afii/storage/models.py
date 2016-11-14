@@ -3,6 +3,7 @@ from django.db import models
 from inventory.models import BaseModel
 from space.models import Space
 from storage.managers import CategoryManager, ItemStorageManager
+from inventory.models import BaseModel, HELP_TEXT_SHELF, VALIDATOR_SHELF
 
 
 class Storage(models.Model):
@@ -62,7 +63,8 @@ class ItemStorage(BaseModel):
                                  verbose_name='категория')
     name = models.CharField(max_length=50, verbose_name='наименование')
     count = models.PositiveIntegerField(verbose_name='кол-во')
-    shelf = models.CharField(max_length=10, verbose_name='№ полки')
+    shelf = models.CharField(max_length=10, verbose_name='№ полки',
+                             help_text=HELP_TEXT_SHELF, validators=[VALIDATOR_SHELF])
     is_active = models.BooleanField(default=True, verbose_name='используется')
     image = models.ImageField(blank=True, null=True, upload_to='item_storage/')
     description = models.TextField(blank=True, null=True, verbose_name='примечание')

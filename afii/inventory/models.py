@@ -1,8 +1,10 @@
 from django.db import models
 from django.urls import reverse
+from django.core.validators import RegexValidator
 
-from element.managers import ElementManager
-from inventory.managers import TableManager
+
+HELP_TEXT_SHELF = '<стеллаж>-<ярус> например: D-1'
+VALIDATOR_SHELF = RegexValidator(regex=r'^[A-Z]\-[0-9]$', message='стеллаж - заглавная латинская буква, ярус - цифра')
 
 
 class BaseModel(models.Model):

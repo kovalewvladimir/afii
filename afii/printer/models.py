@@ -1,11 +1,12 @@
+from django.core.validators import RegexValidator, URLValidator
 from django.db import models
 from django.urls import reverse
+from datetime import date
 
-from inventory.models import BaseModel
+from inventory.models import BaseModel, HELP_TEXT_SHELF, VALIDATOR_SHELF
 from inventory.table import Item, Table
 from space.models import Space
 from printer.managers import PrinterManager, CartridgeManager, ZipManager
-
 
 PRINTING_TYPE = (
     ('JET', 'Струйный'),
@@ -80,7 +81,7 @@ class BaseCartridge(BaseModel):
     type = models.CharField(max_length=10, choices=CARTRIDGE_TYPE, verbose_name='тип картриджа')
     color = models.CharField(max_length=10, choices=CARTRIDGE_COLOR,
                              blank=True, null=True, verbose_name='цвет',
-                             help_text='заполнить поле только для \'тонер-картиржа\'',)
+                             help_text='заполнить поле только для \'тонер-картиржа\'', )
     recycling = models.BooleanField(default=False, verbose_name='Рециклинг',
                                     help_text='заполнить поле только для "тонер-картиржа"')
     base_printers = models.ManyToManyField(BasePrinter, blank=True, related_name='base_cartridges',
@@ -127,9 +128,13 @@ class Printer(BaseModel):
     login = models.CharField(max_length=50, blank=True, null=True, verbose_name='user')
     password = models.CharField(max_length=50, blank=True, null=True, verbose_name='password')
     ip = models.CharField(max_length=15, verbose_name='IP',
-                          help_text='если принтер не сетевой, то поле заполнить значением: USB')
+                          help_text='если принтер не сетевой, то поле заполнить значением: USB',
+                          validators=[
+                              RegexValidator(
+                                  regex=r'^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$|^USB$')
+                          ])
     sn = models.CharField(max_length=20, blank=True, null=True, verbose_name='серийный номер')
-    date = models.DateField(blank=True, null=True, verbose_name='дата установки')
+    date = models.DateField(default=date.today, verbose_name='дата установки')
     description = models.TextField(blank=True, null=True, verbose_name='примечание')
     image = models.ImageField(blank=True, null=True, upload_to='printers/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
@@ -188,12 +193,14 @@ class Cartridge(BaseModel):
     """
 
     class Meta:
+        unique_together = ('base_cartridge', 'space')
         verbose_name = 'картридж организации'
         verbose_name_plural = 'картриджи организации'
 
     base_cartridge = models.ForeignKey(BaseCartridge, related_name='cartridges', verbose_name='картридж')
     space = models.ForeignKey(Space, related_name='cartridges', verbose_name='площадка')
-    shelf = models.CharField(max_length=10, verbose_name='№ полки')
+    shelf = models.CharField(max_length=10, verbose_name='№ полки',
+                             help_text=HELP_TEXT_SHELF, validators=[VALIDATOR_SHELF])
     count = models.PositiveIntegerField(verbose_name='кол-во')
     min_count = models.PositiveIntegerField(verbose_name='минимальное кол-во')
     count_recycling = models.PositiveIntegerField(blank=True, default=0, verbose_name='кол-во в рециклинг')
@@ -232,12 +239,14 @@ class Zip(BaseModel):
     """
 
     class Meta:
+        unique_together = ('base_zip', 'space')
         verbose_name = 'запчасти для принтера организации'
         verbose_name_plural = 'запчасти для принтера организации'
 
     base_zip = models.ForeignKey(BaseZip, related_name='zips', verbose_name='ЗИП')
     space = models.ForeignKey(Space, related_name='zips', verbose_name='площадка')
-    shelf = models.CharField(max_length=10, verbose_name='№ полки')
+    shelf = models.CharField(max_length=10, verbose_name='№ полки',
+                             help_text=HELP_TEXT_SHELF, validators=[VALIDATOR_SHELF])
     count = models.PositiveIntegerField(verbose_name='Кол-во')
     min_count = models.PositiveIntegerField(verbose_name='минимальное кол-во')
     description = models.TextField(blank=True, null=True, verbose_name='примечание')

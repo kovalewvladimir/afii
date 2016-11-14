@@ -2,7 +2,7 @@
 function updateImgQrcode(size, img){
   var qrcodeDiv = document.createElement('div');
   $(qrcodeDiv).qrcode({
-    text   : location.href,
+    text   : 'n16.zc.com.ru:16025' + location.pathname,
     width  : size,
     height : size
   });
