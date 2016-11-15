@@ -131,7 +131,7 @@ class Printer(BaseModel):
                           help_text='если принтер не сетевой, то поле заполнить значением: USB',
                           validators=[
                               RegexValidator(
-                                  regex=r'^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$|^USB$')
+                                  regex=r'^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$|^USB$|^\-$')
                           ])
     sn = models.CharField(max_length=20, blank=True, null=True, verbose_name='серийный номер')
     date = models.DateField(default=date.today, verbose_name='дата установки')
