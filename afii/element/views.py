@@ -21,8 +21,8 @@ class ElementView(ListView):
 class PaperAllView(TableView):
     model = models.Paper
     model_fields = [
-        {'model': 'self', 'field': 'name', 'url': True},
-        {'model': 'self', 'field': 'type_paper'},
+        {'model': 'self', 'field': 'type_paper', 'url': True},
+        {'model': 'self', 'field': 'name'},
         {'model': 'self', 'field': 'size'},
         {'model': 'self', 'field': 'count', 'status': True},
     ]
