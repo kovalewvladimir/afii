@@ -127,11 +127,15 @@ class Printer(BaseModel):
     user = models.CharField(max_length=50, blank=True, null=True, verbose_name='пользователь')
     login = models.CharField(max_length=50, blank=True, null=True, verbose_name='user')
     password = models.CharField(max_length=50, blank=True, null=True, verbose_name='password')
-    ip = models.CharField(max_length=15, verbose_name='IP',
-                          help_text='если принтер не сетевой, то поле заполнить значением: USB',
+    ip = models.CharField(max_length=25, verbose_name='IP',
+                          help_text='если принтер не сетевой, то поле заполнить значением: USB или USB-TERM(<IP>)',
                           validators=[
                               RegexValidator(
-                                  regex=r'^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$|^USB$|^\-$')
+                                  regex=r'^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$|'
+                                        r'^USB$|'
+                                        r'^USB-TERM'
+                                        r'\((25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\)$|'
+                                        r'^\-$')
                           ])
     sn = models.CharField(max_length=20, blank=True, null=True, verbose_name='серийный номер')
     date = models.DateField(default=date.today, verbose_name='дата установки')
