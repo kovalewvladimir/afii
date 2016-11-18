@@ -34,7 +34,7 @@ class Paper(BaseModel):
     objects = ElementAndTableManager()
 
     def __str__(self):
-        return self.name
+        return '%s - %s' % (self.type_paper, self.name)
 
 
 class Distribution(BaseModel):
