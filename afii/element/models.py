@@ -34,7 +34,12 @@ class Paper(BaseModel):
     objects = ElementAndTableManager()
 
     def __str__(self):
-        return '%s - %s' % (self.type_paper, self.name)
+        type_paper = ''
+        for pt in PAPER_TYPE:
+            if self.type_paper == pt[0]:
+                type_paper = pt[1]
+                break
+        return '%s - %s' % (type_paper, self.name)
 
 
 class Distribution(BaseModel):
