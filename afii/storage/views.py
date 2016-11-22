@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 
-from element.views import ElementView
+from element.views import ElementView, ElementMinusView
 from inventory.views import TableView
 from storage import models
 
@@ -35,3 +35,7 @@ class ItemStorageView(ElementView):
         {'model': 'self', 'field': 'is_active'},
         {'model': 'self', 'field': 'description'},
     ]
+
+
+class ItemStorageMinusView(ElementMinusView):
+    model = models.ItemStorage

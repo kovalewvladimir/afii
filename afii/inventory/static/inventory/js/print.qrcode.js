@@ -12,8 +12,6 @@ function updateImgQrcode(size, img){
 
 $(document).ready(function(){
 
-  updateImgQrcode(128, '.imgQRcode');
-
   var pageQRcode        = $('#pageQRcode');
   var printQRcode       = $('.printQRcode');
   var titleQRcode       = $('.titleQRcode');
@@ -35,6 +33,7 @@ $(document).ready(function(){
   var paddingPageQRcode  = $('#paddingPageQRcode');
   var paddingPrintQRcode = $('#paddingPrintQRcode');
 
+  updateImgQrcode(Number(sizeQRcode.val()), '.imgQRcode');
 
   /***********************************************************
 

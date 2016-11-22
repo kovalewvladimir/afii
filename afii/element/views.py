@@ -1,5 +1,8 @@
+from django.http import Http404
+from django.shortcuts import redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.views import View
 from django.views.generic import ListView
 
 from element import models
@@ -16,6 +19,23 @@ class ElementView(ListView):
 
     def get_queryset(self):
         return self.model.objects.get_element(self.args[0], self.model_fields)
+
+
+@method_decorator(login_required, name='dispatch')
+class ElementMinusView(View):
+    model = None
+
+    def post(self, request, *args, **kwargs):
+        if self.model is None:
+            raise Http404()
+        object_element = get_object_or_404(self.model, pk=int(args[0]))
+        object_element.count -= 1
+        if object_element.count >= 0:
+            object_element.save()
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    def get(self, request, *args, **kwargs):
+        raise Http404()
 
 
 class PaperAllView(TableView):
@@ -97,3 +117,7 @@ class ComputerView(ElementView):
         {'model': 'self', 'field': 'is_active'},
         {'model': 'self', 'field': 'description'},
     ]
+
+
+class PaperMinusView(ElementMinusView):
+    model = models.Paper

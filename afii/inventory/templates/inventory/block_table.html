@@ -22,14 +22,14 @@
                                 {% for item in cell.items %}
                                     {% if item.url %}
                                         <a href="{{ item.url }}">{{ item.name }}</a>
-                                    {% elif item.name %}
+                                    {% else %}
                                         {{ item.name }}
                                     {% endif %}
                                 {% endfor %}
                             {% elif cell.url %}
                                 <a href="{{ cell.url }}">{{ cell.name }}</a>
-                            {% elif cell.name %}
-                                {{ cell.name }}
+                            {% else %}
+                                {{ cell.name|default_if_none:'' }}
                             {% endif %}
                         </td>
                     {% endfor %}

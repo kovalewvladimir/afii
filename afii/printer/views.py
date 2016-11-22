@@ -1,4 +1,7 @@
-from element.views import ElementView
+from django.http import Http404
+from django.shortcuts import redirect, get_object_or_404
+
+from element.views import ElementView, ElementMinusView
 from inventory.table import Button
 from printer import models
 from inventory.views import TableView
@@ -74,3 +77,23 @@ class ZipView(ElementView):
         {'model': 'self', 'field': 'description'},
     ]
     template_name = 'printer/cartridge_or_zip.html'
+
+
+class CartridgeMinusView(ElementMinusView):
+    model = models.Cartridge
+
+    def post(self, request, *args, **kwargs):
+        if self.model is None:
+            raise Http404()
+        cartridge = get_object_or_404(self.model, pk=int(args[0]))
+        is_recycling = cartridge.base_cartridge.recycling
+        cartridge.count -= 1
+        if is_recycling:
+            cartridge.count_recycling += 1
+        if cartridge.count >= 0:
+            cartridge.save()
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+class ZipMinusView(ElementMinusView):
+    model = models.Zip
