@@ -39,7 +39,7 @@ class Paper(BaseModel):
             if self.type_paper == pt[0]:
                 type_paper = pt[1]
                 break
-        return '%s - %s' % (type_paper, self.name)
+        return '%s - %s' % (type_paper, self.size)
 
 
 class Distribution(BaseModel):

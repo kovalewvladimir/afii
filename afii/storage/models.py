@@ -71,8 +71,5 @@ class ItemStorage(BaseModel):
 
     objects = ItemStorageManager()
 
-    def get_category(self):
-        return '1'
-
     def __str__(self):
         return self.name

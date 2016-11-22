@@ -6,4 +6,5 @@ app_name = 'storage'
 urlpatterns = [
     url(r'^(\d+)/$', views.StorageView.as_view(), name='storage_all'),
     url(r'^itemstorage/(\d+)/$', views.ItemStorageView.as_view(), name='itemstorage'),
+    url(r'^itemstorage/(\d+)/minus/$', views.ItemStorageMinusView.as_view(), name='itemstorage_minus'),
 ]

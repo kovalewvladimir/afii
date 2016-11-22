@@ -10,12 +10,13 @@
     {{ element.link_to_image }}  - ссылка на картинку
     {{ element.link_to_page_edit }}   - ссылка на страницу редактирования
     {{ element }}            - объект для отображения
+    {{ model_name }}
 {% endcomment %}
 
 {% comment "Блоки шаблона" %}
     Шаблон наследует 'inventory/base.html' и все его блоки.
 
-    {% block header_button %}      - блок кнопок (например: кнопка 'qrcode', кнопка 'изменить')
+    {% block additional_button %}  - блок дополнительных кнопок (например: кнопка 'минус', кнопка 'плюс')
     {% block additional_content %} - блок дополнительной информации
 {% endcomment %}
 
@@ -55,7 +56,7 @@
                             <div class="col-sm-6 form-group">
                                 <label for="">Размер QR code:</label>
                                 <div class="input-group">
-                                    <input type="number" id="sizeQRcode" class="form-control" value="128" min="64" max="256"> <span class="input-group-addon">px</span>
+                                    <input type="number" id="sizeQRcode" class="form-control" value="200" min="64" max="256"> <span class="input-group-addon">px</span>
                                 </div>
                             </div>
                             <div class="col-sm-6 form-group">
@@ -127,15 +128,40 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="ModalMinus" tabindex="-1" role="dialog" aria-labelledby="ModalMinusLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="ModalMinusLabel">Изменить количество</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="formMinus" action="minus/" method="post">
+                        {% csrf_token %}
+                        <p>Уменьшить количество <strong>{{ element.name }}</strong> на один?</p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
+                    <button type="button" class="btn btn-primary" onclick="$('#formMinus').submit()">Да</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}
     <h1 class="page-header">{{ element.name }} <small>{{ element.type_element }}</small>
         <div class="btn-group">
-            <a href="{{ element.link_to_page_edit }}" class="btn btn-default btn-sm" title="Редактировать"><span class="glyphicon glyphicon-pencil"></span></a>
+            <a href="{{ element.link_to_page_edit }}" class="btn btn-default btn-sm" title="Редактировать"><span class="glyphicon glyphicon-wrench"></span></a>
             <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#ModalQRcode" title="QR"><span class="glyphicon glyphicon-qrcode"></span></button>
-            {% block header_button %}{% endblock %}
         </div>
+        {% block additional_button %}
+        <div class="btn-group">
+            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#ModalMinus" title="Минус"><span class="glyphicon glyphicon-minus"></span></button>
+        </div>
+        {% endblock %}
     </h1>
     <div class="row">
         <div class="col-md-7">

@@ -5,7 +5,6 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import auth
 
 
-@csrf_protect
 def login(request):
     args = {}
     if request.POST:

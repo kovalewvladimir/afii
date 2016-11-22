@@ -41,7 +41,7 @@
                             <div class="col-sm-6 form-group">
                                 <label for="">Размер QR code:</label>
                                 <div class="input-group">
-                                    <input type="number" id="sizeQRcode" class="form-control" value="128" min="64" max="256"> <span class="input-group-addon">px</span>
+                                    <input type="number" id="sizeQRcode" class="form-control" value="170" min="64" max="256"> <span class="input-group-addon">px</span>
                                 </div>
                             </div>
                             <div class="col-sm-6 form-group">
@@ -125,6 +125,8 @@
         </div>
     </div>
 {% endblock %}
+
+{% block additional_button %}{% endblock %}
 
 {% block additional_content %}
     {% if element.table_toner_cartridge %}
