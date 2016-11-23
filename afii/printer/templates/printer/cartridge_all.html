@@ -15,6 +15,66 @@
 {% endcomment %}
 
 
+{% block modal_windows %}
+    <div class="modal fade" id="ModalSendToRecycling" tabindex="-1" role="dialog" aria-labelledby="ModalSendToRecyclingLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="ModalSendToRecyclingLabel">Отправить картриджи в рециклинг</h4>
+                </div>
+                <div class="modal-body">
+                    {% if tables.send_to_recycling.count > 0 %}
+                        <form role="form" id="formSendToRecycling" action="{% url 'printer:cartridge_send_to_recycling' space.id %}"method="post">
+                            {% csrf_token %}
+                            <p>Вы действительно хотите отправить все картриджи в рециклинг?</p>
+                        </form>
+                    {% else %}
+                        <p class="text-danger"><strong>Нет картриджей для отправки в рециклинг!</strong></p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    {% if tables.send_to_recycling.count > 0 %}
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
+                        <button type="button" class="btn btn-primary" onclick="$('#formSendToRecycling').submit()">Да</button>
+                    {% else %}
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ModalInRecycling" tabindex="-1" role="dialog" aria-labelledby="ModalInRecyclingLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="ModalInRecyclingLabel">Вернуть из рециклинга</h4>
+                </div>
+                <div class="modal-body">
+                    {% if tables.in_recycling.count > 0 %}
+                        <form role="form" id="formInRecycling" action="{% url 'printer:cartridge_in_recycling' space.id %}" method="post">
+                            {% csrf_token %}
+                            <p>Вы действительно хотите вернуть все картриджи из рециклинга?</p>
+                        </form>
+                    {% else %}
+                        <p class="text-danger"><strong>Нет картриджей для отправки в рециклинг!</strong></p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    {% if tables.in_recycling.count > 0 %}
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
+                        <button type="button" class="btn btn-primary" onclick="$('#formInRecycling').submit()">Да</button>
+                    {% else %}
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block tab_content %}
     <ul class="nav nav-pills nav-sub-tabs  hidden-print">
         <li class="active"><a href="#cartridges-toner" data-toggle="tab" aria-expanded="true"><span class="badge pull-right">{{ tables.toner.count }}</span>Тонер</a></li>
@@ -31,10 +91,10 @@
             {% include 'inventory/block_table_and_search.html' with table=tables.dram %}
         </div>
         <div class="tab-pane" id="cartridges-send-to-recycling">
-            {% include 'inventory/block_table_and_search.html' with table=tables.send_to_recycling %}
+            {% include 'inventory/block_table_and_search.html' with table=tables.send_to_recycling is_modal_button=True data_target_modal_button='#ModalSendToRecycling' %}
         </div>
         <div class="tab-pane" id="cartridges-in-recycling">
-            {% include 'inventory/block_table_and_search.html' with table=tables.in_recycling %}
+            {% include 'inventory/block_table_and_search.html' with table=tables.in_recycling is_modal_button=True data_target_modal_button='#ModalInRecycling' %}
         </div>
     </div>
 {% endblock %}

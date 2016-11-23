@@ -23,7 +23,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ page_title }}</title>
+        <title>Учет ТМЦ{{ page_title }}</title>
 
         <link href="{% static 'inventory/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'inventory/css/dashboard.css' %}" rel="stylesheet">
@@ -44,7 +44,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{% url 'inventory:main' %}">Учет расходных материалов</a>
+                    <a class="navbar-brand hidden-xs" href="{% url 'inventory:main' %}">Учет товарно-материальных ценностей</a>
+                    <a class="navbar-brand visible-xs" href="{% url 'inventory:main' %}">Учет ТМЦ</a>
                 </div>
                 {% if user.is_authenticated %}
                     <div class="navbar-collapse collapse">

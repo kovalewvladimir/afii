@@ -78,6 +78,11 @@
  * Мои css 
  */
 
+#mobileBtnMinus{
+  height: 200px;
+  margin-top: 5px;
+}
+
 .nav-sub-tabs {
   margin-top: 20px;
 }

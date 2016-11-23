@@ -121,3 +121,7 @@ class ComputerView(ElementView):
 
 class PaperMinusView(ElementMinusView):
     model = models.Paper
+
+
+class DistributionMinusView(ElementMinusView):
+    model = models.Distribution
