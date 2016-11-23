@@ -25,3 +25,4 @@ class TableView(ListView):
         context['app_name'] = self.app_name
         context['space'] = get_object_or_404(models.Space, pk=int(self.args[0]))
         return context
+

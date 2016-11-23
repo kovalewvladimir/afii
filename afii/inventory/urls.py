@@ -6,5 +6,5 @@ from inventory import views
 app_name = 'inventory'
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(url='printer/all/space/1/'), name='main'),
+    url(r'^$', RedirectView.as_view(url='/printer/printer/all/space/1/'), name='main'),
 ]

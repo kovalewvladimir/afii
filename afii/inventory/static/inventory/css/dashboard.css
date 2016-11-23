@@ -78,6 +78,18 @@
  * Мои css 
  */
 
+@media (max-width: 768px) {
+  #linkNavbarFull {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+    #linkNavbarMobile {
+      display: none;
+    }
+}
+
 .nav-sub-tabs {
   margin-top: 20px;
 }

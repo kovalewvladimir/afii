@@ -1,5 +1,8 @@
 from django.http import Http404
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, get_list_or_404
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.views import View
 
 from element.views import ElementView, ElementMinusView
 from inventory.table import Button
@@ -97,3 +100,43 @@ class CartridgeMinusView(ElementMinusView):
 
 class ZipMinusView(ElementMinusView):
     model = models.Zip
+
+
+@method_decorator(login_required, name='dispatch')
+class CartridgeSendToRecyclingView(View):
+    def post(self, request, *args, **kwargs):
+        cartridges = models.Cartridge.objects
+        cartridges = cartridges.select_related()
+        cartridges = cartridges.filter(space__pk=int(args[0]))
+        cartridges = cartridges.filter(base_cartridge__recycling=True)
+        cartridges = cartridges.filter(count_recycling__gt=0)
+
+        for c in cartridges:
+            c.count_in_recycling += c.count_recycling
+            c.count_recycling = 0
+            c.save()
+
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    def get(self, request, *args, **kwargs):
+        raise Http404()
+
+
+@method_decorator(login_required, name='dispatch')
+class CartridgeInRecyclingView(View):
+    def post(self, request, *args, **kwargs):
+        cartridges = models.Cartridge.objects
+        cartridges = cartridges.select_related()
+        cartridges = cartridges.filter(space__pk=int(args[0]))
+        cartridges = cartridges.filter(base_cartridge__recycling=True)
+        cartridges = cartridges.filter(count_in_recycling__gt=0)
+
+        for c in cartridges:
+            c.count += c.count_in_recycling
+            c.count_in_recycling = 0
+            c.save()
+
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    def get(self, request, *args, **kwargs):
+        raise Http404()
