@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^distribution/', include([
         url(r'^space/(\d+)/$', views.DistributionAllView.as_view(), name='distribution_all'),
         url(r'^(\d+)/$', views.DistributionView.as_view(), name='distribution'),
+        url(r'^(\d+)/minus/$', views.DistributionMinusView.as_view(), name='distribution_minus'),
     ])),
     url(r'^computer/', include([
         url(r'^space/(\d+)/$', views.ComputerAllView.as_view(), name='computer_all'),

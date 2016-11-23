@@ -44,8 +44,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" id="linkNavbarFull" href="{% url 'inventory:main' %}">Учет товарно-материальных ценностей</a>
-                    <a class="navbar-brand" id="linkNavbarMobile" href="{% url 'inventory:main' %}">Учет ТМЦ</a>
+                    <a class="navbar-brand hidden-xs" href="{% url 'inventory:main' %}">Учет товарно-материальных ценностей</a>
+                    <a class="navbar-brand visible-xs" href="{% url 'inventory:main' %}">Учет ТМЦ</a>
                 </div>
                 {% if user.is_authenticated %}
                     <div class="navbar-collapse collapse">
