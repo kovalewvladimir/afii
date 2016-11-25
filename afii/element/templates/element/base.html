@@ -56,7 +56,7 @@
                             <div class="col-sm-6 form-group">
                                 <label for="">Размер QR code:</label>
                                 <div class="input-group">
-                                    <input type="number" id="sizeQRcode" class="form-control" value="200" min="64" max="256"> <span class="input-group-addon">px</span>
+                                    <input type="number" id="sizeQRcode" class="form-control" value="165" min="64" max="256"> <span class="input-group-addon">px</span>
                                 </div>
                             </div>
                             <div class="col-sm-6 form-group">
@@ -64,7 +64,7 @@
                                 <div class="input-group">
                                     <select id="countQRcode" class="form-control">
                                         <option value="1">1</option>
-                                        <option value="2">2</option>
+                                        <option value="2" selected>2</option>
                                     </select>
                                     <span class="input-group-addon">шт</span>
                                 </div>
@@ -93,9 +93,9 @@
                                 <label for="">Рамка (тип линии):</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                    <input type="checkbox" id="isBorderQRcode" checked>
+                                    <input type="checkbox" id="isBorderQRcode">
                                     </span>
-                                    <select id="borderTypeQRcode" class="form-control">
+                                    <select id="borderTypeQRcode" class="form-control" disabled>
                                         <option value="solid">Сплошная</option>
                                         <option value="dashed">Пунктирная 1</option>
                                         <option value="dotted">Пунктирная 2</option>
@@ -105,7 +105,7 @@
                         </div>
                     </form>
                     <div id="pageQRcode" class="center-block">
-                        <div id="printQRcodeCount1" class="printQRcode">
+                        <div id="printQRcodeCount1" class="printQRcode" hidden>
                             <h1 class="titleQRcode text-center">{{ element.name }}</h1>
                             <img class="imgQRcode center-block">
                         </div>

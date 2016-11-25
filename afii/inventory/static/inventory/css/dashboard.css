@@ -119,15 +119,11 @@ ul#categotyMenu > li.active:hover {
   border: 1px solid #0F0;
   padding: 1mm;
 }
-#pageQRcode #printQRcodeCount2 {
-  display: none;
-}
 #pageQRcode .row{
   margin: 0;
   padding: 0;
 }
 .printQRcode {
-  border: 1px solid #000;
   padding: 1mm;
 }
 .titleQRcode, .ipQRcode {
