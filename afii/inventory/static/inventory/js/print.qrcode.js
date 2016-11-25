@@ -97,7 +97,7 @@ $(document).ready(function(){
     }
   });
 
-  // onClick вкл/выкл заголовок QRcode
+  // onClick вкл/выкл ip QRcode
   isIpQRcode.click(function (){
     if (this.checked) {
       ipQRcode.show();
