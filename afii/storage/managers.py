@@ -23,7 +23,7 @@ class CategoryManager(models.Manager):
 
         list_category = ListCategory()
         for c in c_db:
-            category = Category(c.name)
+            category = Category(c.name, c.pk)
             for i in c.categories.all():
                 sub_category = SubCategory()
                 sub_category.name = i.name

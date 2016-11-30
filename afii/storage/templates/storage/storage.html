@@ -17,7 +17,27 @@
 
 {% block add_page_js_script %}
     <!-- Фильтрация данных  в таблице склада -->
-    <script src="{% static 'inventory/js/filter.storage.table.js' %}"></script>
+    <script src="{% static 'inventory/js/storage.js' %}"></script>
+{% endblock %}
+
+{% block modal_windows %}
+    <div class="modal fade" id="ModalAddCategory" tabindex="-1" role="dialog" aria-labelledby="ModalAddCategoryLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="ModalAddCategoryLabel">Добавить категорию</h4>
+                </div>
+                <div class="modal-body" id="divFormAddCategory">
+                    {% include 'storage/form_add_category.html' %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
+                    <button type="button" class="btn btn-primary" onclick="sendFormAddCategory()">Да</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block tab_content %}
@@ -26,8 +46,8 @@
             <div class="col-md-4">
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
-                        <a href="{% url 'admin:storage_category_add' %}" class="btn btn-default" title="Добавить"><span class="glyphicon glyphicon-plus"></span> категорию</a>
-                        <!--<button type="button" class="btn btn-default" title="Добавить"><span class="glyphicon glyphicon-plus"></span> категорию</button>-->
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalAddCategory" title="Добавить"><span class="glyphicon glyphicon-plus"></span> категорию</button>
+                        <!--<a href="{% url 'admin:storage_category_add' %}" class="btn btn-default" title="Добавить"></a>-->
                     </div>
                     <div class="btn-group">
                         <a href="{% url 'admin:storage_itemstorage_add' %}" class="btn btn-default" title="Добавить"><span class="glyphicon glyphicon-plus"></span> наименование</a>
@@ -52,7 +72,7 @@
             <ul id="categotyMenu" class="list-group">
                 <li class="list-group-item active" data-category-id="0"><span class="badge">{{ category.get_all_count }}</span>Все</li>
                 {% for c in category %}
-                    <li class="list-group-item"><span class="badge">{{ c.get_count }}</span>{{ c.name }}</li>
+                    <li class="list-group-item" data-base-category-id="{{ c.category_id }}"><span class="badge">{{ c.get_count }}</span>{{ c.name }}</li>
                     {% for sc in c.sub_category %}
                         <li class="list-group-item sub-item" data-category-id="{{ sc.category_id }}"><span class="badge">{{ sc.count }}</span>{{ sc.name }}</li>
                     {% endfor %}

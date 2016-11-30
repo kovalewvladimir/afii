@@ -1,0 +1,15 @@
+<form role="form" id="formAddCategory" method="post">
+    {% csrf_token %}
+    <input id="storage" name="name" type="text" value="{{ storage.id }}" hidden>
+
+    {{ add_category_form.is_base.label_tag }}
+    {{ add_category_form.is_base }}
+    {{ add_category_form.is_base.errors}}
+    {{ add_category_form.base_category.label_tag }}
+    {{ add_category_form.base_category }}
+    {{ add_category_form.base_category.errors }}
+
+    {{ add_category_form.name.label_tag }}
+    {{ add_category_form.name }}
+    {{ add_category_form.name.errors }}
+</form>

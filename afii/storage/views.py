@@ -1,8 +1,13 @@
-from django.shortcuts import get_object_or_404
+from django.http import Http404
+from django.shortcuts import get_object_or_404, render
+from django.views import View
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 from element.views import ElementView, ElementMinusView
 from inventory.views import TableView
 from storage import models
+from storage.forms import AddCategoryForm
 
 
 class StorageView(TableView):
@@ -22,6 +27,9 @@ class StorageView(TableView):
         context['storage'] = get_object_or_404(models.Storage.objects.select_related('space'), pk=category_id)
         context['space'] = context['storage'].space
         context['category'] = models.Category.objects.get_category(category_id)
+
+        context['add_category_form'] = AddCategoryForm
+
         return context
 
 
@@ -39,3 +47,20 @@ class ItemStorageView(ElementView):
 
 class ItemStorageMinusView(ElementMinusView):
     model = models.ItemStorage
+
+
+@method_decorator(login_required, name='dispatch')
+class AddCategoryView(View):
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            form = AddCategoryForm(request.POST)
+            args = {'add_category_form': form}
+            if form.is_valid():
+                return render(request, 'storage/form_add_category.html', args)
+            else:
+                return render(request, 'storage/form_add_category.html', args)
+        else:
+            raise Http404()
+
+    def get(self, request, *args, **kwargs):
+        raise Http404()

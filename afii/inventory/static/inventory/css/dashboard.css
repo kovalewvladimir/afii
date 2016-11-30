@@ -78,6 +78,10 @@
  * Мои css 
  */
 
+#tableElement tr td:first-child{
+  width: 50%;
+}
+
 #mobileBtnMinus{
   height: 200px;
   margin-top: 5px;

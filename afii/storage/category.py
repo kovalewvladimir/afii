@@ -7,8 +7,9 @@ class ListCategory(list):
 
 
 class Category:
-    def __init__(self, name=None):
+    def __init__(self, name=None, category_id=None):
         self.name = name
+        self.category_id = category_id
         self.sub_category = list()
 
     def get_count(self):
