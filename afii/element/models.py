@@ -1,9 +1,9 @@
 from django.db import models
 
 from element.managers import ElementAndTableManager
+from inventory.models import BaseModel
 from printer.models import PAPER_TYPE
 from space.models import Space
-from inventory.models import BaseModel
 
 LAN_TYPE = (
     ('INTEGRATED', 'Встроенный'),

@@ -49,6 +49,11 @@ class Button:
 
 
 class Table:
+    """
+    Класс описывает таблицу. Состоит из строк (класс Rows),
+    заголовка таблицы, кол-ва элементов таблицы, идентификатора таблицы,
+    кнопки добавления/редактирования элементов таблицы;
+    """
     def __init__(self, table_id='table', button=Button()):
         self.header = list()
         self.rows = list()
@@ -58,9 +63,18 @@ class Table:
         self.button = button
 
     def append_row(self, cell, category=None):
+        """
+        Создает строку из списка ячеек
+        :param cell: список ячеек
+        :param category: id категории строки, используется для склада
+        :return: ничего не возвращает
+        """
         self.rows.append(Rows(cell, category))
 
     def get_status(self):
+        """
+        Получает статус таблицы
+        """
         status = 'success'
         for r in self.rows:
             for c in r.cell:
@@ -68,6 +82,9 @@ class Table:
         return status
 
     def __iadd__(self, other):
+        """
+        Перегрузил оператор +=
+        """
         self.rows += other.rows
         self.header = other.header
         return self
