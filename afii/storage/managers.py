@@ -5,6 +5,11 @@ from storage.category import ListCategory, Category, SubCategory
 
 
 class ItemStorageManager(ElementAndTableManager):
+    """
+    Данный менеджер формирует таблицу и подробное описание
+    о единице складского учета. В классе перегружен метод
+    _filter_data базового класса
+    """
     def _filter_data(self, storage_id):
         data = self
         data = data.select_related()
@@ -14,7 +19,15 @@ class ItemStorageManager(ElementAndTableManager):
 
 
 class CategoryManager(models.Manager):
+    """
+    Данный менеджер формирует список категорий
+    """
     def get_category(self, storage_id):
+        """
+        Получить список категорий
+        :param storage_id: id склада
+        :return: список категорий
+        """
         c_db = self
         c_db = c_db.select_related()
         c_db = c_db.prefetch_related('categories__items')

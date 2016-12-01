@@ -23,7 +23,7 @@ class TableView(ListView):
     """
     model = None
     model_fields = None
-    template_name = 'space/base_table.html'
+    template_name = 'inventory/base_table.html'
     context_object_name = 'table'
     app_name = None
     button = Button()

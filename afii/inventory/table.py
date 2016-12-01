@@ -1,15 +1,3 @@
-# table = Table()
-# table.header += [
-#     '1',
-#     '2',
-# ]
-# table.rows += [
-#     Rows(Cell('name1', status='success'), Cell('name1'), category=1),
-#     Rows(Cell('name2'), Cell('name1'), category=2),
-#     Rows(Cell('name3'), Cell('name1', url='ad')),
-#     Rows(Cell(items=[Items('asd', ' '), Items('asd2')]), Cell('name1'), category=4),
-#     Rows(Cell('name5'), Cell('name1'), category=5),
-# ]
 from django.urls import NoReverseMatch
 from django.urls import reverse
 
@@ -17,12 +5,18 @@ from inventory.utils import get_status_table
 
 
 class Item:
+    """
+    В ячейке таблицы может быть несколько полей, для агрегации этих полей используется этот класс
+    """
     def __init__(self, name, url=None):
         self.name = name
         self.url = url
 
 
 class Cell(Item):
+    """
+    Класс описывает ячейки таблицы
+    """
     def __init__(self, name=None, url=None, status=None, items=None):
         super().__init__(name, url)
         self.status = status
@@ -30,12 +24,18 @@ class Cell(Item):
 
 
 class Rows:
+    """
+    Класс описывает строки таблицы
+    """
     def __init__(self, cell, category=None):
         self.cell = cell
         self.category = category
 
 
 class Button:
+    """
+    Класс описывает кнопку добавления/редактирования элементов таблицы
+    """
     def __init__(self, is_button=False, button_name=None, button_url=None):
         self.is_button = is_button
         self.button_name = button_name

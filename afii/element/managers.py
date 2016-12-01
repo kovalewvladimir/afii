@@ -5,15 +5,21 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 
 from element.field import Field, Element
 from inventory.managers import TableManager
-from inventory.table import Table
 from inventory.utils import get_status, get_is_count_status, get_data, get_field_display
 
 
 # TODO: реализовать вывод (да,нет) у полей BooleanField
 class ElementManager(models.Manager):
+    """
+    Менеджер применим к моделям, которые могут формировать
+    элементы (класс Element)
+    """
     element_db = None
 
     def get_element(self, pk, model_fields):
+        """
+        Формирует элемент
+        """
         db = self.select_related()
         element_db = get_object_or_404(db, pk=pk)
 
@@ -46,4 +52,8 @@ class ElementManager(models.Manager):
 
 
 class ElementAndTableManager(ElementManager, TableManager):
+    """
+    Менеджер применим к моделям, которые могут формировать
+    элементы (класс Element) и таблицы (класс Table)
+    """
     pass

@@ -1,6 +1,5 @@
 from django.db import models
 
-from inventory.models import BaseModel
 from space.models import Space
 from storage.managers import CategoryManager, ItemStorageManager
 from inventory.models import BaseModel, HELP_TEXT_SHELF, VALIDATOR_SHELF

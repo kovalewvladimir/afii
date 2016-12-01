@@ -11,12 +11,18 @@ from inventory.views import TableView
 
 
 class PrinterAllView(TableView):
+    """
+    Класс представления, отвечающий за вывод таблицы с принтерами
+    """
     model = models.Printer
     app_name = 'printer'
     button = Button(True, 'Добавить принтер', 'admin:printer_printer_add')
 
 
 class CartridgeAllView(TableView):
+    """
+    Класс представления, отвечающий за вывод таблицы с картриджами
+    """
     model = models.Cartridge
     app_name = 'cartridge'
     template_name = 'printer/cartridge_all.html'
@@ -24,12 +30,18 @@ class CartridgeAllView(TableView):
 
 
 class ZipAllView(TableView):
+    """
+    Класс представления, отвечающий за вывод таблицы с ЗИПами
+    """
     model = models.Zip
     app_name = 'zip'
     button = Button(True, 'Добавить ЗИП', 'admin:printer_zip_add')
 
 
 class PrinterView(ElementView):
+    """
+    Класс представления, отвечающий за вывод подробной информации о принтере
+    """
     model = models.Printer
     model_fields = [
         {'model': 'self', 'field': 'base_printer'},
@@ -53,6 +65,9 @@ class PrinterView(ElementView):
 
 
 class CartridgeView(ElementView):
+    """
+    Класс представления, отвечающий за вывод подробной информации о картридже
+    """
     model = models.Cartridge
     model_fields = [
         {'model': 'self', 'field': 'base_cartridge'},
@@ -68,6 +83,9 @@ class CartridgeView(ElementView):
 
 
 class ZipView(ElementView):
+    """
+    Класс представления, отвечающий за вывод подробной информации о ЗИПе
+    """
     model = models.Zip
     model_fields = [
         {'model': 'self', 'field': 'base_zip'},
@@ -83,6 +101,9 @@ class ZipView(ElementView):
 
 
 class CartridgeMinusView(ElementMinusView):
+    """
+    Класс представления, отвечающий за уменьшение количества картриджей на складе
+    """
     model = models.Cartridge
 
     def post(self, request, *args, **kwargs):
@@ -99,11 +120,17 @@ class CartridgeMinusView(ElementMinusView):
 
 
 class ZipMinusView(ElementMinusView):
+    """
+    Класс представления, отвечающий за уменьшение количества ЗИПов на складе
+    """
     model = models.Zip
 
 
 @method_decorator(login_required, name='dispatch')
 class CartridgeSendToRecyclingView(View):
+    """
+    Класс представления, отвечающий за оправку в рециклинг картриджей
+    """
     def post(self, request, *args, **kwargs):
         cartridges = models.Cartridge.objects
         cartridges = cartridges.select_related()
@@ -124,6 +151,9 @@ class CartridgeSendToRecyclingView(View):
 
 @method_decorator(login_required, name='dispatch')
 class CartridgeInRecyclingView(View):
+    """
+    Класс представления, отвечающий за возвращение из рециклинга картриджей
+    """
     def post(self, request, *args, **kwargs):
         cartridges = models.Cartridge.objects
         cartridges = cartridges.select_related()
