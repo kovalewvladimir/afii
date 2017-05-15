@@ -1,11 +1,13 @@
 from django.shortcuts import render
 
 from django.shortcuts import redirect
-from django.views.decorators.csrf import csrf_protect
 from django.contrib import auth
 
 
 def login(request):
+    """
+    Функция отвечает за авторизацию пользователей
+    """
     args = {}
     if request.POST:
         username = request.POST.get('username', '').lower()
@@ -26,5 +28,8 @@ def login(request):
 
 
 def logout(request):
+    """
+    Функция отвечает за выход пользователя с портала
+    """
     auth.logout(request)
     return redirect('/')

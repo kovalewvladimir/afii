@@ -1,5 +1,5 @@
 from django.contrib import admin
-from element.models import Paper, Distribution, Computer
+from element.models import Paper, Distribution, Computer, Cable, CableType
 
 
 @admin.register(Paper)
@@ -32,3 +32,18 @@ class ComputerAdmin(admin.ModelAdmin):
 
     radio_fields = {'space': admin.VERTICAL,
                     'lan': admin.VERTICAL}
+
+
+@admin.register(CableType)
+class CableTypeAdmin(admin.ModelAdmin):
+    ordering = ('id',)
+    list_display = ('id', 'type')
+
+
+@admin.register(Cable)
+class CableAdmin(admin.ModelAdmin):
+    ordering = ('id',)
+    list_display = ('id', 'type', 'length', 'space', 'is_active')
+    list_filter = ('space',)
+
+    radio_fields = {'space': admin.VERTICAL}

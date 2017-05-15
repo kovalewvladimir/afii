@@ -145,10 +145,11 @@ class Printer(BaseModel):
 
     objects = PrinterManager()
 
-    def get_absolute_url(self):
-        return reverse('printer:printer', args=[self.pk])
-
     def get_table_cartridges(self):
+        """
+        Получить таблицу с картриджами
+        :return: таблица с картриджами
+        """
         table_cartridges = {
             'toner': Table(),
             'dram': Table(),
@@ -164,6 +165,10 @@ class Printer(BaseModel):
         return table_cartridges
 
     def get_table_zip(self):
+        """
+        Получить таблицу с ЗИПами
+        :return: таблица с ЗИПами
+        """
         table = Table()
         for z in self.base_printer.base_zips.all():
             table += z.zips.get_table(self.space.pk)
@@ -172,6 +177,11 @@ class Printer(BaseModel):
         return table
 
     def get_items_cartridge(self, type_cartridge):
+        """
+        Получить список картриджей
+        :param type_cartridge: тип картриджа
+        :return: список картриджей
+        """
         items = list()
         space_id = self.space.pk
         if type_cartridge == 'TONER':
@@ -215,16 +225,21 @@ class Cartridge(BaseModel):
 
     objects = CartridgeManager()
 
-    def get_absolute_url(self):
-        return reverse('printer:cartridge', args=[self.pk])
-
     def get_table_printer(self):
+        """
+        Получить таблицу с принтерами
+        :return: таблица с принтерами
+        """
         table = Table()
         for bp in self.base_cartridge.base_printers.all():
             table += bp.printers.get_table(self.space.pk)
         return table
 
     def get_item_printer(self):
+        """
+        Получить список принтеров
+        :return: список принтеров
+        """
         items = list()
         space_id = self.space.pk
         items += [Item(p, p.get_absolute_url())
@@ -259,16 +274,21 @@ class Zip(BaseModel):
 
     objects = ZipManager()
 
-    def get_absolute_url(self):
-        return reverse('printer:zip', args=[self.pk])
-
     def get_table_printer(self):
+        """
+        Получить таблицу с принтерами
+        :return: таблица с принтерами
+        """
         table = Table()
         for bp in self.base_zip.base_printers.all():
             table += bp.printers.get_table(self.space.pk)
         return table
 
     def get_item_printer(self):
+        """
+        Получить список принтеров
+        :return: список принтеров
+        """
         items = list()
         space_id = self.space.pk
         items += [Item(p, p.get_absolute_url())

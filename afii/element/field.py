@@ -1,4 +1,7 @@
 class Field:
+    """
+    Описание полей
+    """
     def __init__(self, name=None, value=None, url=None, status=None):
         self.name = name
         self.value = value
@@ -7,6 +10,9 @@ class Field:
 
 
 class Element:
+    """
+    Общее описание элемента, содержит в себе список полей
+    """
     def __init__(self):
         self.name = None
         self.type_element = None

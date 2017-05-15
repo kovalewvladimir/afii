@@ -76,5 +76,16 @@
       "view_name_url": "storage:storage_all",
       "description": ""
     }
+  },
+
+   {
+    "model": "inventory.InventoryApp",
+    "pk": 8,
+    "fields": {
+      "app_name": "cable",
+      "verbose_name": "Кабель",
+      "view_name_url": "element:cable_all",
+      "description": ""
+    }
   }
 ]

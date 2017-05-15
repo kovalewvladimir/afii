@@ -1,9 +1,9 @@
 from django.db import models
 
-from element.managers import ElementAndTableManager
+from element.managers import ElementAndTableManager, CableManager
+from inventory.models import BaseModel
 from printer.models import PAPER_TYPE
 from space.models import Space
-from inventory.models import BaseModel
 
 LAN_TYPE = (
     ('INTEGRATED', 'Встроенный'),
@@ -89,6 +89,43 @@ class Computer(BaseModel):
     is_active = models.BooleanField(default=True, verbose_name='используется')
 
     objects = ElementAndTableManager()
+
+    def __str__(self):
+        return str(self.pk)
+
+
+class CableType(BaseModel):
+    """
+    Тип кабеля
+    """
+
+    class Meta:
+        verbose_name = 'Тип кабель'
+        verbose_name_plural = 'Тип кабеля'
+
+    type = models.CharField(max_length=50, verbose_name='тип кабеля')
+
+    def __str__(self):
+        return str(self.type)
+
+
+class Cable(BaseModel):
+    """
+    Кабель
+    """
+
+    class Meta:
+        verbose_name = 'кабель'
+        verbose_name_plural = 'кабеля'
+
+    space = models.ForeignKey(Space, related_name='cable', verbose_name='площадка')
+    type = models.ForeignKey(CableType, related_name='cable', verbose_name='тип кабеля')
+    length = models.PositiveIntegerField(verbose_name='длина')
+    description = models.TextField(blank=True, null=True, verbose_name='примечание')
+    image = models.ImageField(blank=True, null=True, upload_to='cable/')
+    is_active = models.BooleanField(default=True, verbose_name='используется')
+
+    objects = CableManager()
 
     def __str__(self):
         return str(self.pk)

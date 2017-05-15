@@ -6,13 +6,30 @@ from inventory.utils import get_data, get_field_display, get_is_count_status, ge
 
 
 class TableManager(models.Manager):
+    """
+    Менеджер применим к моделям, которые могут формировать таблицы
+    """
     def _filter_data(self, space_id):
+        """
+        Фильтрует модель по полю  is_active=True и space__pk=space_id.
+        При желании метод можно перегрузить
+        :param space_id: id площадки
+        :return: модель после фильтрации данных
+        """
         data = self.select_related()
         data = data.filter(is_active=True)
         data = data.filter(space__pk=space_id)
         return data
 
     def get_table(self, space_id, model_fields=None, button=None, is_category=False):
+        """
+        Формирует таблицу (класс Table) из модели
+        :param space_id: id площадки
+        :param model_fields: словарь с полями модели
+        :param button: кнопка редактирования
+        :param is_category: добавлять к строке атрибут category
+        :return: таблица, экземпляр класса Table
+        """
         data = self._filter_data(space_id)
 
         table = Table()

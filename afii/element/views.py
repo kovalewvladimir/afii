@@ -12,6 +12,16 @@ from inventory.views import TableView
 
 @method_decorator(login_required, name='dispatch')
 class ElementView(ListView):
+    """
+    Базовый класс представления, отвечающий за вывод подробной
+    информации об элементе.  Модель, над которой работает данный
+    класс, должна реализовать менеджер ElementManager.
+    Атрибуты:
+        model – модель для вывода;
+        model_fields – поля для вывода;
+        template_name – шаблон для отображения;
+        context_object_name – имя элемента, передаваемое в шаблон;
+    """
     model = None
     model_fields = None
     template_name = 'element/base.html'
@@ -23,6 +33,12 @@ class ElementView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 class ElementMinusView(View):
+    """
+    Базовый класс представления, отвечающий за уменьшение
+    количества элементов на складе.
+    Атрибуты:
+        model –модель для редактирования;
+    """
     model = None
 
     def post(self, request, *args, **kwargs):
@@ -39,6 +55,9 @@ class ElementMinusView(View):
 
 
 class PaperAllView(TableView):
+    """
+    Класс представления, отвечающий за вывод таблицы с бумагой
+    """
     model = models.Paper
     model_fields = [
         {'model': 'self', 'field': 'type_paper', 'url': True},
@@ -51,6 +70,9 @@ class PaperAllView(TableView):
 
 
 class DistributionAllView(TableView):
+    """
+    Класс представления, отвечающий за вывод таблицы с дистрибутивами
+    """
     model = models.Distribution
     model_fields = [
         {'model': 'self', 'field': 'id'},
@@ -62,6 +84,9 @@ class DistributionAllView(TableView):
 
 
 class ComputerAllView(TableView):
+    """
+    Класс представления, отвечающий за вывод таблицы с системными блоками
+    """
     model = models.Computer
     model_fields = [
         {'model': 'self', 'field': 'id', 'url': True},
@@ -76,7 +101,25 @@ class ComputerAllView(TableView):
     button = Button(True, 'Добавить системый блок', 'admin:element_computer_add')
 
 
+class CableAllView(TableView):
+    """
+    Класс представления, отвечающий за вывод таблицы с кабелем
+    """
+    model = models.Cable
+    model_fields = [
+        {'model': 'self', 'field': 'id', 'url': True},
+        {'model': 'self', 'field': 'type'},
+        {'model': 'self', 'field': 'length'},
+        {'model': 'self', 'field': 'description'},
+    ]
+    app_name = 'cable'
+    button = Button(True, 'Добавить кабель', 'admin:element_cable_add')
+
+
 class PaperView(ElementView):
+    """
+    Класс представления, отвечающий за вывод подробной информации о бумаге
+    """
     model = models.Paper
     model_fields = [
         {'model': 'self', 'field': 'name'},
@@ -91,6 +134,9 @@ class PaperView(ElementView):
 
 
 class DistributionView(ElementView):
+    """
+    Класс представления, отвечающий за вывод подробной информации о дистрибутиве
+    """
     model = models.Distribution
     model_fields = [
         {'model': 'self', 'field': 'name'},
@@ -102,6 +148,9 @@ class DistributionView(ElementView):
 
 
 class ComputerView(ElementView):
+    """
+    Класс представления, отвечающий за вывод подробной информации о системном блоке
+    """
     model = models.Computer
     model_fields = [
         {'model': 'self', 'field': 'cpu'},
@@ -119,9 +168,30 @@ class ComputerView(ElementView):
     ]
 
 
+class CableView(ElementView):
+    """
+    Класс представления, отвечающий за вывод подробной информации о кабеле
+    """
+    model = models.Cable
+    model_fields = [
+        {'model': 'self', 'field': 'space'},
+        {'model': 'self', 'field': 'type'},
+        {'model': 'self', 'field': 'length'},
+        {'model': 'self', 'field': 'is_active'},
+        {'model': 'self', 'field': 'description'},
+    ]
+    template_name = 'element/cable.html'
+
+
 class PaperMinusView(ElementMinusView):
+    """
+    Класс представления, отвечающий за уменьшение количества бумаги на складе
+    """
     model = models.Paper
 
 
 class DistributionMinusView(ElementMinusView):
+    """
+    Класс представления, отвечающий за уменьшение количества дистрибутивов на складе
+    """
     model = models.Distribution

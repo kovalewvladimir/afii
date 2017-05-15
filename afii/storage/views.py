@@ -6,6 +6,11 @@ from storage import models
 
 
 class StorageView(TableView):
+    """
+    Класс представления, отвечающий за вывод таблицы товар
+    (единица складского учета). В классе перегружен метод
+    get_context_data базового класса
+    """
     model = models.ItemStorage
     model_fields = [
         {'model': 'self', 'field': 'id'},
@@ -26,6 +31,10 @@ class StorageView(TableView):
 
 
 class ItemStorageView(ElementView):
+    """
+    Класс представления, отвечающий за вывод подробной
+    информации о товаре (единица складского учета)
+    """
     model = models.ItemStorage
     model_fields = [
         {'model': 'self', 'field': 'name'},
@@ -38,4 +47,8 @@ class ItemStorageView(ElementView):
 
 
 class ItemStorageMinusView(ElementMinusView):
+    """
+    Класс представления, отвечающий за уменьшение количества
+    товара (единица складского учета) на складе
+    """
     model = models.ItemStorage

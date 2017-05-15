@@ -8,19 +8,40 @@ VALIDATOR_SHELF = RegexValidator(regex=r'^[A-Z]\-[0-9]$', message='стелла�
 
 
 class BaseModel(models.Model):
+    """"
+    Базовая абстрактная модель.
+    Её наследует все модели данной системы.
+    """
     class Meta:
         abstract = True
 
     def get_absolute_url(self):
+        """
+        Получить ссылку на отображение поля таблицы
+        :return: ссылка
+        """
         return reverse('%s:%s' % (self._meta.app_label, self._meta.model_name), args=(self.pk,))
 
     def get_admin_change_edit(self):
+        """
+        Получить ссылку для изменения поля таблицы в админке
+        :return: ссылка
+        """
         return reverse('admin:%s_%s_change' % (self._meta.app_label, self._meta.model_name), args=(self.pk,))
 
     def get_verbose_name(self):
+        """
+        Получить читаемое имя таблицы
+        :return: имятаблицы
+        """
         return self._meta.verbose_name
 
     def get_field(self, field):
+        """
+        Получить читаемое имя поля таблицы
+        :param field: имя поля
+        :return: читаемое имя поля таблицы
+        """
         name = self._meta.get_field(field).verbose_name.capitalize()
         if name == 'Id':
             name = '№'
@@ -29,7 +50,7 @@ class BaseModel(models.Model):
 
 class InventoryApp(models.Model):
     """
-    Приложения inventory
+    Модель описывающая модули системы
     """
     app_name = models.CharField(max_length=50, unique=True, verbose_name='имя')
     verbose_name = models.CharField(max_length=50, verbose_name='полное имя')
