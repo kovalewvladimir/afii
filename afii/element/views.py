@@ -101,6 +101,21 @@ class ComputerAllView(TableView):
     button = Button(True, 'Добавить системый блок', 'admin:element_computer_add')
 
 
+class CableAllView(TableView):
+    """
+    Класс представления, отвечающий за вывод таблицы с кабелем
+    """
+    model = models.Cable
+    model_fields = [
+        {'model': 'self', 'field': 'id', 'url': True},
+        {'model': 'self', 'field': 'type'},
+        {'model': 'self', 'field': 'length'},
+        {'model': 'self', 'field': 'description'},
+    ]
+    app_name = 'cable'
+    button = Button(True, 'Добавить кабель', 'admin:element_cable_add')
+
+
 class PaperView(ElementView):
     """
     Класс представления, отвечающий за вывод подробной информации о бумаге
@@ -151,6 +166,21 @@ class ComputerView(ElementView):
         {'model': 'self', 'field': 'is_active'},
         {'model': 'self', 'field': 'description'},
     ]
+
+
+class CableView(ElementView):
+    """
+    Класс представления, отвечающий за вывод подробной информации о кабеле
+    """
+    model = models.Cable
+    model_fields = [
+        {'model': 'self', 'field': 'space'},
+        {'model': 'self', 'field': 'type'},
+        {'model': 'self', 'field': 'length'},
+        {'model': 'self', 'field': 'is_active'},
+        {'model': 'self', 'field': 'description'},
+    ]
+    template_name = 'element/cable.html'
 
 
 class PaperMinusView(ElementMinusView):

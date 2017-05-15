@@ -51,6 +51,18 @@ class ElementManager(models.Manager):
         return element
 
 
+class CableManager(ElementManager, TableManager):
+    """
+    Менеджер для кабеля
+    """
+
+    def get_element(self, pk, model_fields):
+        element = super().get_element(pk, model_fields)
+        element.type = self.element_db.type
+
+        return element
+
+
 class ElementAndTableManager(ElementManager, TableManager):
     """
     Менеджер применим к моделям, которые могут формировать

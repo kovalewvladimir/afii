@@ -19,10 +19,3 @@ virtualenv --no-site-packages -p python3 /opt/afii/
 source ./bin/activate
 pip install -r ./requirements.txt
 deactivate
-
-# запуск
-cd /opt/afii/
-source ./bin/activate
-cd /opt/afii/afii/
-nohup python manage.py runserver 0.0.0.0:8000 > /opt/afii/afii.log &
-deactivate

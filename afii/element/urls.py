@@ -19,4 +19,8 @@ urlpatterns = [
         url(r'^space/(\d+)/$', views.ComputerAllView.as_view(), name='computer_all'),
         url(r'^(\d+)/$', views.ComputerView.as_view(), name='computer'),
     ])),
+    url(r'^cable/', include([
+        url(r'^space/(\d+)/$', views.CableAllView.as_view(), name='cable_all'),
+        url(r'^(\d+)/$', views.CableView.as_view(), name='cable'),
+    ])),
 ]
