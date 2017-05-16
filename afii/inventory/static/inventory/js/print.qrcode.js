@@ -15,7 +15,7 @@ $(document).ready(function(){
   var pageQRcode        = $('#pageQRcode');
   var printQRcode       = $('.printQRcode');
   var titleQRcode       = $('.titleQRcode');
-  var ipQRcode          = $('.ipQRcode');
+  var footerQRcode      = $('.footerQRcode');
   var printQRcodeCount1 = $('#printQRcodeCount1');
   var printQRcodeCount2 = $('#printQRcodeCount2');
 
@@ -26,9 +26,9 @@ $(document).ready(function(){
   var isBorderQRcode     = $('#isBorderQRcode');
   var borderTypeQRcode   = $('#borderTypeQRcode');
   var isTitleQRcode      = $('#isTitleQRcode');
-  var isIpQRcode         = $('#isIpQRcode');
+  var isFooterQRcode     = $('#isFooterQRcode');
   var titleSizeQRcode    = $('#titleSizeQRcode');
-  var ipSizeQRcode       = $('#ipSizeQRcode');
+  var footerSizeQRcode   = $('#footerSizeQRcode');
   var btnQRcodePrint     = $('#btnQRcodePrint');
   var paddingPageQRcode  = $('#paddingPageQRcode');
   var paddingPrintQRcode = $('#paddingPrintQRcode');
@@ -97,14 +97,14 @@ $(document).ready(function(){
     }
   });
 
-  // onClick вкл/выкл ip QRcode
-  isIpQRcode.click(function (){
+  // onClick вкл/выкл Footer QRcode
+  isFooterQRcode.click(function (){
     if (this.checked) {
-      ipQRcode.show();
-      ipQRcode.removeAttr('disabled');
+      footerQRcode.show();
+      footerQRcode.removeAttr('disabled');
     } else {
-      ipQRcode.hide();
-      ipQRcode.attr('disabled', true);
+      footerQRcode.hide();
+      footerQRcode.attr('disabled', true);
     }
   });
 
@@ -114,8 +114,8 @@ $(document).ready(function(){
   });
 
   // onChange изменение размера ip QRcode
-  ipSizeQRcode.change(function (){
-    ipQRcode.css('font-size', this.value + 'px');
+  footerSizeQRcode.change(function (){
+    footerQRcode.css('font-size', this.value + 'px');
   });
 
   // onChange изменение отступа снаружи

@@ -110,6 +110,7 @@ class CableAllView(TableView):
         {'model': 'self', 'field': 'id', 'url': True},
         {'model': 'self', 'field': 'type'},
         {'model': 'self', 'field': 'length'},
+        {'model': 'self', 'field': 'date'},
         {'model': 'self', 'field': 'description'},
     ]
     app_name = 'cable'
@@ -177,6 +178,7 @@ class CableView(ElementView):
         {'model': 'self', 'field': 'space'},
         {'model': 'self', 'field': 'type'},
         {'model': 'self', 'field': 'length'},
+        {'model': 'self', 'field': 'date'},
         {'model': 'self', 'field': 'is_active'},
         {'model': 'self', 'field': 'description'},
     ]
