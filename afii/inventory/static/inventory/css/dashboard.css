@@ -126,7 +126,7 @@ ul#categotyMenu > li.active:hover {
 .printQRcode {
   padding: 1mm;
 }
-.titleQRcode, .ipQRcode {
+.titleQRcode, .footerQRcode {
   font-size: 24px;
   margin: 0;
   padding: 0;

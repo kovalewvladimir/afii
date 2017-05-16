@@ -65,9 +65,9 @@
                             <div class="col-sm-6 form-group">
                                 <label for="">IP:</label>
                                 <div class="input-group"> <span class="input-group-addon">
-                                    <input type="checkbox" id="isIpQRcode" checked>
+                                    <input type="checkbox" id="isFooterQRcode" checked>
                                     </span>
-                                    <input type="number" id="ipSizeQRcode" class="form-control" value="24" min="12" max="64"> <span class="input-group-addon">px</span>
+                                    <input type="number" id="footerSizeQRcode" class="form-control" value="24" min="12" max="64"> <span class="input-group-addon">px</span>
                                 </div>
                             </div>
                             <div class="col-sm-6 form-group">
@@ -101,18 +101,18 @@
                         <div id="printQRcodeCount1" class="printQRcode">
                             <h1 class="titleQRcode text-center">{{ element.name }}</h1>
                             <img class="imgQRcode center-block">
-                            <p class="ipQRcode text-center">{{ element.ip }}</p>
+                            <p class="footerQRcode text-center">{{ element.ip }}</p>
                         </div>
                         <div id="printQRcodeCount2" class="row" hidden>
                             <div class="printQRcode col-xs-6">
                                 <h1 class="titleQRcode text-center">{{ element.name }}</h1>
                                 <img class="imgQRcode center-block">
-                                <p class="ipQRcode text-center">{{ element.ip }}</p>
+                                <p class="footerQRcode text-center">{{ element.ip }}</p>
                             </div>
                             <div class="printQRcode col-xs-6">
                                 <h1 class="titleQRcode text-center">{{ element.name }}</h1>
                                 <img class="imgQRcode center-block">
-                                <p class="ipQRcode text-center">{{ element.ip }}</p>
+                                <p class="footerQRcode text-center">{{ element.ip }}</p>
                             </div>
                         </div>
                     </div>
