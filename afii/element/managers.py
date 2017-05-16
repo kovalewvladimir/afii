@@ -59,6 +59,8 @@ class CableManager(ElementManager, TableManager):
     def get_element(self, pk, model_fields):
         element = super().get_element(pk, model_fields)
         element.type = self.element_db.type
+        element.length = self.element_db.length
+        element.date = self.element_db.date
 
         return element
 

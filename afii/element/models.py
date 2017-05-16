@@ -4,6 +4,7 @@ from element.managers import ElementAndTableManager, CableManager
 from inventory.models import BaseModel
 from printer.models import PAPER_TYPE
 from space.models import Space
+from datetime import date
 
 LAN_TYPE = (
     ('INTEGRATED', 'Встроенный'),
@@ -121,6 +122,7 @@ class Cable(BaseModel):
     space = models.ForeignKey(Space, related_name='cable', verbose_name='площадка')
     type = models.ForeignKey(CableType, related_name='cable', verbose_name='тип кабеля')
     length = models.PositiveIntegerField(verbose_name='длина')
+    date = models.DateField(default=date.today, verbose_name='дата изменения')
     description = models.TextField(blank=True, null=True, verbose_name='примечание')
     image = models.ImageField(blank=True, null=True, upload_to='cable/')
     is_active = models.BooleanField(default=True, verbose_name='используется')
