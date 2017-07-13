@@ -1,4 +1,5 @@
 from django.conf.urls import url, include
+from django.views.decorators.csrf import csrf_exempt
 from element import views
 
 
@@ -17,6 +18,7 @@ urlpatterns = [
     ])),
     url(r'^computer/', include([
         url(r'^space/(\d+)/$', views.ComputerAllView.as_view(), name='computer_all'),
+        url(r'^api_add/$', csrf_exempt(views.ComputerAPICreateView.as_view()), name='computer_api_add'),
         url(r'^(\d+)/$', views.ComputerView.as_view(), name='computer'),
     ])),
     url(r'^cable/', include([
