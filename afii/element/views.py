@@ -96,6 +96,7 @@ class ComputerAllView(TableView):
         {'model': 'self', 'field': 'gpu'},
         {'model': 'self', 'field': 'license_sticker'},
         {'model': 'self', 'field': 'power_supply'},
+        {'model': 'self', 'field': 'description'},
     ]
     app_name = 'computer'
     button = Button(True, 'Добавить системый блок', 'admin:element_computer_add')
@@ -167,6 +168,38 @@ class ComputerView(ElementView):
         {'model': 'self', 'field': 'is_active'},
         {'model': 'self', 'field': 'description'},
     ]
+
+
+# TODO: Добавить авторизацию
+class ComputerAPICreateView(View):
+    """
+    Класс представления, отвечающий за добавление компьютеров.
+    Написан специально для скрипта инвентаризации ПК.
+    Принимает данные через POST и добавляет новый пк.
+    """
+
+    def post(self, request, *args, **kwargs):
+        from django.http import HttpResponse
+
+        computer = models.Computer()
+        space = request.POST.get('space', False)
+        if space:
+            computer.space_id = space
+            computer.cpu = request.POST.get('cpu', '')
+            computer.motherboard = request.POST.get('motherboard', '')
+            computer.ram = request.POST.get('ram', '')
+            computer.gpu = request.POST.get('gpu', '')
+            computer.lan = ''
+            computer.power_supply = ''
+            computer.hdd = request.POST.get('hdd', '')
+            computer.os = ''
+            computer.description = request.POST.get('description', '')
+
+            computer.save()
+
+            return HttpResponse('Ok')
+        else:
+            return HttpResponse('Error')
 
 
 class CableView(ElementView):
