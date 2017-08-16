@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Площадка Н16</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+     <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Поиск в таблице -->
+    <script src="js/search.table.js"></script>
+    <!-- Сортировка в таблице -->
+    <script src="js/sort.table.js"></script>
+    <!-- Фильтрация данных  в таблице склада -->
+    <script src="js/filter.storage.table.js"></script>
+  </head>
+  <body>
+    <!-- Модальные окна -->
+    <!-- Модальное окно "Добавить принтер" -->
+    <div class="modal fade" id="ModalAddPrinter" tabindex="-1" role="dialog" aria-labelledby="ModalAddPrinterLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="ModalAddPrinterLabel">Добавить принтер</h4>
+          </div>
+          <div class="modal-body">
+            <form role="form">
+              <div class="form-group">
+                <label for="">Модель</label>
+                <select class="form-control">
+                    <option>..</option>
+                    <option>Xerox WC 238</option>
+                    <option>..</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="">№ Кабинета</label>
+                <input type="text" class="form-control" id="" placeholder="Например: Ц40-406">
+              </div>
+              <div class="form-group">
+                <label for="">Пользователь</label>
+                <input type="text" class="form-control" id="" placeholder="Например: Иванов И.И.">
+              </div>
+              <div class="form-group">
+                <label for="">IP</label>
+                <input type="text" class="form-control" id="" placeholder="Например: 10.4.10.2">
+              </div>
+              <div class="form-group">
+                <label for="">Тип печати</label>
+                <select class="form-control">
+                    <option>Лазерный</option>
+                    <option>Струйный</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="">Цвет тонера</label>
+                <select class="form-control">
+                    <option>ЧБ</option>
+                    <option>ЦВ</option>
+                </select>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <label for="">Тип устройства</label>
+                  <div class="panel panel-default">
+                    <div class="panel-body checkbox">
+                      <label><input type="checkbox" value=""> принтер</label>
+                      <label><input type="checkbox" value=""> копир</label>
+                      <label><input type="checkbox" value=""> сканер</label>
+                    </div>
+                  </div>
+                </div>            
+                <div class="col-sm-6">
+                  <label for="">Формат бумаги</label>
+                  <div class="panel panel-default">
+                    <div class="panel-body checkbox">
+                      <label><input type="checkbox" value=""> A0</label>
+                      <label><input type="checkbox" value=""> A1</label>
+                      <label><input type="checkbox" value=""> A2</label>
+                      <label><input type="checkbox" value=""> A3</label>
+                      <label><input type="checkbox" value=""> A4</label>
+                    </div>
+                  </div>
+                </div>    
+              </div>
+              <div class="form-group">
+                <label for="">Инвентарный</label>
+                <input type="text" class="form-control" id="" placeholder="Например: -">
+              </div>
+              <div class="form-group">
+                <label for="">Серийный номер</label>
+                <input type="text" class="form-control" id="" placeholder="Например: JJY61915">
+              </div>
+              <div class="form-group">
+                <label for="">Дата установки</label>
+                <input type="date" class="form-control" id="">
+              </div>
+              <div class="form-group">
+                <label for="">Информация по расходникам</label>
+                <input type="url" class="form-control" id="" placeholder="Например: https://www.xerox.com/">
+              </div>
+              <div class="form-group">
+                <label for="">Примечание</label>
+                <textarea class="form-control" rows="2"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="">Картинка</label>
+                <input type="file" id="" accept="image/jpeg,image/png,image/gif">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-primary">Сохранить изменения</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top hidden-print" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Учет расходных материалов</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Площадка <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="n16.html">Н16</a></li>
+                <li><a href="">ИЗ</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Настройки <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="">Картриджи</a></li>
+                <li><a href="">Принтер</a></li>
+                <li class="divider"></li>
+                <li><a href="">и т.п.</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Помощь</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+
+
+        <div class="main">
+
+          <h1 class="page-header hidden-print">Площадка</h1>
+
+          <ul class="nav nav-pills hidden-print">  <!--или class="nav nav-tabs" для табов-->
+            <li class="active"><a href="#printers">n16</a></li>
+            <li><a href="#cartridges">iz2</a></li>
+          </ul>
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-pills  nav-sub-tabs hidden-print">  <!--или class="nav nav-tabs" для табов-->
+            <li><a href="#printers" data-toggle="tab">Принтер</a></li>
+            <li><a href="#cartridges" data-toggle="tab">Картридж</a></li>
+            <li><a href="#paper" data-toggle="tab">Бумага</a></li>
+            <li><a href="#zips" data-toggle="tab">ЗИПы</a></li>
+            <li><a href="#distrib" data-toggle="tab">Дистрибутивы</a></li>
+            <li class="active"><a href="#computerMap" data-toggle="tab">Компьютеры</a></li>
+            <li><a href="#storage15" data-toggle="tab">Склад 15</a></li>
+            <li><a href="#" data-toggle="tab">и т.п.</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane active" id="computerMap">
+              <h2 class="sub-header hidden-print">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="btn-group btn-group-justified">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalAddPrinter" title="Добавить">Добавить принтер</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="input-group">
+                      <input type="search" id="searchPrinter" class="form-control" placeholder="Поиск...">
+                      <span class="input-group-addon"></span>
+                      <div class="input-group-btn">                    
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right" role="menu" data-search-table-id="tblPrinter"></ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </h2>
+              <div>
+                <div id="divCanvasComputerMap"></div>
+                <script src="js/konva.min.js"></script>
+                <script>
+                  function drawImage(canvas, image, width) {
+                      var h = width * image.height / image.width;
+                      canvas.width = width;
+                      canvas.height = h;
+                      var context = canvas.getContext('2d');
+                      context.drawImage(image, 0, 0, width, h);
+                      context.fillRect(50,50,50,50);
+                  }
+
+                  var canvas = document.getElementById('test_canvas');
+
+                  var img = new Image();
+                  img.src = "img/maps/n16_1_floor.jpg";
+
+                  img.onload = function(e) {
+                      drawImage(canvas, img, document.body.offsetWidth);
+                  }
+
+                  window.onresize = function(e) {
+                      drawImage(canvas, img, document.body.offsetWidth);
+                  }
+
+
+                  // konva
+
+                  var size = 700;
+
+                  var stage = new Konva.Stage({
+                      container: 'divCanvasComputerMap',
+                      width: size,
+                      height: size
+                  });
+
+                  var layer = new Konva.Layer();
+
+                  var computerImg = new Image();
+                  computerImg.src = "img/maps/computer.png";
+
+                  var backgroundImg = new Image();
+                  backgroundImg.src = "img/maps/n16_1_floor.jpg";
+
+                  window.onload = function() {
+                      var backgroundKonva = new Konva.Image({
+                          x: 0,
+                          y: 0,
+                          image: backgroundImg,
+                          width: size,
+                          height: size * backgroundImg.height / backgroundImg.width
+                      });
+
+                      var computerKonva = new Konva.Image({
+                          x: 10,
+                          y: 10,
+                          image: computerImg,
+                          draggable: true
+                      });
+
+                      computerKonva.on('dragmove', function() {
+                          console.log(`dragmove  x: ${this.x()}, y: ${this.y()}`);
+                      });
+
+                      computerKonva.on('dragstart', function() {
+                          console.log(`dragstart x: ${this.x()}, y: ${this.y()}`);
+                      });
+
+                      computerKonva.on('dragend', function() {
+                          console.log(`dragend   x: ${this.x()}, y: ${this.y()}`);
+                      });
+
+                      layer.add(backgroundKonva);
+                      layer.add(computerKonva);
+                      stage.add(layer);
+                  };
+                </script>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </body>
+</html>
