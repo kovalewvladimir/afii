@@ -218,85 +218,11 @@
                   </div>
                 </div>
               </h2>
-              <div>
+
                 <div id="divCanvasComputerMap"></div>
                 <script src="js/konva.min.js"></script>
-                <script>
-                  function drawImage(canvas, image, width) {
-                      var h = width * image.height / image.width;
-                      canvas.width = width;
-                      canvas.height = h;
-                      var context = canvas.getContext('2d');
-                      context.drawImage(image, 0, 0, width, h);
-                      context.fillRect(50,50,50,50);
-                  }
+                <script src="js/computer.map.js"></script>
 
-                  var canvas = document.getElementById('test_canvas');
-
-                  var img = new Image();
-                  img.src = "img/maps/n16_1_floor.jpg";
-
-                  img.onload = function(e) {
-                      drawImage(canvas, img, document.body.offsetWidth);
-                  }
-
-                  window.onresize = function(e) {
-                      drawImage(canvas, img, document.body.offsetWidth);
-                  }
-
-
-                  // konva
-
-                  var size = 700;
-
-                  var stage = new Konva.Stage({
-                      container: 'divCanvasComputerMap',
-                      width: size,
-                      height: size
-                  });
-
-                  var layer = new Konva.Layer();
-
-                  var computerImg = new Image();
-                  computerImg.src = "img/maps/computer.png";
-
-                  var backgroundImg = new Image();
-                  backgroundImg.src = "img/maps/n16_1_floor.jpg";
-
-                  window.onload = function() {
-                      var backgroundKonva = new Konva.Image({
-                          x: 0,
-                          y: 0,
-                          image: backgroundImg,
-                          width: size,
-                          height: size * backgroundImg.height / backgroundImg.width
-                      });
-
-                      var computerKonva = new Konva.Image({
-                          x: 10,
-                          y: 10,
-                          image: computerImg,
-                          draggable: true
-                      });
-
-                      computerKonva.on('dragmove', function() {
-                          console.log(`dragmove  x: ${this.x()}, y: ${this.y()}`);
-                      });
-
-                      computerKonva.on('dragstart', function() {
-                          console.log(`dragstart x: ${this.x()}, y: ${this.y()}`);
-                      });
-
-                      computerKonva.on('dragend', function() {
-                          console.log(`dragend   x: ${this.x()}, y: ${this.y()}`);
-                      });
-
-                      layer.add(backgroundKonva);
-                      layer.add(computerKonva);
-                      stage.add(layer);
-                  };
-                </script>
-              </div>
             </div>
           </div>
         </div>
