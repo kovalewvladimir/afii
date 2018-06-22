@@ -16,7 +16,7 @@ SECRET_KEY = '1!mgsgscdkp%&n(@votc7cv#t87vb_-8tl70-esf)to#x!gpni'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -119,6 +119,34 @@ MEDIA_URL = '/media/'
 # Страница авторизации
 LOGIN_URL = '/auth/login/'
 
+# LOGGING
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'afii.log'),
+            'formatter': 'verbose',
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'propagate': True,
+        },
+    },
+}
+
 # Django Debug Toolbar
 if DEBUG:
     INSTALLED_APPS += [
@@ -128,10 +156,11 @@ if DEBUG:
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     ]
     INTERNAL_IPS = [
-        '127.0.0.1',    # localhost
-        '10.1.13.101',  # ubuntu -> n16
-        '10.4.0.101',   # ubuntu -> iz2
-        '10.4.5.35',    # vm-vek
+        '127.0.0.1',   # localhost
+        '10.4.5.36',   # vm-vek-w10
+        '10.4.5.35',   # vm-vek
+        '10.1.13.114', # pc-texnik-n16w1
+        '10.4.0.60',   # pc-texnik-izw1
     ]
 
 try:
