@@ -31,5 +31,5 @@ __pycache__
 
 # Private
 afii/afii/private_settings.py
-
+afii/afii.log
 media/

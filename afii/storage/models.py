@@ -15,7 +15,7 @@ class Storage(models.Model):
         verbose_name = 'склад'
         verbose_name_plural = 'склад'
 
-    space = models.ForeignKey(Space, related_name='storage', verbose_name='площадка')
+    space = models.ForeignKey(Space, related_name='storage', verbose_name='площадка', on_delete=models.CASCADE)
     name = models.CharField(max_length=50, verbose_name='имя')
     description = models.TextField(blank=True, null=True, verbose_name='описание')
 
@@ -33,11 +33,11 @@ class Category(BaseModel):
         verbose_name = 'категории'
         verbose_name_plural = 'категория'
 
-    storage = models.ForeignKey(Storage, related_name='categories', verbose_name='склад')
+    storage = models.ForeignKey(Storage, related_name='categories', verbose_name='склад', on_delete=models.CASCADE)
     name = models.CharField(max_length=50, verbose_name='имя')
     is_base = models.BooleanField(default=False, verbose_name='базовая категория?')
     base_category = models.ForeignKey('self', blank=True, null=True, related_name='categories',
-                                      limit_choices_to={'is_base': True}, verbose_name='базовая категория')
+                                      limit_choices_to={'is_base': True}, verbose_name='базовая категория', on_delete=models.CASCADE)
 
     objects = CategoryManager()
 
@@ -59,7 +59,7 @@ class ItemStorage(BaseModel):
         verbose_name_plural = 'единица складского учета'
 
     category = models.ForeignKey(Category, related_name='items', limit_choices_to={'is_base': False},
-                                 verbose_name='категория')
+                                 verbose_name='категория', on_delete=models.CASCADE)
     name = models.CharField(max_length=50, verbose_name='наименование')
     count = models.PositiveIntegerField(verbose_name='кол-во')
     shelf = models.CharField(max_length=10, verbose_name='№ полки',

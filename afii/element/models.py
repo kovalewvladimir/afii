@@ -23,7 +23,7 @@ class Paper(BaseModel):
         verbose_name_plural = 'бумага'
 
     name = models.CharField(max_length=50, verbose_name='имя')
-    space = models.ForeignKey(Space, related_name='papers', verbose_name='площадка')
+    space = models.ForeignKey(Space, related_name='papers', verbose_name='площадка', on_delete=models.CASCADE)
     type_paper = models.CharField(max_length=50, choices=PAPER_TYPE, verbose_name='формат бумаги')
     size = models.CharField(max_length=50, verbose_name='размеры', help_text='например: 841мм X 175м')
     count = models.PositiveIntegerField(verbose_name='кол-во')
@@ -54,7 +54,7 @@ class Distribution(BaseModel):
         verbose_name_plural = 'дистрибутивы'
 
     name = models.CharField(max_length=50, verbose_name='наименование')
-    space = models.ForeignKey(Space, related_name='distributions', verbose_name='площадка')
+    space = models.ForeignKey(Space, related_name='distributions', verbose_name='площадка', on_delete=models.CASCADE)
     count = models.PositiveIntegerField(verbose_name='кол-во')
     description = models.TextField(blank=True, null=True, verbose_name='примечание')
     image = models.ImageField(blank=True, null=True, upload_to='distributions/')
@@ -75,7 +75,7 @@ class Computer(BaseModel):
         verbose_name = 'системный блок'
         verbose_name_plural = 'системные блоки'
 
-    space = models.ForeignKey(Space, related_name='computers', verbose_name='площадка')
+    space = models.ForeignKey(Space, related_name='computers', verbose_name='площадка', on_delete=models.CASCADE)
     cpu = models.CharField(max_length=50, blank=True, null=True, verbose_name='процессор')
     motherboard = models.CharField(max_length=50, blank=True, null=True, verbose_name='материнская плата')
     ram = models.CharField(max_length=50, blank=True, null=True, verbose_name='оперативная память')
@@ -119,8 +119,8 @@ class Cable(BaseModel):
         verbose_name = 'кабель'
         verbose_name_plural = 'кабеля'
 
-    space = models.ForeignKey(Space, related_name='cable', verbose_name='площадка')
-    type = models.ForeignKey(CableType, related_name='cable', verbose_name='тип кабеля')
+    space = models.ForeignKey(Space, related_name='cable', verbose_name='площадка', on_delete=models.CASCADE)
+    type = models.ForeignKey(CableType, related_name='cable', verbose_name='тип кабеля', on_delete=models.CASCADE)
     length = models.PositiveIntegerField(verbose_name='длина')
     date = models.DateField(default=date.today, verbose_name='дата изменения')
     description = models.TextField(blank=True, null=True, verbose_name='примечание')

@@ -123,8 +123,9 @@ class Printer(BaseModel):
         verbose_name_plural = 'принтеры организации'
 
     base_printer = models.ForeignKey(BasePrinter, related_name='printers',
-                                     verbose_name='принтер')
-    space = models.ForeignKey(Space, related_name='printers', verbose_name='площадка')
+                                     verbose_name='принтер', on_delete=models.CASCADE)
+    space = models.ForeignKey(Space, related_name='printers', verbose_name='площадка',
+                              on_delete=models.CASCADE)
     cabinet = models.CharField(max_length=50, verbose_name='№ кабинета')
     user = models.CharField(max_length=50, blank=True, null=True, verbose_name='пользователь')
     login = models.CharField(max_length=50, blank=True, null=True, verbose_name='user')
@@ -213,8 +214,10 @@ class Cartridge(BaseModel):
         verbose_name = 'картридж организации'
         verbose_name_plural = 'картриджи организации'
 
-    base_cartridge = models.ForeignKey(BaseCartridge, related_name='cartridges', verbose_name='картридж')
-    space = models.ForeignKey(Space, related_name='cartridges', verbose_name='площадка')
+    base_cartridge = models.ForeignKey(BaseCartridge, related_name='cartridges', verbose_name='картридж',
+                                       on_delete=models.CASCADE)
+    space = models.ForeignKey(Space, related_name='cartridges', verbose_name='площадка',
+                              on_delete=models.CASCADE)
     shelf = models.CharField(max_length=10, verbose_name='№ полки',
                              help_text=HELP_TEXT_SHELF, validators=[VALIDATOR_SHELF])
     count = models.PositiveIntegerField(verbose_name='кол-во')
@@ -264,8 +267,8 @@ class Zip(BaseModel):
         verbose_name = 'запчасти для принтера организации'
         verbose_name_plural = 'запчасти для принтера организации'
 
-    base_zip = models.ForeignKey(BaseZip, related_name='zips', verbose_name='ЗИП')
-    space = models.ForeignKey(Space, related_name='zips', verbose_name='площадка')
+    base_zip = models.ForeignKey(BaseZip, related_name='zips', verbose_name='ЗИП', on_delete=models.CASCADE)
+    space = models.ForeignKey(Space, related_name='zips', verbose_name='площадка', on_delete=models.CASCADE)
     shelf = models.CharField(max_length=10, verbose_name='№ полки',
                              help_text=HELP_TEXT_SHELF, validators=[VALIDATOR_SHELF])
     count = models.PositiveIntegerField(verbose_name='Кол-во')
