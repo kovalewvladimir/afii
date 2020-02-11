@@ -1,4 +1,4 @@
-Django==2.2.8
+Django==2.2.10
 Pillow==6.2.1
 django-debug-toolbar==2.1
 django-auth-ldap==2.1.0
