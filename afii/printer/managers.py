@@ -37,6 +37,7 @@ class PrinterManager(ElementManager, TableManager):
                 Cell(p.cabinet),
                 Cell(p.ip, '//' + p.ip),
                 Cell(p.sn),
+                Cell(p.service),
                 Cell(p.base_printer.get_type_printing_display),
                 Cell(p.base_printer.get_type_display),
                 Cell(p.base_printer.get_type_paper_display),

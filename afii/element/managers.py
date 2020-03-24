@@ -37,7 +37,7 @@ class ElementManager(models.Manager):
             if is_count_status and f == 'count':
                 field.status = get_status(e_db.count, e_db.min_count)
             if u:
-                field.url = 'http://' + field.value
+                field.url = 'http://' + (field.value or '')
             fields.append(field)
 
         element = Element()

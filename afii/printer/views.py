@@ -56,6 +56,7 @@ class PrinterView(ElementView):
         {'model': 'self', 'field': 'login'},
         {'model': 'self', 'field': 'password'},
         {'model': 'self', 'field': 'sn'},
+        {'model': 'self', 'field': 'service'},
         {'model': 'self', 'field': 'date'},
         {'model': 'self', 'field': 'is_active'},
         {'model': 'base_printer', 'field': 'info_consumables', 'url': True},
