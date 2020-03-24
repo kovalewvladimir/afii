@@ -141,6 +141,7 @@ class Printer(BaseModel):
                                         r'^\-$')
                           ])
     sn = models.CharField(max_length=20, blank=True, null=True, verbose_name='серийный номер')
+    service = models.CharField(max_length=50, blank=True, null=True, default='Нет', verbose_name='обслуживание')
     date = models.DateField(default=date.today, verbose_name='дата установки')
     description = models.TextField(blank=True, null=True, verbose_name='примечание')
     image = models.ImageField(blank=True, null=True, upload_to='printers/')
