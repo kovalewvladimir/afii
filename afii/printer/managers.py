@@ -24,6 +24,7 @@ class PrinterManager(ElementManager, TableManager):
             '№ Кабинета',
             'IP',
             'SN',
+            'Обслуживание',
             'Тип печати',
             'Тип устройства',
             'Формат бумаги',
